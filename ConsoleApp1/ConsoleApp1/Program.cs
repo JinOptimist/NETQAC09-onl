@@ -7,3 +7,4 @@ Console.WriteLine("Hello My Name is Mykola Andruk, I have a pug");
 Console.WriteLine("Hello My Name is Andrei, I love playing poker");
 Console.WriteLine("Hello My Name is A.Makhortov");
 Console.WriteLine("Hello My Name is Max, I love snowboarding");
+Console.WriteLine("Hello My Name is Pave, I love basketball");
