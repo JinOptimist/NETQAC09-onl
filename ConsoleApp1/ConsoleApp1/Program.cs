@@ -9,4 +9,4 @@ Console.WriteLine("Hello My Name is A.Makhortov");
 Console.WriteLine("Hello My Name is Max, I love snowboarding");
 Console.WriteLine("Yo, my name's Andrey. I love swimming");
 Console.WriteLine("Hi I'm Irina. I live in Prague");
-Console.WriteLine("Hello My Name is Pave, I love basketball");
+Console.WriteLine("Hello My Name is Pavel, I love basketball");
