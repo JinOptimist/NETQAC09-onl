@@ -11,3 +11,4 @@ Console.WriteLine("Yo, my name's Andrey. I love swimming");
 Console.WriteLine("Hi I'm Irina. I live in Prague");
 Console.WriteLine("Hi I'm Irina2. I live in Prague");
 Console.WriteLine("Hi, I'm Timur and i love to work every day");
+Console.WriteLine("Hello My Name is Ekaterina, I love hiking");
