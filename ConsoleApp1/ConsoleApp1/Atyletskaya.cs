@@ -6,8 +6,6 @@ class Atyletskaya
     {
         var MAX_ATTEMPT = 10;
 
-
-
         var userMagicNumber = 0;
         bool isMagicNumberCorrect;
 
@@ -29,9 +27,13 @@ class Atyletskaya
             {
                 Console.WriteLine("Please enter a number.");
             }
+            else if (MIN_NUMBER < 0)
+            {
+                Console.WriteLine("Min number must be 0 or greater");
+            }
 
         }
-        while (!isMinNumberCorrect);
+        while (!isMinNumberCorrect || MIN_NUMBER < 0);
 
 
         //выбор макс числа
@@ -53,9 +55,14 @@ class Atyletskaya
             {
                 Console.WriteLine($"Max number must be greater than {MIN_NUMBER}");
             }
+            else if (MIN_NUMBER == MAX_NUMBER - 1)
+            {
+                Console.WriteLine("There's no point to do so");
+
+            }
 
         }
-        while (!isMinNumberCorrect && MIN_NUMBER > MAX_NUMBER);
+        while (!isMaxNumberCorrect || MIN_NUMBER >= MAX_NUMBER || MIN_NUMBER == MAX_NUMBER - 1);
 
 
         //выбор режима игры
@@ -82,27 +89,28 @@ class Atyletskaya
         while (!isGameModeCorrect || (selectedGameMode != 1 && selectedGameMode != 2));
 
         if (selectedGameMode == 1)
+        {
+            do
             {
-                do
+                Console.WriteLine("Enter Magic number");
+
+                var userMagicNumberText = Console.ReadLine();
+                isMagicNumberCorrect = int.TryParse(userMagicNumberText, out userMagicNumber);
+
+                if (!isMagicNumberCorrect)
                 {
-                    Console.WriteLine("Enter Magic number");
-
-                    var userMagicNumberText = Console.ReadLine();
-                    isMagicNumberCorrect = int.TryParse(userMagicNumberText, out userMagicNumber);
-
-                    if (!isMagicNumberCorrect)
+                    Console.WriteLine("It's not a number");
+                }
+                else if (userMagicNumber > MAX_NUMBER)
+                {
+                    Console.WriteLine($"Can't be bigger than {MAX_NUMBER}");
+                }
+                else if (userMagicNumber < MIN_NUMBER)
                     {
-                        Console.WriteLine("It's not a number");
+                        Console.WriteLine($"Can't be less than {MIN_NUMBER}");
                     }
-                    else if (userMagicNumber > MAX_NUMBER)
-                    {
-                        Console.WriteLine($"Too big number. Must be less then {MAX_NUMBER}");
-                    }
-                    else if (userMagicNumber < MIN_NUMBER)
-                    {
-                        Console.WriteLine($"Too small number. Must be more then {MIN_NUMBER}");
-                    }
-                } while (!isMagicNumberCorrect
+                } 
+                while (!isMagicNumberCorrect
     || userMagicNumber < MIN_NUMBER
     || userMagicNumber > MAX_NUMBER);
             }
