@@ -5,17 +5,65 @@ class Atyletskaya
     public void Do()
     {
         var MAX_ATTEMPT = 10;
-        var MAX_NUMBER = 100;
-        var MIN_NUMBER = 1;
+
+
 
         var userMagicNumber = 0;
         bool isMagicNumberCorrect;
 
         Console.WriteLine("The game Guess the number v1");
 
+
+        //выбор мин числа
+
+        var MIN_NUMBER = 1;
+        bool isMinNumberCorrect;
+
+        do
+        {
+            Console.WriteLine("Select min number");
+            var userInputMinNumber = Console.ReadLine();
+            isMinNumberCorrect = int.TryParse(userInputMinNumber, out MIN_NUMBER);
+
+            if (!isMinNumberCorrect)
+            {
+                Console.WriteLine("Please enter a number.");
+            }
+
+        }
+        while (!isMinNumberCorrect);
+
+
+        //выбор макс числа
+
+        var MAX_NUMBER = 100;
+        bool isMaxNumberCorrect;
+
+        do
+        {
+            Console.WriteLine("Select max number");
+            var userInputMaxNumber = Console.ReadLine();
+            isMaxNumberCorrect = int.TryParse(userInputMaxNumber, out MAX_NUMBER);
+
+            if (!isMaxNumberCorrect)
+            {
+                Console.WriteLine("Please enter a number.");
+            }
+            else if (MIN_NUMBER >= MAX_NUMBER)
+            {
+                Console.WriteLine($"Max number must be greater than {MIN_NUMBER}");
+            }
+
+        }
+        while (!isMinNumberCorrect && MIN_NUMBER > MAX_NUMBER);
+
+
+        //выбор режима игры
+
         var selectedGameMode = 0;
         bool isGameModeCorrect;
 
+     
         do
         {
             Console.WriteLine("Select game mode: Press 1 to play with a friend, Press 2 to enter training mode");
@@ -37,7 +85,7 @@ class Atyletskaya
             {
                 do
                 {
-                    Console.WriteLine("User 1. Enter Magic number");
+                    Console.WriteLine("Enter Magic number");
 
                     var userMagicNumberText = Console.ReadLine();
                     isMagicNumberCorrect = int.TryParse(userMagicNumberText, out userMagicNumber);
@@ -65,30 +113,39 @@ class Atyletskaya
             var random = new Random();
             userMagicNumber = random.Next(MIN_NUMBER, MAX_NUMBER);
         }
-
-
-
-
         Console.Clear();
+
+
+       
+
+        //начало игры
         var attempt = 0;
         int guess;
         var isWin = false;
+
         do
         {
-            attempt++;
-            //Console.WriteLine("User 2. Enter your guess. Attemmpt [" + attempt + " / " + MAX_ATTEMPT + "]");
-            Console.WriteLine($"User 2. Enter your guess. Attemmpt [{attempt} / {MAX_ATTEMPT}]");
+            Console.WriteLine($"Now guess the number. Attemmpt [{attempt} / {MAX_ATTEMPT}]");
+
             var guessText = Console.ReadLine();
+
             guess = int.Parse(guessText);
 
-            if (guess < userMagicNumber)
+            if (guess > MAX_NUMBER || guess < MIN_NUMBER)
+            {
+                Console.WriteLine($"Reminder: you must guess number between {MIN_NUMBER} and {MAX_NUMBER}"); ;
+            }
+            else if (guess < userMagicNumber)
             {
                 Console.WriteLine("Our number is bigger");
+                attempt++;
             }
             else if (guess > userMagicNumber)
             {
                 Console.WriteLine("Our number is less");
+                attempt++;
             }
+
             else if (guess == userMagicNumber)
             {
                 isWin = true;
@@ -98,11 +155,11 @@ class Atyletskaya
 
         if (isWin)
         {
-            Console.WriteLine("Right! Your are Win");
+            Console.WriteLine("Right! You won");
         }
         else
         {
-            Console.WriteLine("Loooose");
+            Console.WriteLine($"Good luck next time. The number was {userMagicNumber}");
         }
 
         //Console.WriteLine("Hi I'm Pasha. I publish two books");
