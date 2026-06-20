@@ -4,7 +4,6 @@ class Atyletskaya
 {
     public void Do()
     {
-        var MAX_ATTEMPT = 10;
 
         var userMagicNumber = 0;
         bool isMagicNumberCorrect;
@@ -58,11 +57,22 @@ class Atyletskaya
             else if (MIN_NUMBER == MAX_NUMBER - 1)
             {
                 Console.WriteLine("There's no point to do so");
-
             }
 
         }
         while (!isMaxNumberCorrect || MIN_NUMBER >= MAX_NUMBER || MIN_NUMBER == MAX_NUMBER - 1);
+
+        //подсчет максимального количество попыток
+        var minMaxRange = MAX_NUMBER - MIN_NUMBER;
+        var MAX_ATTEMPT = 1;
+        var attemptsCalc = minMaxRange;
+        while (attemptsCalc > 1)
+        {
+            attemptsCalc = attemptsCalc / 2;
+            MAX_ATTEMPT++;
+        }
+        Console.WriteLine($"For the range {MIN_NUMBER} - {MAX_NUMBER} you'll get {MAX_ATTEMPT} max attempts");
+
 
 
         //выбор режима игры
