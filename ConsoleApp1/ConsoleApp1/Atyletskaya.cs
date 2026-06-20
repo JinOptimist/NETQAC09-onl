@@ -80,7 +80,7 @@ class Atyletskaya
         var selectedGameMode = 0;
         bool isGameModeCorrect;
 
-     
+
         do
         {
             Console.WriteLine("Select game mode: Press 1 to play with a friend, Press 2 to enter training mode");
@@ -116,16 +116,16 @@ class Atyletskaya
                     Console.WriteLine($"Can't be bigger than {MAX_NUMBER}");
                 }
                 else if (userMagicNumber < MIN_NUMBER)
-                    {
-                        Console.WriteLine($"Can't be less than {MIN_NUMBER}");
-                    }
-                } 
-                while (!isMagicNumberCorrect
+                {
+                    Console.WriteLine($"Can't be less than {MIN_NUMBER}");
+                }
+            }
+            while (!isMagicNumberCorrect
     || userMagicNumber < MIN_NUMBER
     || userMagicNumber > MAX_NUMBER);
-            }
+        }
 
-        
+
         else if (selectedGameMode == 2)
         {
             var random = new Random();
@@ -134,16 +134,18 @@ class Atyletskaya
         Console.Clear();
 
 
-       
+
 
         //начало игры
         var attempt = 0;
         int guess;
         var isWin = false;
+        var closestMin = MIN_NUMBER;
+        var closestMax = MAX_NUMBER;
 
         do
         {
-            Console.WriteLine($"Now guess the number. Attemmpt [{attempt} / {MAX_ATTEMPT}]");
+            Console.WriteLine($"Now guess the number. Attemmpt [{attempt} / {MAX_ATTEMPT}]. Hint: number is between {closestMin} and {closestMax}");
 
             var guessText = Console.ReadLine();
 
@@ -157,11 +159,21 @@ class Atyletskaya
             {
                 Console.WriteLine("Our number is bigger");
                 attempt++;
+                // апдейт подсказки
+                if (guess > closestMin)
+                {
+                    closestMin = guess;
+                }
             }
             else if (guess > userMagicNumber)
             {
                 Console.WriteLine("Our number is less");
                 attempt++;
+                //апдейт подсказки
+                if (guess <= closestMax)
+                {
+                    closestMax = guess;
+                }
             }
 
             else if (guess == userMagicNumber)
