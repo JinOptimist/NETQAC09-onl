@@ -1,3 +1,4 @@
+//homework2
 var atyletskaya = new Atyletskaya();
 atyletskaya.Do();
 
