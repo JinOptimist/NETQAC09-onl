@@ -1,4 +1,4 @@
-class Lvou
+class Kirilenko
 {
     public void Do()
     {
