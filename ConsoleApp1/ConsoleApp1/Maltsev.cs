@@ -5,7 +5,7 @@ class Maltsev
         Console.WriteLine("Welcome to the toxic game \"Guess the number\"");
 
         var MAX_ATTEMPT = 7;
-        var MAX_NUMBER = 100;
+        var MAX_NUMBER = 99;
         var MIN_NUMBER = 1;
 
         var userMagicNumber = 0;
