@@ -1,2 +1,2 @@
-var Maltsev = new Maltsev();
-    Maltsev.Do();
+var Savicka = new Savicka();
+    Savicka.Do();
