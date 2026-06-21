@@ -1,2 +1,2 @@
-var Maltsev = new Maltsev();
-    Maltsev.Do();
+var lvou = new Lvou();
+lvou.Do();
