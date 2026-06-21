@@ -1,73 +1,202 @@
-class Lvou
+class Kirilenko
 {
     public void Do()
     {
         Console.WriteLine("The game Guess the number");
 
-        var MAX_ATTEMPT = 3;
-        var MAX_NUMBER = 100;
-        var MIN_NUMBER = 1;
-
-        var userMagicNumber = 0;
+        var MIN_NUMBER = 0;
+        Random random = new Random();
+        var userRange = 0;
         bool isNumber;
+        Console.WriteLine("Write range for number from 0 to 2,147,483,647"); //Turns out you dont actualy need to check for int
         do
         {
-            Console.WriteLine("User 1. Enter Magic number");
+            var range = Console.ReadLine();
+            isNumber = int.TryParse(range, out userRange);
 
-            var userMagicNumberText = Console.ReadLine();
-            isNumber = int.TryParse(userMagicNumberText, out userMagicNumber);
+            if (!isNumber)
+            {
+                Console.WriteLine("It's not an int number");
+            }
+            else if (userRange < MIN_NUMBER)
+            {
+                Console.WriteLine($"Too small number. Must be more then {MIN_NUMBER}");
+            }
+        } while (!isNumber
+    || userRange < MIN_NUMBER);
+        var user_type = 0;
+        Console.WriteLine("Write 1 to play with computer, write 2 to play with another player");
+        do
+        {
+            var input = Console.ReadLine();
+            isNumber = int.TryParse(input, out user_type);
 
             if (!isNumber)
             {
                 Console.WriteLine("It's not a number");
             }
-            else if (userMagicNumber > MAX_NUMBER)
+            else if (user_type == 1 || user_type == 2)
             {
-                Console.WriteLine($"Too big number. Must be less then {MAX_NUMBER}");
+                Console.WriteLine("Thank you for your answer");
             }
-            else if (userMagicNumber < MIN_NUMBER)
+            else if (user_type != 1 & user_type != 2)
             {
-                Console.WriteLine($"Too small number. Must be more then {MIN_NUMBER}");
+                Console.WriteLine($"Number is incorrect");
             }
         } while (!isNumber
-            || userMagicNumber < MIN_NUMBER
-            || userMagicNumber > MAX_NUMBER);
+    || user_type != 1
+    & user_type != 2);
+        int magicNumber = random.Next(0, userRange);
+        if (user_type == 2)
+        {
+            Console.WriteLine($"Write number to guess from 0 to {userRange}"); //Turns out you dont actualy need to check for int
+            do
+            {
+                var range = Console.ReadLine();
+                isNumber = int.TryParse(range, out magicNumber);
 
+                if (!isNumber)
+                {
+                    Console.WriteLine("It's not a number");
+                }
+                else if (magicNumber < MIN_NUMBER)
+                {
+                    Console.WriteLine($"Too small number. Must be more or equal to {MIN_NUMBER}");
+                }
+                else if (magicNumber > userRange)
+                {
+                    Console.WriteLine($"Too big number. Must be less or equal to {userRange}");
+                }
+            } while (!isNumber
+    || magicNumber < MIN_NUMBER
+    || magicNumber > userRange);
+        }
         Console.Clear();
-        var attempt = 0;
-        int guess;
-        var isWin = false;
+        var attempts = 0;
+        var NumberOfPower = 1;
         do
         {
-            attempt++;
-            //Console.WriteLine("User 2. Enter your guess. Attemmpt [" + attempt + " / " + MAX_ATTEMPT + "]");
-            Console.WriteLine($"User 2. Enter your guess. Attemmpt [{attempt} / {MAX_ATTEMPT}]");
-            var guessText = Console.ReadLine();
-            guess = int.Parse(guessText);
-
-            if (guess < userMagicNumber)
+            if (Math.Pow(2, NumberOfPower) <= userRange)
             {
-                Console.WriteLine("Our number is bigger");
+                NumberOfPower++;
             }
-            else if (guess > userMagicNumber)
+            else if (Math.Pow(2, NumberOfPower) > userRange)
             {
-                Console.WriteLine("Our number is less");
+                attempts = NumberOfPower;
             }
-            else if (guess == userMagicNumber)
-            {
-                isWin = true;
-            }
-        } while (!isWin && attempt < MAX_ATTEMPT);
-
-
-        if (isWin)
+        } while (attempts == 0);
+        var userLost = true;
+        var userGuess = -1;
+        if (Math.Pow(2, NumberOfPower) == userRange+1)
         {
-            Console.WriteLine("Right! Your are Win");
+            attempts++; 
         }
-        else
+        var userMinimum = 0;
+        var userMaximum = userRange;
+        Console.WriteLine("The magic number is created. It is time, to guess!");
+        do
         {
-            Console.WriteLine("Loooose");
+            Console.WriteLine($"Number is between {userMinimum} to {userMaximum}");
+            Console.WriteLine($"Current attempts remain = {attempts}");
+            var input = Console.ReadLine();
+            isNumber = int.TryParse(input, out userGuess);
+            if (!isNumber)
+            {
+                Console.WriteLine("It's not an int number. Please enter int number");
+            }
+            else if (userGuess > userMaximum)
+            {
+                Console.WriteLine($"Number out of your range. Try again");
+            }
+            else if (userGuess < userMinimum)
+            {
+                Console.WriteLine($"Number out of your range. Try again");
+            }
+            else if (userGuess > magicNumber)
+            {
+                Console.WriteLine($"Number too big. Try again");
+                userMaximum = userGuess-1;
+                attempts--;
+            }
+            else if (userGuess < magicNumber)
+            {
+                Console.WriteLine($"Number too Small. Try again");
+                userMinimum = userGuess+1;
+                attempts--;
+            }
+            else if (userGuess == magicNumber)
+            {
+                userLost = false;
+            }
+        } while (attempts > 0 && userLost);
+        if (userLost == false)
+        {
+            Console.WriteLine($"That is correct! Winner winner chicken dinner! You had {attempts} attempts remaining when you guessed it!");
         }
+        else if (attempts == 0)
+        {
+            Console.WriteLine($"You are out of attempts. You lost! The number was {magicNumber}");
+        }
+        //Console.WriteLine("Write 1 to play with computer, write 2 to play with another player");
+
+        //do
+        //{
+        //    Console.WriteLine("User 1. Enter Magic number");
+
+        //    var userMagicNumberText = Console.ReadLine();
+        //    isNumber = int.TryParse(userMagicNumberText, out userMagicNumber);
+
+        //    if (!isNumber)
+        //    {
+        //        Console.WriteLine("It's not a number");
+        //    }
+        //    else if (userMagicNumber > MAX_NUMBER)
+        //    {
+        //        Console.WriteLine($"Too big number. Must be less then {MAX_NUMBER}");
+        //    }
+        //    else if (userMagicNumber < MIN_NUMBER)
+        //    {
+        //        Console.WriteLine($"Too small number. Must be more then {MIN_NUMBER}");
+        //    }
+        //} while (!isNumber
+        //    || userMagicNumber < MIN_NUMBER
+        //    || userMagicNumber > MAX_NUMBER);
+
+        //Console.Clear();
+        //var attempt = 0;
+        //int guess;
+        //var isWin = false;
+        //do
+        //{
+        //    attempt++;
+        //    //Console.WriteLine("User 2. Enter your guess. Attemmpt [" + attempt + " / " + MAX_ATTEMPT + "]");
+        //    Console.WriteLine($"User 2. Enter your guess. Attemmpt [{attempt} / {MAX_ATTEMPT}]");
+        //    var guessText = Console.ReadLine();
+        //    guess = int.Parse(guessText);
+
+        //    if (guess < userMagicNumber)
+        //    {
+        //        Console.WriteLine("Our number is bigger");
+        //    }
+        //    else if (guess > userMagicNumber)
+        //    {
+        //        Console.WriteLine("Our number is less");
+        //    }
+        //    else if (guess == userMagicNumber)
+        //    {
+        //        isWin = true;
+        //    }
+        //} while (!isWin && attempt < MAX_ATTEMPT);
+
+
+        //if (isWin)
+        //{
+        //    Console.WriteLine("Right! Your are Win");
+        //}
+        //else
+        //{
+        //    Console.WriteLine("Loooose");
+        //}
 
         //Console.WriteLine("Hi I'm Pasha. I publish two books");
         //Console.WriteLine("Hello My Name is Kirilenko Iaroslav, I am QA");
