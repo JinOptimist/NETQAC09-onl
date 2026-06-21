@@ -1,4 +1,4 @@
-class MykolaAndruk
+class MykolaAndruk1
 {
     public void Do()
     {

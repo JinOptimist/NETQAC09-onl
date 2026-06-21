@@ -1,2 +1,2 @@
-var lvou = new MykolaAndruk();
+var lvou = new MykolaAndruk1();
 lvou.Do();
