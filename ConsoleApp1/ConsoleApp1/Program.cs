@@ -1,2 +1,2 @@
-var lvou = new Lvou();
-lvou.Do();
+var gavrilenko = new Gavrilenko();
+gavrilenko.Do();
