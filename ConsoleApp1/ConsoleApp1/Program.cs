@@ -1,2 +1,2 @@
-var lvou = new Lvou();
-lvou.Do();
+var drozd = new Drozd();
+drozd.Do();

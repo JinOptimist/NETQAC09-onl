@@ -1,15 +1,54 @@
-class Lvou
+class Drozd
 {
     public void Do()
     {
+
+        //выбор диапазона числа
+        //ПОСЧЛЕ выбора диапазона - подсчет количества попыток
         Console.WriteLine("The game Guess the number");
 
         var MAX_ATTEMPT = 3;
+        var MIN_NUMBER;
         var MAX_NUMBER = 100;
-        var MIN_NUMBER = 1;
-
         var userMagicNumber = 0;
         bool isNumber;
+
+        do
+        {
+            Console.WriteLine("Enter guessing interval start value:");
+            var minNumberText = Console.ReadLine();
+            isNumber = int.TryParse(minNumberText, out MIN_NUMBER);
+
+            if (!isNumber)
+            {
+                Console.WriteLine("It's not a number");
+            }
+            
+            
+        } while (!isNumber);
+
+        do
+        {
+            Console.WriteLine("Enter guessing interval end value:");
+            var maxNumberText = Console.ReadLine();
+            isNumber = int.TryParse(maxNumberText, out MAX_NUMBER);
+
+            if (!isNumber)
+            {
+                Console.WriteLine("It's not a number");
+            }
+
+
+        } while (!isNumber);
+
+
+
+
+
+
+        //кто загадываппет число - оператор или комп, если комп - то рандомизировать в выбранном диапазоне
+
+
         do
         {
             Console.WriteLine("User 1. Enter Magic number");
@@ -45,7 +84,7 @@ class Lvou
             var guessText = Console.ReadLine();
             guess = int.Parse(guessText);
 
-            if (guess < userMagicNumber)
+            if (guess < userMagicNumber) //добавить проверку на то, что попытка в рамках диапазона
             {
                 Console.WriteLine("Our number is bigger");
             }
@@ -57,6 +96,7 @@ class Lvou
             {
                 isWin = true;
             }
+            //выводить подсказку о диапазоне
         } while (!isWin && attempt < MAX_ATTEMPT);
 
 
