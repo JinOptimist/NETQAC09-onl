@@ -1,37 +1,110 @@
-class Lvou
+class MykolaAndruk1
 {
     public void Do()
     {
         Console.WriteLine("The game Guess the number");
 
-        var MAX_ATTEMPT = 3;
         var MAX_NUMBER = 100;
-        var MIN_NUMBER = 1;
+        var MIN_NUMBER =1;
+        int MAX_ATTEMPT; 
+
 
         var userMagicNumber = 0;
         bool isNumber;
+
+        //Выбор мода
+        var gameModeNumber = 0;
+        bool isGameModeNumber;
+
+        //Виды модов
+        var gameModeHuman = 1;
+        var gameModeComputer = 2;
+
+        //Для диапазона чисел
+        bool isMinNumberForRange;
+        bool isMaxNumberForRange;
+
+
+
         do
         {
-            Console.WriteLine("User 1. Enter Magic number");
+            Console.WriteLine("Specify the range of numbers in which the game will take place.");
+            Console.WriteLine($"Enter the minimum number:");
+            var minNumberText = Console.ReadLine();
+            isMinNumberForRange = int.TryParse(minNumberText, out MIN_NUMBER);
 
-            var userMagicNumberText = Console.ReadLine();
-            isNumber = int.TryParse(userMagicNumberText, out userMagicNumber);
+            if (!isMinNumberForRange)
+            {
+                Console.WriteLine("Invalid input. Please enter a valid number.");
+            }
+        } while (!isMinNumberForRange);
 
-            if (!isNumber)
+        do
+        {
+            Console.WriteLine($"Enter the maximum number:");
+            var maxNumberText = Console.ReadLine();
+            isMaxNumberForRange = int.TryParse(maxNumberText, out MAX_NUMBER);
+
+            if (!isMaxNumberForRange)
             {
-                Console.WriteLine("It's not a number");
+                Console.WriteLine("Invalid input. Please enter a valid number.");
             }
-            else if (userMagicNumber > MAX_NUMBER)
+            else if (MAX_NUMBER <= MIN_NUMBER)
             {
-                Console.WriteLine($"Too big number. Must be less then {MAX_NUMBER}");
+                Console.WriteLine("Maximum number must be greater than minimum number.");
+                isMaxNumberForRange = false;
             }
-            else if (userMagicNumber < MIN_NUMBER)
+        } while (!isMaxNumberForRange);
+        
+        MAX_ATTEMPT = (int)Math.Ceiling(Math.Log2(MAX_NUMBER - MIN_NUMBER + 1));
+
+        Console.WriteLine($"The game will take place in the range from {MIN_NUMBER} to {MAX_NUMBER}.");
+        Console.WriteLine($"Maximum number of attempts: {MAX_ATTEMPT}");
+
+        do
+        {
+            Console.WriteLine("Choose game mode:");
+            Console.WriteLine($"{gameModeHuman} - Human sets the number");
+            Console.WriteLine($"{gameModeComputer} - Computer sets the number");
+            var gameModeText = Console.ReadLine();
+
+
+            isGameModeNumber = int.TryParse(gameModeText, out gameModeNumber);
+            if (!isGameModeNumber || gameModeNumber != 1 && gameModeNumber != 2)
             {
-                Console.WriteLine($"Too small number. Must be more then {MIN_NUMBER}");
+                Console.WriteLine("Invalid mod. Please try again.");
             }
-        } while (!isNumber
-            || userMagicNumber < MIN_NUMBER
-            || userMagicNumber > MAX_NUMBER);
+        } while (!isGameModeNumber
+        || (gameModeNumber != 1 && gameModeNumber != 2));
+
+           if (gameModeNumber == gameModeHuman)
+            {
+                do
+                {
+                    Console.WriteLine("User 1. Enter Magic number");
+
+                    var userMagicNumberText = Console.ReadLine();
+                    isNumber = int.TryParse(userMagicNumberText, out userMagicNumber);
+
+                    if (!isNumber)
+                    {
+                        Console.WriteLine("It's not a number");
+                    }
+                    else if (userMagicNumber > MAX_NUMBER)
+                    {
+                        Console.WriteLine($"Too big number. Must be less then {MAX_NUMBER}");
+                    }
+                    else if (userMagicNumber < MIN_NUMBER)
+                    {
+                        Console.WriteLine($"Too small number. Must be more then {MIN_NUMBER}");
+                    }
+                } while (!isNumber || userMagicNumber < MIN_NUMBER || userMagicNumber > MAX_NUMBER);
+            } else if (gameModeNumber == gameModeComputer)
+            {
+                var random = new Random();
+                userMagicNumber = random.Next(MIN_NUMBER, MAX_NUMBER + 1);
+                Console.WriteLine($"Computer has set the magic number between {MIN_NUMBER} and {MAX_NUMBER}");
+            }
 
         Console.Clear();
         var attempt = 0;
@@ -39,11 +112,21 @@ class Lvou
         var isWin = false;
         do
         {
-            attempt++;
             //Console.WriteLine("User 2. Enter your guess. Attemmpt [" + attempt + " / " + MAX_ATTEMPT + "]");
-            Console.WriteLine($"User 2. Enter your guess. Attemmpt [{attempt} / {MAX_ATTEMPT}]");
+            Console.WriteLine($"User 2. Enter your guess. Attemmpt [{attempt} / {MAX_ATTEMPT}].Please enter a number between {MIN_NUMBER} and {MAX_NUMBER}.");
             var guessText = Console.ReadLine();
-            guess = int.Parse(guessText);
+            if (!int.TryParse(guessText, out guess))
+            {
+                Console.WriteLine("It's not a number");
+                continue;
+            }
+            if (guess < MIN_NUMBER || guess > MAX_NUMBER)
+            {
+                Console.WriteLine($"Number is out of range. Please enter a number between {MIN_NUMBER} and {MAX_NUMBER}.");
+                continue;
+            }
+
+            attempt++;
 
             if (guess < userMagicNumber)
             {
