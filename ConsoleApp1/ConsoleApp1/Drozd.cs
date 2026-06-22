@@ -44,10 +44,10 @@ class Drozd
         } while (!isNumber || MAX_NUMBER <= MIN_NUMBER);
 
         //подсчет количества попыток
-        decimal middleIntervalValue = MAX_NUMBER;
+        decimal middleIntervalValue = MAX_NUMBER - MIN_NUMBER;
         do
         {
-            middleIntervalValue = (int)Math.Ceiling((middleIntervalValue - MIN_NUMBER + 1) / 2);
+            middleIntervalValue = (int)Math.Ceiling(middleIntervalValue / 2);
             MAX_ATTEMPT++;
         } while (middleIntervalValue > 1);
         //кто загадывает число - оператор или комп, если комп - то рандомизировать в выбранном диапазоне
