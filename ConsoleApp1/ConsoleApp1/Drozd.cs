@@ -110,7 +110,15 @@ class Drozd
             var guessText = Console.ReadLine();
             guess = int.Parse(guessText);
 
-            if (guess < userMagicNumber) //добавить проверку на то, что попытка в рамках диапазона
+            if (guess > MAX_NUMBER)
+            {
+                Console.WriteLine("Entered value is bigger then end of interval"); //добавить проверку на то, что попытка в рамках диапазона
+            }
+            else if (guess < MIN_NUMBER)
+            {
+                Console.WriteLine("Entered value is smaller then start of interval");
+            }
+            else if (guess < userMagicNumber) 
             {
                 Console.WriteLine("Our number is bigger");
                 MIN_NUMBER = guess + 1;
@@ -121,14 +129,6 @@ class Drozd
                 Console.WriteLine("Our number is less");
                 MAX_NUMBER = guess - 1;
                 attempt++;
-            }
-            else if (guess > MAX_NUMBER)
-            {
-                Console.WriteLine("Entered value is bigger then end of interval");
-            }
-            else if (guess < MIN_NUMBER)
-            {
-                Console.WriteLine("Entered value is smaller then start of interval");
             }
             else if (guess == userMagicNumber)
             {
