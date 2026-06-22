@@ -99,27 +99,28 @@ class Drozd
         }
 
         Console.Clear();
-        var attempt = 0;
+        var attempt = 1;
         int guess;
         var isWin = false;
         do
         {
-            attempt++;
             //Console.WriteLine("User 2. Enter your guess. Attemmpt [" + attempt + " / " + MAX_ATTEMPT + "]");
             Console.WriteLine($"Current guessing interval between [{MIN_NUMBER} and {MAX_NUMBER}]");   //выводить подсказку о диапазоне
             Console.WriteLine($"User 2. Enter your guess. Attemmpt [{attempt} / {MAX_ATTEMPT}]");
             var guessText = Console.ReadLine();
             guess = int.Parse(guessText);
 
-            if (guess < userMagicNumber && guess > MIN_NUMBER) //добавить проверку на то, что попытка в рамках диапазона
+            if (guess < userMagicNumber) //добавить проверку на то, что попытка в рамках диапазона
             {
                 Console.WriteLine("Our number is bigger");
                 MIN_NUMBER = guess + 1;
+                attempt++;
             }
-            else if (guess > userMagicNumber && guess < MAX_NUMBER)
+            else if (guess > userMagicNumber)
             {
                 Console.WriteLine("Our number is less");
                 MAX_NUMBER = guess - 1;
+                attempt++;
             }
             else if (guess > MAX_NUMBER)
             {
@@ -132,6 +133,7 @@ class Drozd
             else if (guess == userMagicNumber)
             {
                 isWin = true;
+                attempt++;
             }
         } while (!isWin && attempt < MAX_ATTEMPT);
 
