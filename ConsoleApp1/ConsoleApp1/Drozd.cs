@@ -43,12 +43,12 @@ class Drozd
         } while (!isNumber || MAX_NUMBER <= MIN_NUMBER);
 
         //подсчет количества попыток
-        var middleIntervalValue = MAX_NUMBER;
+        decimal middleIntervalValue = MAX_NUMBER;
         do
         {
             middleIntervalValue = (int)Math.Ceiling((middleIntervalValue - MIN_NUMBER + 1) / 2);
             MAX_ATTEMPT++;
-        } while (middleIntervalValue <> 1);
+        } while (middleIntervalValue > 1);
     
 
 
