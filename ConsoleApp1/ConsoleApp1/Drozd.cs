@@ -6,7 +6,8 @@ class Drozd
         Console.WriteLine("The game Guess the number");
 
         var MAX_ATTEMPT = 0;
-        var MIN_NUMBER, MAX_NUMBER = 0;
+        var MIN_NUMBER = 0; 
+        var MAX_NUMBER = 0;
         var userMagicNumber = 0;
         bool isNumber;
 
@@ -42,11 +43,17 @@ class Drozd
         } while (!isNumber || MAX_NUMBER <= MIN_NUMBER);
 
         //подсчет количества попыток
+        var middleIntervalValue = MAX_NUMBER;
+        do
+        {
+            middleIntervalValue = (int)Math.Ceiling((middleIntervalValue - MIN_NUMBER + 1) / 2);
+            MAX_ATTEMPT++;
+        } while (middleIntervalValue <> 1);
+    
 
 
 
-
-        //кто загадываппет число - оператор или комп, если комп - то рандомизировать в выбранном диапазоне
+        //кто загадывает число - оператор или комп, если комп - то рандомизировать в выбранном диапазоне
 
 
         do
