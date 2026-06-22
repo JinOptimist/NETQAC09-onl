@@ -1,2 +1,2 @@
-var lvou = new Lvou();
+var lvou = new Korolev();
 lvou.Do();
