@@ -9,6 +9,7 @@ class Drozd
         var MIN_NUMBER = 0; 
         var MAX_NUMBER = 0;
         var userMagicNumber = 0;
+        var opponentSelected = 1;
         bool isNumber;
 
         //выбор диапазона числа
@@ -49,35 +50,53 @@ class Drozd
             middleIntervalValue = (int)Math.Ceiling((middleIntervalValue - MIN_NUMBER + 1) / 2);
             MAX_ATTEMPT++;
         } while (middleIntervalValue > 1);
-    
-
-
-
         //кто загадывает число - оператор или комп, если комп - то рандомизировать в выбранном диапазоне
-
-
         do
         {
-            Console.WriteLine("User 1. Enter Magic number");
-
-            var userMagicNumberText = Console.ReadLine();
-            isNumber = int.TryParse(userMagicNumberText, out userMagicNumber);
+            Console.WriteLine("Select who chooses magic number");
+            Console.WriteLine("Enter '1' to select human opponent, enter '2' to select computer opponent");
+            var opponentSelectedText = Console.ReadLine();
+            isNumber = int.TryParse(opponentSelectedText, out opponentSelected);
 
             if (!isNumber)
             {
                 Console.WriteLine("It's not a number");
             }
-            else if (userMagicNumber > MAX_NUMBER)
+            else if (opponentSelected <> 1 || 2)
             {
-                Console.WriteLine($"Too big number. Must be less then {MAX_NUMBER}");
+                Console.WriteLine("PLease make valid selection: 1 or 2");
             }
-            else if (userMagicNumber < MIN_NUMBER)
+
+        } while (!isNumber || (opponentSelected <> 1 || 2));
+        if (opponentSelected = 1)
+        {
+            do
             {
-                Console.WriteLine($"Too small number. Must be more then {MIN_NUMBER}");
-            }
-        } while (!isNumber
-            || userMagicNumber < MIN_NUMBER
-            || userMagicNumber > MAX_NUMBER);
+                Console.WriteLine($"User 1. Enter Magic number between [{MIN_NUMBER} and {MAX_NUMBER}]");
+
+                var userMagicNumberText = Console.ReadLine();
+                isNumber = int.TryParse(userMagicNumberText, out userMagicNumber);
+
+                if (!isNumber)
+                {
+                    Console.WriteLine("It's not a number");
+                }
+                else if (userMagicNumber > MAX_NUMBER)
+                {
+                    Console.WriteLine($"Too big number. Must be less then {MAX_NUMBER}");
+                }
+                else if (userMagicNumber < MIN_NUMBER)
+                {
+                    Console.WriteLine($"Too small number. Must be more then {MIN_NUMBER}");
+                }
+            } while (!isNumber
+                || userMagicNumber < MIN_NUMBER
+                || userMagicNumber > MAX_NUMBER);
+        }
+        else
+        {
+            userMagicNumber = Random.Shared.Next(MIN_NUMBER, MAX_NUMBER + 1);
+        }
 
         Console.Clear();
         var attempt = 0;
