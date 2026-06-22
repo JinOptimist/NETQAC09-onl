@@ -1,2 +1,2 @@
-var lvou = new Lvou();
-lvou.Do();
+var game = new GuessNumberGame();
+game.Play();
