@@ -99,7 +99,7 @@ class Drozd
         }
 
         Console.Clear();
-        var attempt = 1;
+        var attempt = 0;
         int guess;
         var isWin = false;
         do
