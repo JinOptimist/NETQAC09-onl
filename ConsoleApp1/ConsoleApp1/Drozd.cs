@@ -2,17 +2,15 @@ class Drozd
 {
     public void Do()
     {
-
-        //выбор диапазона числа
-        //ПОСЧЛЕ выбора диапазона - подсчет количества попыток
+               
         Console.WriteLine("The game Guess the number");
 
-        var MAX_ATTEMPT = 3;
-        var MIN_NUMBER;
-        var MAX_NUMBER = 100;
+        var MAX_ATTEMPT = 0;
+        var MIN_NUMBER, MAX_NUMBER = 0;
         var userMagicNumber = 0;
         bool isNumber;
 
+        //выбор диапазона числа
         do
         {
             Console.WriteLine("Enter guessing interval start value:");
@@ -23,8 +21,7 @@ class Drozd
             {
                 Console.WriteLine("It's not a number");
             }
-            
-            
+                  
         } while (!isNumber);
 
         do
@@ -37,11 +34,14 @@ class Drozd
             {
                 Console.WriteLine("It's not a number");
             }
+            else if (MAX_NUMBER <= MIN_NUMBER)
+            {
+                Console.WriteLine("End value should be more than start value");
+            }
 
+        } while (!isNumber || MAX_NUMBER <= MIN_NUMBER);
 
-        } while (!isNumber);
-
-
+        //подсчет количества попыток
 
 
 
