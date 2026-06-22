@@ -60,17 +60,17 @@ class Savicka
             }
         } while (playerSelectType != "H" && playerSelectType != "C");
 
-        var MAX_ATTEMPT = 7;
-        var MAX_NUMBER = maxRangeNumber;
-        var MIN_NUMBER = minRangeNumber;
-        var userMagicNumber = 0;
+        
+        var rangeSize = (maxRangeNumber - minRangeNumber) + 1;
+        var  maxAttempt = (int)Math.Ceiling(Math.Log2(rangeSize));
+        
         bool isNumber;
-
+        int userMagicNumber;
         if (playerSelectType == "H")
         {
             do
             {
-                Console.WriteLine("User 1. Human, please enter a Magic number");
+                Console.WriteLine($"User 1. Human, please enter a Magic number between {minRangeNumber} and {maxRangeNumber}");
 
                 var userMagicNumberText = Console.ReadLine();
                 isNumber = int.TryParse(userMagicNumberText, out userMagicNumber);
@@ -79,22 +79,22 @@ class Savicka
                 {
                     Console.WriteLine("It's not a number");
                 }
-                else if (userMagicNumber > MAX_NUMBER)
+                else if (userMagicNumber > maxRangeNumber)
                 {
-                    Console.WriteLine($"Too big number. Must be less then {MAX_NUMBER}");
+                    Console.WriteLine($"Too big number. Must be less then {maxRangeNumber}");
                 }
-                else if (userMagicNumber < MIN_NUMBER)
+                else if (userMagicNumber < minRangeNumber)
                 {
-                    Console.WriteLine($"Too small number. Must be more then {MIN_NUMBER}");
+                    Console.WriteLine($"Too small number. Must be more then {minRangeNumber}");
                 }
             } while (!isNumber
-            || userMagicNumber < MIN_NUMBER
-            || userMagicNumber > MAX_NUMBER);
+            || userMagicNumber < minRangeNumber
+            || userMagicNumber > maxRangeNumber);
         }
 
         else
         {
-            userMagicNumber = new Random().Next(MIN_NUMBER, MAX_NUMBER + 1);
+            userMagicNumber = new Random().Next(minRangeNumber, maxRangeNumber+ 1);
             Console.WriteLine("The computer has successfully chosen a Magic number");
         }
 
@@ -108,7 +108,7 @@ Console.Clear();
         {
             attempt++;
             //Console.WriteLine("User 2. Enter your guess. Attemmpt [" + attempt + " / " + MAX_ATTEMPT + "]");
-            Console.WriteLine($"User 2. Enter your guess. Attemmpt [{attempt} / {MAX_ATTEMPT}]");
+            Console.WriteLine($"User 2. Enter your guess. Attemmpt [{attempt} / {maxAttempt}]");
             var guessText = Console.ReadLine();
             guess = int.Parse(guessText);
 
@@ -124,7 +124,7 @@ Console.Clear();
             {
                 isWin = true;
             }
-        } while (!isWin && attempt < MAX_ATTEMPT);
+        } while (!isWin && attempt < maxAttempt);
 
 
         if (isWin)
