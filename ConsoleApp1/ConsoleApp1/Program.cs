@@ -1,2 +1,2 @@
-var lvou = new Lvou();
+var lvou = new Task87();
 lvou.Do();
