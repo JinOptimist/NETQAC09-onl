@@ -104,21 +104,27 @@ Console.Clear();
         var attempt = 0;
         int guess;
         var isWin = false;
+        var currentMinRangeNumber = minRangeNumber;
+        var currentMaxRangeNumber = maxRangeNumber;
+        
+        
         do
         {
             attempt++;
             //Console.WriteLine("User 2. Enter your guess. Attemmpt [" + attempt + " / " + MAX_ATTEMPT + "]");
-            Console.WriteLine($"User 2. Enter your guess. Attemmpt [{attempt} / {maxAttempt}]");
+            Console.WriteLine($"User 2. Enter your guess. Attempt [{attempt} / {maxAttempt}]");
             var guessText = Console.ReadLine();
             guess = int.Parse(guessText);
 
             if (guess < userMagicNumber)
             {
-                Console.WriteLine("Our number is bigger");
+                currentMinRangeNumber = guess + 1;
+                Console.WriteLine($"Our number is bigger. You current range is between {currentMinRangeNumber} and {currentMaxRangeNumber}");
             }
             else if (guess > userMagicNumber)
             {
-                Console.WriteLine("Our number is less");
+                currentMaxRangeNumber = guess - 1;
+                Console.WriteLine($"Our number is less. You current range is between {currentMinRangeNumber} and {currentMaxRangeNumber}");
             }
             else if (guess == userMagicNumber)
             {
