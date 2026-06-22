@@ -44,7 +44,7 @@ class Drozd
         } while (!isNumber || MAX_NUMBER <= MIN_NUMBER);
 
         //подсчет количества попыток
-        decimal middleIntervalValue = MAX_NUMBER - MIN_NUMBER;
+        decimal middleIntervalValue = MAX_NUMBER - MIN_NUMBER + 1;
         do
         {
             middleIntervalValue = (int)Math.Ceiling(middleIntervalValue / 2);
