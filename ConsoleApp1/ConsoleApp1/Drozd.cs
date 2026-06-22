@@ -62,13 +62,13 @@ class Drozd
             {
                 Console.WriteLine("It's not a number");
             }
-            else if (opponentSelected <> 1 || 2)
+            else if (opponentSelected is not (1 or 2))
             {
                 Console.WriteLine("PLease make valid selection: 1 or 2");
             }
 
-        } while (!isNumber || (opponentSelected <> 1 || 2));
-        if (opponentSelected = 1)
+        } while (!isNumber || opponentSelected is not (1 or 2));
+        if (opponentSelected is 1)
         {
             do
             {
@@ -95,7 +95,7 @@ class Drozd
         }
         else
         {
-            userMagicNumber = Random.Shared.Next(MIN_NUMBER, MAX_NUMBER + 1);
+            userMagicNumber = Random.Shared.Next(MIN_NUMBER, MAX_NUMBER + 1); //рандомайзер
         }
 
         Console.Clear();
@@ -106,23 +106,33 @@ class Drozd
         {
             attempt++;
             //Console.WriteLine("User 2. Enter your guess. Attemmpt [" + attempt + " / " + MAX_ATTEMPT + "]");
+            Console.WriteLine($"Current guessing interval between [{MIN_NUMBER} and {MAX_NUMBER}]");   //выводить подсказку о диапазоне
             Console.WriteLine($"User 2. Enter your guess. Attemmpt [{attempt} / {MAX_ATTEMPT}]");
             var guessText = Console.ReadLine();
             guess = int.Parse(guessText);
 
-            if (guess < userMagicNumber) //добавить проверку на то, что попытка в рамках диапазона
+            if (guess < userMagicNumber && guess > MIN_NUMBER) //добавить проверку на то, что попытка в рамках диапазона
             {
                 Console.WriteLine("Our number is bigger");
+                MIN_NUMBER = guess + 1;
             }
-            else if (guess > userMagicNumber)
+            else if (guess > userMagicNumber && guess < MAX_NUMBER)
             {
                 Console.WriteLine("Our number is less");
+                MAX_NUMBER = guess - 1;
+            }
+            else if (guess > MAX_NUMBER)
+            {
+                Console.WriteLine("Entered value is bigger then end of interval");
+            }
+            else if (guess < MIN_NUMBER)
+            {
+                Console.WriteLine("Entered value is smaller then start of interval");
             }
             else if (guess == userMagicNumber)
             {
                 isWin = true;
             }
-            //выводить подсказку о диапазоне
         } while (!isWin && attempt < MAX_ATTEMPT);
 
 
