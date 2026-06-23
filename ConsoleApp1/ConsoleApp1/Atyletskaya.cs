@@ -145,6 +145,7 @@ class Atyletskaya
             if (!isGuessCorrect)
             {
                 Console.WriteLine("This is not a number.");
+                continue;
             }
 
              else if (guess > maxNumber || guess < minNumber)
