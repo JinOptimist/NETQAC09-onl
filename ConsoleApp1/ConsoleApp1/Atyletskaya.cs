@@ -8,9 +8,7 @@ class Atyletskaya
 
         Console.WriteLine("The game Guess the number v1");
 
-
         //выбор мин числа
-
         var MIN_NUMBER = 1;
         bool isMinNumberCorrect;
 
@@ -23,6 +21,7 @@ class Atyletskaya
             if (!isMinNumberCorrect)
             {
                 Console.WriteLine("Please enter a number.");
+                continue;
             }
             else if (MIN_NUMBER < 0)
             {
@@ -34,7 +33,6 @@ class Atyletskaya
 
 
         //выбор макс числа
-
         var MAX_NUMBER = 100;
         bool isMaxNumberCorrect;
 
@@ -71,14 +69,9 @@ class Atyletskaya
         }
         Console.WriteLine($"For the range {MIN_NUMBER} - {MAX_NUMBER} you'll get {MAX_ATTEMPT} max attempts");
 
-
-
         //выбор режима игры
-
         var selectedGameMode = 0;
         bool isGameModeCorrect;
-
-
         do
         {
             Console.WriteLine("Select game mode: Press 1 to play with a friend, Press 2 to enter training mode");
@@ -88,6 +81,7 @@ class Atyletskaya
             if (!isGameModeCorrect)
             {
                 Console.WriteLine("Please enter a number. Press 1 to play with a friend, Press 2 to enter training mode");
+                continue;
             }
             else if (selectedGameMode != 1 && selectedGameMode != 2)
             {
@@ -108,10 +102,12 @@ class Atyletskaya
                 if (!isMagicNumberCorrect)
                 {
                     Console.WriteLine("It's not a number");
+                    continue;
                 }
                 else if (userMagicNumber > MAX_NUMBER)
                 {
                     Console.WriteLine($"Can't be bigger than {MAX_NUMBER}");
+                    continue;
                 }
                 else if (userMagicNumber < MIN_NUMBER)
                 {
@@ -127,12 +123,9 @@ class Atyletskaya
         else if (selectedGameMode == 2)
         {
             var random = new Random();
-            userMagicNumber = random.Next(MIN_NUMBER, MAX_NUMBER);
+            userMagicNumber = random.Next(MIN_NUMBER, MAX_NUMBER + 1);
         }
         Console.Clear();
-
-
-
 
         //начало игры
         var attempt = 0;
@@ -151,7 +144,8 @@ class Atyletskaya
 
             if (guess > MAX_NUMBER || guess < MIN_NUMBER)
             {
-                Console.WriteLine($"Reminder: you must guess number between {MIN_NUMBER} and {MAX_NUMBER}"); ;
+                Console.WriteLine($"Reminder: you must guess number between {MIN_NUMBER} and {MAX_NUMBER}");
+                continue;
             }
             else if (guess < userMagicNumber)
             {
@@ -161,6 +155,7 @@ class Atyletskaya
                 if (guess > closestMin)
                 {
                     closestMin = guess;
+                    continue;
                 }
             }
             else if (guess > userMagicNumber)
@@ -189,3 +184,5 @@ class Atyletskaya
         {
             Console.WriteLine($"Good luck next time. The number was {userMagicNumber}");
         }
+    }
+}
