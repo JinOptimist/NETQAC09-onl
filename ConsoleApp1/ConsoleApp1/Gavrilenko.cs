@@ -94,17 +94,17 @@ class Gavrilenko
     public void Do()
     {
         Console.Clear();
-        Console.WriteLine("The game 'Guess the number'");
+        Console.WriteLine("The game 'Guess the number'"); //GameGavrilenko
 
         // Пользователь сам задает диапазон
-        Console.Write("Enter MIN number: ");
+        Console.Write("Enter MIN number: "); //InputService
         int MIN_INPUT_NUMBER = int.Parse(Console.ReadLine()!);
 
         Console.Write("Enter MAX number: ");
         int MAX_INPUT_NUMBER = int.Parse(Console.ReadLine()!);
 
         // Выбор режима игры
-        Console.WriteLine("Who will guess the number?");
+        Console.WriteLine("Who will guess the number?");//InputService
         Console.WriteLine("1 - User");
         Console.WriteLine("2 - Computer");
 
@@ -115,7 +115,7 @@ class Gavrilenko
         // Если выбрали компьютер, он загадывает число
         if (mode == 2)
         {
-            Random random = new Random();
+            Random random = new Random(); //NumberRandom
             userInputNumber = random.Next(MIN_INPUT_NUMBER, MAX_INPUT_NUMBER + 1);
         }
         else
@@ -123,12 +123,12 @@ class Gavrilenko
             bool isNumber;
 
             Console.WriteLine(
-                $"User. Enter number from {MIN_INPUT_NUMBER} to {MAX_INPUT_NUMBER}"
+                $"User. Enter number from {MIN_INPUT_NUMBER} to {MAX_INPUT_NUMBER}"//InputService
             );
 
             do
             {
-                Console.WriteLine("User. Enter number");
+                Console.WriteLine("User. Enter number");//InputService
 
                 var userInputText = Console.ReadLine();
                 isNumber = int.TryParse(userInputText, out userInputNumber);
@@ -148,23 +148,23 @@ class Gavrilenko
                     Console.WriteLine(
                         $"Too small number. Must be more then {MIN_INPUT_NUMBER}"
                     );
-                }
+                }//InputService
 
             } while (
                 !isNumber
-                || userInputNumber < MIN_INPUT_NUMBER
+                || userInputNumber < MIN_INPUT_NUMBER 
                 || userInputNumber > MAX_INPUT_NUMBER
             );
         }
 
-        Console.Clear();
+        Console.Clear(); // Очистка консоли перед началом игры //GuessGame
 
         // Вычисление количества попыток и округление
-        int MAX_ATTEMPT = (int)Math.Ceiling(
+        int MAX_ATTEMPT = (int)Math.Ceiling( //GuessGame
             Math.Log2(MAX_INPUT_NUMBER - MIN_INPUT_NUMBER + 1)
         );
 
-        Console.WriteLine($"Attempts count: {MAX_ATTEMPT}");
+        Console.WriteLine($"Attempts count: {MAX_ATTEMPT}");//GuessGame
 
         int attempt = 0;
         int guessNumber;
@@ -204,12 +204,12 @@ class Gavrilenko
                 );
 
                 continue;
-            }
+            }//GuessGame
 
             // Попытка считается только после проверки диапазона
-            attempt++;
+            attempt++;//GuessGame
 
-            if (guessNumber < userInputNumber)
+            if (guessNumber < userInputNumber)//GuessGame
             {
                 Console.WriteLine("Our number is bigger");
 
@@ -236,7 +236,7 @@ class Gavrilenko
         }
         else
         {
-            Console.WriteLine($"Loooose. Number was {userInputNumber}");
+            Console.WriteLine($"Loooose. Number was {userInputNumber}"); //GuessGame
         }
     }
 }

@@ -1,2 +1,2 @@
-var gavrilenko = new Gavrilenko();
-gavrilenko.Do();
+var game = new GameGavrilenko();
+game.Play();
