@@ -129,20 +129,25 @@ class Atyletskaya
 
         //начало игры
         var attempt = 0;
-        int guess;
         var isWin = false;
         var closestMin = minNumber;
         var closestMax = maxNumber;
 
         do
         {
-            Console.WriteLine($"Now guess the number. Attemmpt [{attempt} / {MAX_ATTEMPT}]. Hint: number is between {closestMin} and {closestMax}");
+            Console.WriteLine($"Now guess the number. Attemmpt [{attempt} / {maxAttempts}]. Hint: number is between {closestMin} and {closestMax}");
 
+            var guess = 0;
+            bool isGuessCorrect;
             var guessText = Console.ReadLine();
+            isGuessCorrect = int.TryParse(guessText, out guess);
 
-            guess = int.Parse(guessText);
+            if (!isGuessCorrect)
+            {
+                Console.WriteLine("This is not a number.");
+            }
 
-            if (guess > maxNumber || guess < minNumber)
+             else if (guess > maxNumber || guess < minNumber)
             {
                 Console.WriteLine($"Reminder: you must guess number between {minNumber} and {maxNumber}");
                 continue;
