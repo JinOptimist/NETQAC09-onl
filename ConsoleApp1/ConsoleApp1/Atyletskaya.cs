@@ -1,3 +1,5 @@
+using ConsoleApp1;
+
 class Atyletskaya
 {
     public void Do()
@@ -69,26 +71,9 @@ class Atyletskaya
         }
         Console.WriteLine($"For the range {minNumber} - {maxNumber} you'll get {maxAttempts} max attempts");
 
-        //выбор режима игры
-        var selectedGameMode = 0;
-        bool isGameModeCorrect;
-        do
-        {
-            Console.WriteLine("Select game mode: Press 1 to play with a friend, Press 2 to enter training mode");
-            var userInputGameMode = Console.ReadLine();
-            isGameModeCorrect = int.TryParse(userInputGameMode, out selectedGameMode);
-
-            if (!isGameModeCorrect)
-            {
-                Console.WriteLine("Please enter a number. Press 1 to play with a friend, Press 2 to enter training mode");
-                continue;
-            }
-            else if (selectedGameMode != 1 && selectedGameMode != 2)
-            {
-                Console.WriteLine("We have 2 modes only :( Press 1 to play with a friend, Press 2 to enter training mode");
-            }
-        }
-        while (!isGameModeCorrect || (selectedGameMode != 1 && selectedGameMode != 2));
+        //выбор режима игры - засунули в класс GameMode
+        var usersGameMode = new GameMode();
+        var selectedGameMode = usersGameMode.SelectGameMode();
 
         if (selectedGameMode == 1)
         {
