@@ -1,6 +1,6 @@
 using ConsoleApp1;
 
-class Atyletskaya
+class GameAtyletskaya
 {
     public void Do()
     {
@@ -60,8 +60,8 @@ class Atyletskaya
         }
         while (!isMaxNumberCorrect || minNumber >= maxNumber || minNumber == maxNumber - 1);
 
-        //подсчет максимального количество попыток - засунули в класс AttemptsCalculator
-        var calculator = new AttemptsCalculator();
+        //подсчет максимального количество попыток - засунули в класс GameAttemptsCalculator
+        var calculator = new GameAttemptsCalculator();
         var maxAttempts = calculator.CalculateMaxAttempts(minNumber, maxNumber);
 
         Console.WriteLine($"For the range {minNumber} - {maxNumber} you'll get {maxAttempts} max attempts");
@@ -102,7 +102,7 @@ class Atyletskaya
 
         else if (selectedGameMode == 2)
         {
-            var rngNumber = new RNGGod();
+            var rngNumber = new GameRNGGod();
             userMagicNumber = rngNumber.GenerateRandomNumber(minNumber, maxNumber);
         }
         Console.Clear();

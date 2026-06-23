@@ -1,2 +1,2 @@
-var atyletskaya = new Atyletskaya();
+var atyletskaya = new GameAtyletskaya();
 atyletskaya.Do();

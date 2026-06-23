@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ConsoleApp1
 {
-    public class AttemptsCalculator
+    public class GameAttemptsCalculator
         //подсчет максимального количества попыток в выбранном диапазоне
     {
         public int CalculateMaxAttempts(int minNumber, int maxNumber)
