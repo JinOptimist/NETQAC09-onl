@@ -1,5 +1,5 @@
 //основной класс-запуск частей программы random,input,guess 
-using System;
+namespace ConsoleApp1.GavrilenkoClass;
 
 public class GameGavrilenko
 {

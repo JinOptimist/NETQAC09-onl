@@ -1,5 +1,5 @@
 //вычисление попыток Log2,игра, подсказки "больше-меньше",результаты игры
-using System;
+namespace ConsoleApp1.GavrilenkoClass;
 
 public class GuessGame
 {

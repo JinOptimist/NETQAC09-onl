@@ -1,5 +1,5 @@
 //все что касается вывода и ввода данных
-using System;
+namespace ConsoleApp1.GavrilenkoClass;
 
 public class InputService
 {

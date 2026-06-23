@@ -1,5 +1,5 @@
 //полуение заданного числа, если режим компа - генерируем число, если режим юзера - получаем число и возвращаем в gamegavr
-using System;
+namespace ConsoleApp1.GavrilenkoClass;
 
 public class NumberRandom
 {
