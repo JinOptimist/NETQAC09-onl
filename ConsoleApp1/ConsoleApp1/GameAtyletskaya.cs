@@ -102,7 +102,7 @@ class GameAtyletskaya
 
         else if (selectedGameMode == 2)
         {
-            var rngNumber = new GameRNGGod();
+            var rngNumber = new GameRNG();
             userMagicNumber = rngNumber.GenerateRandomNumber(minNumber, maxNumber);
         }
         Console.Clear();
