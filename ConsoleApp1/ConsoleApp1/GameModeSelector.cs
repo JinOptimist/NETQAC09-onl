@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ConsoleApp1
 {
-    internal class GameMode
+    internal class GameModeSelector
     {
         public int SelectGameMode()
         {

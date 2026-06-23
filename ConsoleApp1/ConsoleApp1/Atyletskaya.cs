@@ -60,19 +60,14 @@ class Atyletskaya
         }
         while (!isMaxNumberCorrect || minNumber >= maxNumber || minNumber == maxNumber - 1);
 
-        //подсчет максимального количество попыток
-        var minMaxRange = maxNumber - minNumber;
-        var maxAttempts = 1;
-        var attemptsCalc = minMaxRange;
-        while (attemptsCalc > 1)
-        {
-            attemptsCalc = attemptsCalc / 2;
-            maxAttempts++;
-        }
+        //подсчет максимального количество попыток - засунули в класс AttemptsCalculator
+        var calculator = new AttemptsCalculator();
+        var maxAttempts = calculator.CalculateMaxAttempts(minNumber, maxNumber);
+
         Console.WriteLine($"For the range {minNumber} - {maxNumber} you'll get {maxAttempts} max attempts");
 
-        //выбор режима игры - засунули в класс GameMode
-        var usersGameMode = new GameMode();
+        //выбор режима игры - засунули в класс GameModeSelector
+        var usersGameMode = new GameModeSelector();
         var selectedGameMode = usersGameMode.SelectGameMode();
 
         if (selectedGameMode == 1)
