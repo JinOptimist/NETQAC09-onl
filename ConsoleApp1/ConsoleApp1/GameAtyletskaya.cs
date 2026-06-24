@@ -70,36 +70,14 @@ class GameAtyletskaya
         var usersGameMode = new GameModeSelector();
         var selectedGameMode = usersGameMode.SelectGameMode();
 
+        // выбор числа игроком - засунули в класс GamePlayerMagicNumberSelector
         if (selectedGameMode == 1)
         {
-            do
-            {
-                Console.WriteLine("Enter Magic number");
-
-                var userMagicNumberText = Console.ReadLine();
-                isMagicNumberCorrect = int.TryParse(userMagicNumberText, out userMagicNumber);
-
-                if (!isMagicNumberCorrect)
-                {
-                    Console.WriteLine("It's not a number");
-                    continue;
-                }
-                else if (userMagicNumber > maxNumber)
-                {
-                    Console.WriteLine($"Can't be bigger than {maxNumber}");
-                    continue;
-                }
-                else if (userMagicNumber < minNumber)
-                {
-                    Console.WriteLine($"Can't be less than {minNumber}");
-                }
-            }
-            while (!isMagicNumberCorrect
-    || userMagicNumber < minNumber
-    || userMagicNumber > maxNumber);
+            var playersMagicNumber = new GamePlayerMagicNumberSelector();
+            userMagicNumber = playersMagicNumber.SelectPlayerMagicNumber(minNumber, maxNumber);
         }
 
-
+        // выбор рандомного числа - засунули в класс GameRNG
         else if (selectedGameMode == 2)
         {
             var rngNumber = new GameRNG();
@@ -108,14 +86,15 @@ class GameAtyletskaya
         Console.Clear();
 
         //начало игры
+        var updatedHint = new GameHintsUpdater();
+        updatedHint.newMin = minNumber;
+        updatedHint.newMax = maxNumber;
         var attempt = 0;
         var isWin = false;
-        var closestMin = minNumber;
-        var closestMax = maxNumber;
 
         do
         {
-            Console.WriteLine($"Now guess the number. Attemmpt [{attempt} / {maxAttempts}]. Hint: number is between {closestMin} and {closestMax}");
+            Console.WriteLine($"Now guess the number. Attemmpt [{attempt} / {maxAttempts}]. Hint: number is between {updatedHint.newMin} and {updatedHint.newMax}");
 
             var guess = 0;
             bool isGuessCorrect;
@@ -128,37 +107,33 @@ class GameAtyletskaya
                 continue;
             }
 
-             else if (guess > maxNumber || guess < minNumber)
-            {
-                Console.WriteLine($"Reminder: you must guess number between {minNumber} and {maxNumber}");
-                continue;
-            }
-            else if (guess < userMagicNumber)
-            {
-                Console.WriteLine("Our number is bigger");
-                attempt++;
-                // апдейт подсказки
-                if (guess > closestMin)
-                {
-                    closestMin = guess;
-                    continue;
-                }
-            }
-            else if (guess > userMagicNumber)
-            {
-                Console.WriteLine("Our number is less");
-                attempt++;
-                //апдейт подсказки
-                if (guess <= closestMax)
-                {
-                    closestMax = guess;
-                }
-            }
-
             else if (guess == userMagicNumber)
             {
                 isWin = true;
             }
+
+            else if (guess > maxNumber || guess < minNumber)
+            {
+                Console.WriteLine($"Reminder: you must guess number between {minNumber} and {maxNumber}");
+                continue;
+            }
+
+            else if (guess < userMagicNumber)
+            {
+                Console.WriteLine("Our number is bigger");
+                attempt++;
+                // апдейт подсказки - положили в отдельный класс GameHintsUpdater
+                updatedHint.CheckNewGuess(guess, userMagicNumber);
+            }
+
+            else if (guess > userMagicNumber)
+            {
+                Console.WriteLine("Our number is less");
+                attempt++;
+                // апдейт подсказки - положили в отдельный класс GameHintsUpdater
+                updatedHint.CheckNewGuess(guess, userMagicNumber);
+            }
+
         } while (!isWin && attempt < maxAttempts);
 
 
