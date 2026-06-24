@@ -1,5 +1,5 @@
-//var lvou = new Lvou();
-//lvou.Do();
 
-var lolita = new Lolita();
-lolita.Do();
+using ConsoleApp1;
+
+var guessGame = new GuessGame();
+guessGame.Do();
