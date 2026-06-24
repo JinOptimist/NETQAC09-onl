@@ -1,24 +1,24 @@
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 class Parfenov
-    {
+{
     public void Do()
     {
         Console.WriteLine("The game Guess the number");
         Console.WriteLine("set the range of natural numbers");
-        
+
         var MAX_ATTEMPT = 10;
-        var MIN_NUMBER=0;
-        bool isNumber1;
+        var MIN_NUMBER = 0;
+        bool isNumberMin;
 
         do
         {
             Console.WriteLine("Please enter the MIN_NUMBER");
 
             var MIN_NUMBER_Text = Console.ReadLine();
-            isNumber1 = int.TryParse(MIN_NUMBER_Text, out MIN_NUMBER);
+            isNumberMin = int.TryParse(MIN_NUMBER_Text, out MIN_NUMBER);
 
-            if (!isNumber1)
+            if (!isNumberMin)
             {
                 Console.WriteLine("It's not a number");
             }
@@ -26,60 +26,58 @@ class Parfenov
             {
                 Console.WriteLine("enter a number greater than 0");
             }
-          
-        } while (!isNumber1
+
+        } while (!isNumberMin
             || MIN_NUMBER < 0);
 
 
         var MAX_NUMBER = 0;
-        bool isNumber2;
-        var MinMaxNumber = MIN_NUMBER + 1;
+        bool isNumberMax;
+        var minMaxNumber = MIN_NUMBER + 1;
 
         do
         {
-            Console.WriteLine($"Please enter the MAX_NUMBER > {MinMaxNumber}");
+            Console.WriteLine($"Please enter the MAX_NUMBER > {minMaxNumber}");
 
             var MAX_NUMBER_Text = Console.ReadLine();
-            isNumber2 = int.TryParse(MAX_NUMBER_Text, out MAX_NUMBER);
+            isNumberMax = int.TryParse(MAX_NUMBER_Text, out MAX_NUMBER);
 
-            if (!isNumber2)
+            if (!isNumberMax)
             {
                 Console.WriteLine("It's not a number");
             }
-            else if (MAX_NUMBER <= MinMaxNumber)
+            else if (MAX_NUMBER <= minMaxNumber)
             {
-                Console.WriteLine($"The number is too small. There must be more than {MinMaxNumber}");
+                Console.WriteLine($"The number is too small. There must be more than {minMaxNumber}");
             }
 
-        } while (!isNumber2
-            || MAX_NUMBER <= MinMaxNumber);
-
-
+        } while (!isNumberMax
+            || MAX_NUMBER <= minMaxNumber);
 
         Console.WriteLine("will the user or randomizer guess the number?");
-       bool isNumber3;
+        bool isNumberFlow;
         var userMagicNumber = 0;
-        var EnterFlow=0;
+        var enterFlow = 0;
 
         do
         {
             Console.WriteLine("Please enter:\r\n1-user enters \r\n2-randomizer");
 
             var EnterFlowTexst = Console.ReadLine();
-            isNumber3 = int.TryParse(EnterFlowTexst, out EnterFlow);
+            isNumberFlow = int.TryParse(EnterFlowTexst, out enterFlow);
 
 
-            if (EnterFlow == 1)
+            if (enterFlow == 1)
             {
-               bool isNumber4;
+                bool isNumber;
                 do
                 {
                     Console.WriteLine("User 1. Enter Magic number");
 
                     var userMagicNumberText = Console.ReadLine();
-                    isNumber4 = int.TryParse(userMagicNumberText, out userMagicNumber);
+                    isNumber = int.TryParse(userMagicNumberText, out userMagicNumber);
 
-                    if (!isNumber4)
+                    if (!isNumber)
                     {
                         Console.WriteLine("It's not a number");
                     }
@@ -91,20 +89,18 @@ class Parfenov
                     {
                         Console.WriteLine($"Too small number. Must be more then {MIN_NUMBER}");
                     }
-                } while (!isNumber4
+                } while (!isNumber
                     || userMagicNumber < MIN_NUMBER
                     || userMagicNumber > MAX_NUMBER);
             }
-            else if (EnterFlow == 2)
+            else if (enterFlow == 2)
             {
                 var random = new Random();
                 userMagicNumber = random.Next(MIN_NUMBER, MAX_NUMBER);
             }
-           
-        } while (EnterFlow != 1 && EnterFlow != 2);
-          
 
-        
+        } while (enterFlow != 1 && enterFlow != 2);
+
         Console.Clear();
         var attempt = 0;
         int guess;
