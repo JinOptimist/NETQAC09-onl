@@ -3,11 +3,11 @@ namespace ConsoleApp1.GavrilenkoClass;
 
 public class GameGavrilenko
 {
-    private readonly NumberRandom _random = new();
-    private readonly InputService _input = new();
-    private readonly GuessGame _game = new();
-public void Play()
-//очистка
+    private NumberRandom _random = new();
+    private InputService _input = new();
+    private GuessGame _game = new();
+
+    public void Play()
     {
         Console.Clear();
         Console.WriteLine("The game 'Guess the number'");

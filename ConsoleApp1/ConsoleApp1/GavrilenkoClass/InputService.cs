@@ -20,7 +20,15 @@ public class InputService
         Console.WriteLine("1 - User");
         Console.WriteLine("2 - Computer");
 
-        return int.Parse(Console.ReadLine()!);
+        var mode = readInput();
+
+        if (mode != 1 && mode != 2)
+        {
+            Console.WriteLine("Invalid mode. Please enter 1 or 2.");
+            return ReadMode(); // рекурсивный вызов для повторного ввода
+        }
+
+        return mode;
     }
 
     public int ReadGuess(int min, int max)//получаем число от пользователя
@@ -35,6 +43,24 @@ public class InputService
                 return number;
 
             Console.WriteLine("It's not a number");
+        }
+    }
+
+    private int readInput()
+    {
+        int number;
+
+        while (true)
+        {
+            var parsed = int.TryParse(Console.ReadLine(), out number);
+
+            if (parsed)
+            {
+                return number;
+            } 
+
+            Console.WriteLine("It's not a number");
+
         }
     }
 }

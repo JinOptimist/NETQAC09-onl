@@ -3,9 +3,9 @@ namespace ConsoleApp1.GavrilenkoClass;
 
 public class GuessGame
 {
-    private readonly InputService _input = new();
+    private InputService _input = new();
 
-    public void StartGame(int secret, int min, int max)
+    public void StartGame(int secretNumber, int min, int max)
     {
         Console.Clear();
 
@@ -24,12 +24,12 @@ public class GuessGame
 
             int guess = _input.ReadGuess(currentMin, currentMax);
 
-            if (guess < secret)
+            if (guess < secretNumber)
             {
                 Console.WriteLine("More");
                 currentMin = guess + 1;
             }
-            else if (guess > secret)
+            else if (guess > secretNumber)
             {
                 Console.WriteLine("Less");
                 currentMax = guess - 1;
@@ -45,6 +45,6 @@ public class GuessGame
 
         Console.WriteLine(win
             ? "Game over!You win!"
-            : $"Game over! You lost. The number was {secret}");
+            : $"Game over! You lost. The number was {secretNumber}");
     }
 }
