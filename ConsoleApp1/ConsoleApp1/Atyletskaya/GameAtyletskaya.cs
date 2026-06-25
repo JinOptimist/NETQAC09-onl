@@ -1,4 +1,5 @@
 using ConsoleApp1;
+using ConsoleApp1.Atyletskaya;
 
 class GameAtyletskaya
 {
@@ -86,7 +87,7 @@ class GameAtyletskaya
         Console.Clear();
 
         //начало игры
-        var updatedHint = new GameHintsUpdater();
+        var updatedHint = new ConsoleApp1.Atyletskaya.GameHintsUpdater();
         updatedHint.NewMin = minNumber;
         updatedHint.NewMax = maxNumber;
         var attempt = 0;

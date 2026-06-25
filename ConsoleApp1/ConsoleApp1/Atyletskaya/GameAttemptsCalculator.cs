@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ConsoleApp1
+namespace ConsoleApp1.Atyletskaya
 {
     public class GameAttemptsCalculator
         //подсчет максимального количества попыток в выбранном диапазоне

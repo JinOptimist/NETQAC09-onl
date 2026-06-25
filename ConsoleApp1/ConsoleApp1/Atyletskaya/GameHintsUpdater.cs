@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
-namespace ConsoleApp1
+namespace ConsoleApp1.Atyletskaya
 {
     public class GameHintsUpdater
     {
