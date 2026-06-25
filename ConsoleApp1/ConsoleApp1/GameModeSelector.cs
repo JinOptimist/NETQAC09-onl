@@ -6,7 +6,7 @@ namespace ConsoleApp1
 {
     internal class GameModeSelector
     {
-        public int SelectGameMode()
+        public int SelectGameMode() 
         {
             var selectedGameMode = 0;
             bool isGameModeCorrect;

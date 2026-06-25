@@ -68,7 +68,7 @@ class GuessNumberGame
 
         return new GameSettings
         {
-            MinValue = userMagicNumber,
+            MinValue = 0,
             MaxValue = 10,
             MaxAttempt = 3
         };

@@ -80,21 +80,21 @@ class GameAtyletskaya
         // выбор рандомного числа - засунули в класс GameRNG
         else if (selectedGameMode == 2)
         {
-            var rngNumber = new GameRNG();
+            var rngNumber = new GameRng();
             userMagicNumber = rngNumber.GenerateRandomNumber(minNumber, maxNumber);
         }
         Console.Clear();
 
         //начало игры
         var updatedHint = new GameHintsUpdater();
-        updatedHint.newMin = minNumber;
-        updatedHint.newMax = maxNumber;
+        updatedHint.NewMin = minNumber;
+        updatedHint.NewMax = maxNumber;
         var attempt = 0;
         var isWin = false;
 
         do
         {
-            Console.WriteLine($"Now guess the number. Attemmpt [{attempt} / {maxAttempts}]. Hint: number is between {updatedHint.newMin} and {updatedHint.newMax}");
+            Console.WriteLine($"Now guess the number. Attemmpt [{attempt} / {maxAttempts}]. Hint: number is between {updatedHint.NewMin} and {updatedHint.NewMax}");
 
             var guess = 0;
             bool isGuessCorrect;

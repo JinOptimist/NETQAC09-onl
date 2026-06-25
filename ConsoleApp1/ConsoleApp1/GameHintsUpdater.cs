@@ -7,18 +7,18 @@ namespace ConsoleApp1
 {
     public class GameHintsUpdater
     {
-        public int newMin;
-        public int newMax;
+        public int NewMin { get; set; }
+        public int NewMax { get; set; }
         public void CheckNewGuess(int guess, int magicNumber)
         {
-            if (guess < magicNumber && guess > newMin)
+            if (guess < magicNumber && guess > NewMin)
             {
-                newMin = guess;
+                NewMin = guess;
             }
 
-            else if (guess > magicNumber && guess < newMax)
+            else if (guess > magicNumber && guess < NewMax)
             {
-                newMax = guess;
+                NewMax = guess;
             }
         }
     }

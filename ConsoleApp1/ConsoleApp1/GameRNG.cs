@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ConsoleApp1
 {
-    internal class GameRNG
+    internal class GameRng
 
     {
         public int GenerateRandomNumber(int minNumber, int maxNumber)
