@@ -1,5 +1,4 @@
-﻿
-public class GameDrozd
+﻿public class GameDrozd
 {
     private int minNumber;
     private int maxNumber;
