@@ -43,12 +43,7 @@ class Lvou
             //Console.WriteLine("User 2. Enter your guess. Attemmpt [" + attempt + " / " + MAX_ATTEMPT + "]");
             Console.WriteLine($"User 2. Enter your guess. Attemmpt [{attempt} / {MAX_ATTEMPT}]");
             var guessText = Console.ReadLine();
-            if (!int.TryParse(guessText, out guess))
-            {
-                Console.WriteLine("It's not a number");
-                attempt--; // don't count invalid input as an attempt
-                continue;
-            }
+            guess = int.Parse(guessText);
 
             if (guess < userMagicNumber)
             {
