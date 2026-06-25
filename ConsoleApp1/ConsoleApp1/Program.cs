@@ -1,2 +1,2 @@
-var game = new GuessNumberGame();
-game.Play();
+var atyletskaya = new GameAtyletskaya();
+atyletskaya.Do();
