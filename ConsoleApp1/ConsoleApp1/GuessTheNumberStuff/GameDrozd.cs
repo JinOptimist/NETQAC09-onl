@@ -1,5 +1,4 @@
-﻿using ConsoleApp1.GuessTheNumberStuff;
-
+﻿
 public class GameDrozd
 {
     private int minNumber;
