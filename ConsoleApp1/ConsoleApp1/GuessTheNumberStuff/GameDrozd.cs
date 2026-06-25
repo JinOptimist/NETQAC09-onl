@@ -21,10 +21,7 @@ public class GameDrozd
         ShowFinalResult();
     }
 
-    // --- ВСПOMOГАТЕЛЬНЫЕ МЕТОДЫ (Логика) ---
-
-    // Метод для безопасного ввода чисел (убирает дублирование кода!)
-    private int ReadInt(string prompt)
+    private int ReadInt(string prompt) //Метод для валидации на ввод именно целого числа
     {
         int result;
         while (true)
@@ -37,9 +34,7 @@ public class GameDrozd
             Console.WriteLine("It's not a number");
         }
     }
-
-    // Настройка диапазона чисел
-    private void SetupRange()
+    private void SetupRange() //Метод задающий интервал для угадывания
     {
         minNumber = ReadInt("Enter guessing interval start value:");
 
@@ -50,28 +45,24 @@ public class GameDrozd
             Console.WriteLine("End value should be more than start value");
         }
     }
-
-    // Подсчет количества попыток
-    private void CalculateMaxAttempts()
+    private void CalculateMaxAttempts() //Подсчет максимального количества попыток
     {
         decimal middleIntervalValue = maxNumber - minNumber + 1;
         maxAttempts = 0;
         do
         {
-            middleIntervalValue = (int)Math.Ceiling(middleIntervalValue / 2);
+            middleIntervalValue = (int)Math.Ceiling(middleIntervalValue / 2); //BUG подсчета, исправить с деления на логарифмический метод
             maxAttempts++;
         } while (middleIntervalValue > 1);
     }
-
-    // Выбор оппонента и загадывание числа
-    private void SelectOpponentAndSetTarget()
+    private void SelectOpponentAndSetTarget()  //Выбираем кто оппонент и загадываем число
     {
         int opponent;
         while (true)
         {
             Console.WriteLine("Select who chooses magic number");
             opponent = ReadInt("Enter '1' to select human opponent, enter '2' to select computer opponent");
-            if (opponent is 1 or 2) break;
+            if (opponent == 1 || opponent == 2) break;
             Console.WriteLine("Please make valid selection: 1 or 2");
         }
 
@@ -91,9 +82,7 @@ public class GameDrozd
 
         Console.Clear();
     }
-
-    // Игровой цикл
-    private void PlayGameLoop()
+    private void PlayGameLoop() //Метод основной игровой логики (догадка в интервале, подсказка текущего интервала, какая попытка)
     {
         currentAttempt = 0;
         isWin = false;
@@ -130,9 +119,7 @@ public class GameDrozd
             }
         }
     }
-
-    // Вывод результата
-    private void ShowFinalResult()
+    private void ShowFinalResult() //Вывод результата
     {
         if (isWin)
         {
