@@ -1,146 +1,139 @@
-class Lvou
+using System;
+
+namespace ConsoleApp1
 {
-    public void Do()
+    public class GameLvou
     {
-        Console.WriteLine("The game Guess the number");
+        // Поля класса (их нельзя делать var, C# запрещает var для полей)
+        private int _minNumber;
+        private int _maxNumber;
+        private int _maxAttempts;
+        private int _magicNumber;
 
-        var MAX_ATTEMPT = 3;
-        var MAX_NUMBER = 100;
-        var MIN_NUMBER = 1;
-
-        var userMagicNumber = 0;
-        bool isNumber;
-        do
+        // Главный публичный метод, который запускает всю игру
+        public void Start()
         {
-            Console.WriteLine("User 1. Enter Magic number");
+            Console.WriteLine("=== Welcome to GameLvou: Guess the number ===");
 
-            var userMagicNumberText = Console.ReadLine();
-            isNumber = int.TryParse(userMagicNumberText, out userMagicNumber);
-
-            if (!isNumber)
-            {
-                Console.WriteLine("It's not a number");
-            }
-            else if (userMagicNumber > MAX_NUMBER)
-            {
-                Console.WriteLine($"Too big number. Must be less then {MAX_NUMBER}");
-            }
-            else if (userMagicNumber < MIN_NUMBER)
-            {
-                Console.WriteLine($"Too small number. Must be more then {MIN_NUMBER}");
-            }
-        } while (!isNumber
-            || userMagicNumber < MIN_NUMBER
-            || userMagicNumber > MAX_NUMBER);
-
-        Console.Clear();
-        var attempt = 0;
-        int guess;
-        var isWin = false;
-        do
-        {
-            attempt++;
-            //Console.WriteLine("User 2. Enter your guess. Attemmpt [" + attempt + " / " + MAX_ATTEMPT + "]");
-            Console.WriteLine($"User 2. Enter your guess. Attemmpt [{attempt} / {MAX_ATTEMPT}]");
-            var guessText = Console.ReadLine();
-            guess = int.Parse(guessText);
-
-            if (guess < userMagicNumber)
-            {
-                Console.WriteLine("Our number is bigger");
-            }
-            else if (guess > userMagicNumber)
-            {
-                Console.WriteLine("Our number is less");
-            }
-            else if (guess == userMagicNumber)
-            {
-                isWin = true;
-            }
-        } while (!isWin && attempt < MAX_ATTEMPT);
-
-
-        if (isWin)
-        {
-            Console.WriteLine("Right! Your are Win");
-        }
-        else
-        {
-            Console.WriteLine("Loooose");
+            SetupRange();
+            CalculateAttempts();
+            SelectGameMode();
+            PlayGuessingLoop();
         }
 
-        //Console.WriteLine("Hi I'm Pasha. I publish two books");
-        //Console.WriteLine("Hello My Name is Kirilenko Iaroslav, I am QA");
-        //Console.WriteLine("Hello My Name is Anna Tyletskaya, blah-blah-blah");
-        //Console.WriteLine("Hi, I'm Andrei. I play drums");
-        //Console.WriteLine("Hello My Name is Kirilenko Iaroslav, I am QA");
-        //Console.WriteLine("Hello My Name is Jorjetta, I am from Armenia");
-        //Console.WriteLine("Hello My Name is Viktoriya, I love raspberries and the smell of freshly cut grass");
-        //Console.WriteLine("Hola! Yo soy Jack. Vivo en Montenegro");
-        //Console.WriteLine("Hello My Name is Mykola Andruk, I have a pug");
-        //Console.WriteLine("Hello My Name is Andrei, I love playing poker");
-        //Console.WriteLine("Hello My Name is A.Makhortov");
-        //Console.WriteLine("Hello My Name is Max, I love snowboarding");
-        //Console.WriteLine("Yo, my name's Andrey. I love swimming");
-        //Console.WriteLine("Hi I'm Irina. I live in Prague");
-        //Console.WriteLine("Hi I'm Irina2. I live in Prague");
-        //Console.WriteLine("Hi, I'm Timur and i love to work every day");
-        //Console.WriteLine("Hello My Name is Ekaterina, I love hiking");
-        //Console.WriteLine("Dobar dan! My name is Valerii and this is some info about me.");
+        // 1. Метод для настройки диапазона
+        private void SetupRange()
+        {
+            while (_minNumber >= _maxNumber)
+            {
+                Console.Write("Enter MIN boundary of the range: ");
+                int.TryParse(Console.ReadLine(), out _minNumber);
 
+                Console.Write("Enter MAX boundary of the range: ");
+                int.TryParse(Console.ReadLine(), out _maxNumber);
 
-        //int age = 20;
-        //char symbol = '1';
-        //string name = "text";
+                if (_minNumber >= _maxNumber)
+                {
+                    Console.WriteLine("Error: MAX must be greater than MIN. Try again.\n");
+                }
+            }
+        }
 
-        //bool isAdult = false;
-        //bool condition1 = true;
-        //bool condition2 = !isAdult; // not
-        //bool condition3 = condition1 && condition2; // and
-        //bool condition4 = condition3 || condition2; // or
-        //bool condition5 = !condition2 && condition3 || condition4 && condition1;
+        // 2. Метод для математического расчета попыток
+        private void CalculateAttempts()
+        {
+            var range = _maxNumber - _minNumber + 1; // Заменено int -> var
+            _maxAttempts = (int)Math.Ceiling(Math.Log2(range));
+            Console.WriteLine($"\nBased on your range, maximum attempts: {_maxAttempts}");
+        }
 
-        //var test = 123;
-        //test = 1;
-        //// test = "qwe";
+        // 3. Метод выбора режима игры и загадывания числа
+        private void SelectGameMode()
+        {
+            var gameMode = 0; // Заменено int -> var
+            while (gameMode != 1 && gameMode != 2)
+            {
+                Console.WriteLine("\nWho will guess the number?");
+                Console.WriteLine("1. User 1 (Man)\n2. Computer");
+                Console.Write("Select mode (1 or 2): ");
+                int.TryParse(Console.ReadLine(), out gameMode);
+            }
 
-        //var test2 = "Test";
-        //// test2 = 123;
-        //test2 = "qwe";
+            if (gameMode == 1)
+            {
+                var isNumber = false; // Заменено bool -> var (с явной инициализацией)
+                do
+                {
+                    Console.WriteLine($"\nUser 1. Enter Magic number ({_minNumber} to {_maxNumber}):");
+                    isNumber = int.TryParse(Console.ReadLine(), out _magicNumber);
 
-        //Console.WriteLine("Hi");
-        //if (age > 60)
-        //{
-        //    Console.WriteLine("Go to vilage");
-        //}
-        //else if (age > 30)
-        //{
-        //    Console.WriteLine("Go to Work");
-        //}
-        //else if (age > 18 && condition2)
-        //{
-        //    if (condition4)
-        //    {
-        //        Console.WriteLine("Go to super univer");
-        //    }
-        //    Console.WriteLine("Go to univer 1");
-        //}
-        //else
-        //{
-        //    Console.WriteLine("Go to school 1");
-        //    Console.WriteLine("Go to school 2");
-        //}
+                    if (!isNumber || _magicNumber < _minNumber || _magicNumber > _maxNumber)
+                    {
+                        Console.WriteLine("Invalid entry. Try again.");
+                        isNumber = false;
+                    }
+                } while (!isNumber);
 
-        //Console.WriteLine("End");
+                Console.Clear();
+            }
+            else
+            {
+                var random = new Random(); // Заменено Random -> var
+                _magicNumber = random.Next(_minNumber, _maxNumber + 1);
+                Console.WriteLine("\n[Computer has generated a hidden number!]");
+            }
+        }
 
+        // 4. Основной игровой цикл угадывания
+        private void PlayGuessingLoop()
+        {
+            var currentMin = _minNumber; // Заменено int -> var
+            var currentMax = _maxNumber; // Заменено int -> var
+            var attempt = 0;             // Заменено int -> var
+            var isWin = false;           // Заменено bool -> var
 
-        //var indexForNextWhile = 0;
-        //while (indexForNextWhile < 10)
-        //{
-        //    indexForNextWhile = indexForNextWhile + 1;
-        //    Console.WriteLine(indexForNextWhile);
-        //}
+            while (!isWin && attempt < _maxAttempts)
+            {
+                Console.WriteLine($"\nHint: The number is between [{currentMin} and {currentMax}]");
+                Console.WriteLine($"Attempt [{attempt + 1} / {_maxAttempts}]");
+                Console.Write("Enter your guess: ");
 
+                // Использован var в out-параметре: out var guess
+                if (!int.TryParse(Console.ReadLine(), out var guess) || guess < _minNumber || guess > _maxNumber)
+                {
+                    Console.WriteLine("Invalid input or out of global range! (attempt not counted).");
+                    continue;
+                }
 
+                attempt++;
+
+                if (guess < _magicNumber)
+                {
+                    Console.WriteLine("Our number is BIGGER");
+                    if (guess >= currentMin) currentMin = guess + 1;
+                }
+                else if (guess > _magicNumber)
+                {
+                    Console.WriteLine("Our number is LESS");
+                    if (guess <= currentMax) currentMax = guess - 1;
+                }
+                else
+                {
+                    isWin = true;
+                }
+            }
+
+            // Финал
+            Console.WriteLine("\n=============================");
+            if (isWin)
+            {
+                Console.WriteLine($"Right! You Win in {attempt} attempts!");
+            }
+            else
+            {
+                Console.WriteLine($"Lose! The secret number was: {_magicNumber}");
+            }
+            Console.WriteLine("=============================");
+        }
     }
 }
