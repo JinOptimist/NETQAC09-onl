@@ -1,2 +1,2 @@
-var game = new GameKirilenko();
-game.MainKirilenkoProgram();
+var game = new GuessNumberGame();
+game.Play();
