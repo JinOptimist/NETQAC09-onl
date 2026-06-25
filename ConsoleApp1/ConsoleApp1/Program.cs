@@ -1,2 +1,4 @@
-var game = new GuessNumberGame();
-game.Play();
+using ConsoleApp1.GuessTheNumberStuff;
+
+var game = new GameDrozd();
+game.Start();
