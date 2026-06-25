@@ -1,10 +1,10 @@
-using System;
+﻿using System;
 
 namespace ConsoleApp1
 {
     public class GameLvou
     {
-        //  Поля класса (состояние игры, к которому есть доступ из любого метода внутри класса)
+        // Поля класса (состояние игры, к которому есть доступ из любого метода внутри класса)
         private int _minNumber;
         private int _maxNumber;
         private int _maxAttempts;
