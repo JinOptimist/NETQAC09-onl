@@ -4,7 +4,7 @@ public abstract class BaseCell
 {
     public int X { get; set; }
     public int Y { get; set; }
-    public Maze Maze { get; set; }
+    public Maze MazeWhereIWasCreated { get; set; }
 
     public abstract char MySymbol { get; }
 

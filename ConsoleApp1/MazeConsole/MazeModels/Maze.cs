@@ -2,13 +2,17 @@
 
 namespace MazeConsole.MazeModels;
 
+// papa
 public class Maze
 {
     public int Width { get; set; }
     public int Height { get; set; }
     
+
     public Player Player { get; set; }
 
+
+    // My child
     public List<BaseCell> Cells { get; set; } = new();
 
     public void ReplaceToCell(BaseCell newCell)
@@ -26,7 +30,7 @@ public class Maze
         {
             X = oldCell.X,
             Y = oldCell.Y,
-            Maze = oldCell.Maze,
+            MazeWhereIWasCreated = oldCell.MazeWhereIWasCreated,
         };
         Cells.Add(ground);
     }

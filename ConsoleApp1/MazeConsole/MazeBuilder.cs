@@ -3,11 +3,11 @@ using MazeConsole.MazeModels.Cells;
 
 public class MazeBuilder
 {
-    private Maze _maze;
+    private Maze _mazeWhichWeBuildRightNow;
 
     public Maze BuildTestMaze(int width = 5, int height = 5)
     {
-        _maze = new Maze
+        _mazeWhichWeBuildRightNow = new Maze
         {
             Width = width,
             Height = height,
@@ -17,7 +17,7 @@ public class MazeBuilder
         BuildGround();
         BuildCoin();
 
-        return _maze;
+        return _mazeWhichWeBuildRightNow;
     }
 
     private void BuildCoin()
@@ -26,34 +26,34 @@ public class MazeBuilder
         {
             X = 1,
             Y = 1,
-            Maze = _maze
+            MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
         };
-        _maze.ReplaceToCell(coin);
+        _mazeWhichWeBuildRightNow.ReplaceToCell(coin);
     }
 
     private void BuildGround()
     {
-        for (int y = 0; y < _maze.Height; y++)
+        for (int y = 0; y < _mazeWhichWeBuildRightNow.Height; y++)
         {
-            var wall = _maze.Cells.First(x => x.X == 1 && x.Y == y);
-            _maze.ReplaceCellToGround(wall);
+            var wall = _mazeWhichWeBuildRightNow.Cells.First(x => x.X == 1 && x.Y == y);
+            _mazeWhichWeBuildRightNow.ReplaceCellToGround(wall);
         }
     }
 
     private void BuildWall()
     {
-        for (int y = 0; y < _maze.Height; y++)
+        for (int y = 0; y < _mazeWhichWeBuildRightNow.Height; y++)
         {
-            for (int x = 0; x < _maze.Width; x++)
+            for (int x = 0; x < _mazeWhichWeBuildRightNow.Width; x++)
             {
                 var cell = new Wall
                 {
                     X = x,
                     Y = y,
-                    Maze = _maze,
+                    MazeWhereIWasCreated = _mazeWhichWeBuildRightNow,
                 };
 
-                _maze.Cells.Add(cell);
+                _mazeWhichWeBuildRightNow.Cells.Add(cell);
             }
         }
     }
