@@ -1,2 +1,2 @@
-var game = new GuessNumberGame();
+var game = new GameParfenov();
 game.Play();
