@@ -4,7 +4,7 @@ namespace ConsoleApp1
 {
     public class GameLvou
     {
-        //  Поля класса (состояние игры, к которому есть доступ из любого метода внутри класса)
+        // Поля класса (их нельзя делать var, C# запрещает var для полей)
         private int _minNumber;
         private int _maxNumber;
         private int _maxAttempts;
@@ -42,7 +42,7 @@ namespace ConsoleApp1
         // 2. Метод для математического расчета попыток
         private void CalculateAttempts()
         {
-            int range = _maxNumber - _minNumber + 1;
+            var range = _maxNumber - _minNumber + 1; // Заменено int -> var
             _maxAttempts = (int)Math.Ceiling(Math.Log2(range));
             Console.WriteLine($"\nBased on your range, maximum attempts: {_maxAttempts}");
         }
@@ -50,7 +50,7 @@ namespace ConsoleApp1
         // 3. Метод выбора режима игры и загадывания числа
         private void SelectGameMode()
         {
-            int gameMode = 0;
+            var gameMode = 0; // Заменено int -> var
             while (gameMode != 1 && gameMode != 2)
             {
                 Console.WriteLine("\nWho will guess the number?");
@@ -61,7 +61,7 @@ namespace ConsoleApp1
 
             if (gameMode == 1)
             {
-                bool isNumber;
+                var isNumber = false; // Заменено bool -> var (с явной инициализацией)
                 do
                 {
                     Console.WriteLine($"\nUser 1. Enter Magic number ({_minNumber} to {_maxNumber}):");
@@ -78,7 +78,7 @@ namespace ConsoleApp1
             }
             else
             {
-                Random random = new Random();
+                var random = new Random(); // Заменено Random -> var
                 _magicNumber = random.Next(_minNumber, _maxNumber + 1);
                 Console.WriteLine("\n[Computer has generated a hidden number!]");
             }
@@ -87,10 +87,10 @@ namespace ConsoleApp1
         // 4. Основной игровой цикл угадывания
         private void PlayGuessingLoop()
         {
-            int currentMin = _minNumber;
-            int currentMax = _maxNumber;
-            int attempt = 0;
-            bool isWin = false;
+            var currentMin = _minNumber; // Заменено int -> var
+            var currentMax = _maxNumber; // Заменено int -> var
+            var attempt = 0;             // Заменено int -> var
+            var isWin = false;           // Заменено bool -> var
 
             while (!isWin && attempt < _maxAttempts)
             {
@@ -98,7 +98,8 @@ namespace ConsoleApp1
                 Console.WriteLine($"Attempt [{attempt + 1} / {_maxAttempts}]");
                 Console.Write("Enter your guess: ");
 
-                if (!int.TryParse(Console.ReadLine(), out int guess) || guess < _minNumber || guess > _maxNumber)
+                // Использован var в out-параметре: out var guess
+                if (!int.TryParse(Console.ReadLine(), out var guess) || guess < _minNumber || guess > _maxNumber)
                 {
                     Console.WriteLine("Invalid input or out of global range! (attempt not counted).");
                     continue;
