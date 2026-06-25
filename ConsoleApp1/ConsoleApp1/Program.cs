@@ -1,2 +1,3 @@
-var lvou = new Lvou();
-lvou.Do();
+using ConsoleApp1;
+
+new GameKorolev().Start();
