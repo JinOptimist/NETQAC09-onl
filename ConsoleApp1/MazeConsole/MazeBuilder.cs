@@ -5,13 +5,15 @@ public class MazeBuilder
 {
     private Maze _mazeWhichWeBuildRightNow;
 
-    public Maze BuildTestMaze(int width = 5, int height = 5)
+    public Maze BuildTestMaze(int width = 12, int height = 9)
     {
         _mazeWhichWeBuildRightNow = new Maze
         {
             Width = width,
             Height = height,
         };
+
+        // var cell = _mazeWhichWeBuildRightNow.Cells.First(x => x is Wall);
 
         BuildWall();
         BuildGround();
