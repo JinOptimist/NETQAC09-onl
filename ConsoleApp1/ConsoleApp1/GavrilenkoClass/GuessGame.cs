@@ -9,20 +9,20 @@ public class GuessGame
     {
         Console.Clear();
 
-        int attempts = (int)Math.Ceiling(Math.Log2(max - min + 1));
+        var attempts = (int)Math.Ceiling(Math.Log2(max - min + 1));
 
-        int currentMin = min;
-        int currentMax = max;
+        var currentMin = min;
+        var currentMax = max;
 
-        int attempt = 0;
-        bool win = false;
+        var attempt = 0;
+        var win = false;
 
         do
         {
             Console.WriteLine($"Range: {currentMin} - {currentMax}");
             Console.WriteLine($"Attempt [{attempt}/{attempts}]");
 
-            int guess = _input.ReadGuess(currentMin, currentMax);
+            var guess = _input.ReadGuess(currentMin, currentMax);
 
             if (guess < secretNumber)
             {

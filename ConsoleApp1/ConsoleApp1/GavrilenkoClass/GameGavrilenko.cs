@@ -15,7 +15,7 @@ public class GameGavrilenko
         var range = _input.ReadRange();//получение диаппазона
         var mode = _input.ReadMode(); // получение режима игры, кто загадывает число
 
-        int secret = _random.Generate(range.Min, range.Max, mode); //получение загаданного числа
+        var secret = _random.Generate(range.Min, range.Max, mode); //получение загаданного числа
 
         _game.StartGame(secret, range.Min, range.Max); //запуск игры
     }

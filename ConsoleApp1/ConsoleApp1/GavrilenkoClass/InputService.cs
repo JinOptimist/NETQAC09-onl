@@ -6,10 +6,10 @@ public class InputService
     public Range ReadRange()//получение диаппазона
     {
         Console.Write("Enter MIN number: ");
-        int min = int.Parse(Console.ReadLine()!);
+        var min = int.Parse(Console.ReadLine()!);
 
         Console.Write("Enter MAX number: ");
-        int max = int.Parse(Console.ReadLine()!);
+        var max = int.Parse(Console.ReadLine()!);
 
         return new Range(min, max); //возврат с введенным знаением
     }
@@ -40,8 +40,9 @@ public class InputService
             Console.WriteLine($"Enter number from {min} to {max}"); //подсказки
 
             if (int.TryParse(Console.ReadLine(), out number))
+            {
                 return number;
-
+            }
             Console.WriteLine("It's not a number");
         }
     }
