@@ -18,6 +18,7 @@ public class MazeBuilder
         BuildWall();
         BuildGround();
         BuildCoin();
+        BuildTree();
 
         return _mazeWhichWeBuildRightNow;
     }
@@ -58,5 +59,15 @@ public class MazeBuilder
                 _mazeWhichWeBuildRightNow.Cells.Add(cell);
             }
         }
+    }
+    private void BuildTree()
+    {
+        var tree = new Tree
+        {
+            X = 2,
+            Y = 1,
+            MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
+        };
+        _mazeWhichWeBuildRightNow.ReplaceToCell(tree);
     }
 }
