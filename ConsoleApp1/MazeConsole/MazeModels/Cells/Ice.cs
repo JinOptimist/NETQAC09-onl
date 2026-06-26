@@ -42,6 +42,4 @@ namespace MazeConsole.MazeModels.Cells
             return true;
         }
     }
-
-
 }
