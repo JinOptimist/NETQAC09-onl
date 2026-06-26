@@ -22,7 +22,7 @@ namespace MazeConsole.MazeModels.Cells
             var moveToX = directionX + X;
             var moveToY = directionY + Y;
 
-           //найти эту ячейку, куда игрок будет скользить
+           //найти эту ячейку, куда игрок будет скользить (спасибо гугл)
             var nextCell = MazeWhereIWasCreated.Cells.First(cell => cell.X == moveToX && cell.Y == moveToY); 
 
             //наступабельная ли найденная ячейка
