@@ -18,8 +18,34 @@ public class MazeBuilder
         BuildWall();
         BuildGround();
         BuildCoin();
+        BuildFlower();
 
         return _mazeWhichWeBuildRightNow;
+    }
+
+    private void BuildFlower()
+    {
+        for (int y = 0; y < _mazeWhichWeBuildRightNow.Height; y++)
+        {
+            for (int x = 0; x < _mazeWhichWeBuildRightNow.Width; x++)
+            {
+                var cell = _mazeWhichWeBuildRightNow.Cells.First(c => c.X == x && c.Y == y);
+                if (cell is not Wall)
+                {
+                    continue;
+                }
+
+                var flower = new Flower
+                {
+                    X = x,
+                    Y = y,
+                    MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
+                };
+                _mazeWhichWeBuildRightNow.ReplaceToCell(flower);
+
+                return;
+            }
+        }
     }
 
     private void BuildCoin()
