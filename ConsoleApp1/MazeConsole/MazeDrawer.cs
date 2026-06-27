@@ -1,5 +1,4 @@
 ﻿using MazeConsole.MazeModels;
-
 public class MazeDrawer
 {
     public void Draw(Maze maze)
