@@ -19,6 +19,7 @@ public class MazeBuilder
         BuildGround();
         BuildCoin();
         BuildAmongus();
+        BuildHealthPotion();
         return _mazeWhichWeBuildRightNow;
     }
 
@@ -69,4 +70,13 @@ public class MazeBuilder
         };
         _mazeWhichWeBuildRightNow.ReplaceToCell(amongus);
     }
+
+    private void BuildHealthPotion()
+    {
+        var healthPotion = new HealthPotion
+        {
+
+        }
+    }
+
 }
