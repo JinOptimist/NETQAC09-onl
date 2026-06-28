@@ -20,6 +20,7 @@ public class MazeBuilder
         BuildCoin();
         BuildIce();
 
+        BuildAmongus();
         return _mazeWhichWeBuildRightNow;
     }
 
@@ -70,5 +71,15 @@ public class MazeBuilder
                 _mazeWhichWeBuildRightNow.Cells.Add(cell);
             }
         }
+    }
+    private void BuildAmongus()
+    {
+        var amongus = new Amongus
+        {
+            X = 6,
+            Y = 7,
+            MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
+        };
+        _mazeWhichWeBuildRightNow.ReplaceToCell(amongus);
     }
 }

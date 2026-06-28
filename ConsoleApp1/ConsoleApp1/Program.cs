@@ -1,2 +1,2 @@
-var atyletskaya = new GameAtyletskaya();
-atyletskaya.Do();
+var game = new GameParfenov();
+game.Play();
