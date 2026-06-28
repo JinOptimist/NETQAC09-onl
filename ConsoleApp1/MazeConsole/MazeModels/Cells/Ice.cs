@@ -22,17 +22,19 @@ namespace MazeConsole.MazeModels.Cells
             var moveToX = directionX + X;
             var moveToY = directionY + Y;
 
-           //найти эту ячейку, куда игрок будет скользить (спасибо гугл)
+           //найти эту ячейку, куда игрок будет скользить
             var nextCell = MazeWhereIWasCreated.Cells.First(cell => cell.X == moveToX && cell.Y == moveToY); 
 
             //наступабельная ли найденная ячейка
             if (nextCell.PlayerStepInMe(player) == false) 
+            //если нет - останавливаемся на нашей ячейке
             {
                 player.X = X;
                 player.Y = Y;
             }
             
             else if (nextCell.PlayerStepInMe(player) == true)
+            //если да - проскальзываем на следующую ячейку
             {
                 player.X = moveToX;
                 player.Y = moveToY;
