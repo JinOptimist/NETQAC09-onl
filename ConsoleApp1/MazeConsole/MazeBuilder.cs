@@ -19,6 +19,7 @@ public class MazeBuilder
         BuildGround();
         BuildCoin();
         BuildAmongus();
+        BuildVodkaBar();
         return _mazeWhichWeBuildRightNow;
     }
 
@@ -68,5 +69,31 @@ public class MazeBuilder
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
         };
         _mazeWhichWeBuildRightNow.ReplaceToCell(amongus);
+    }
+    
+    // ячейка водка-бар
+    private void BuildVodkaBar()
+    {
+        // находим все клетки земли, которые сейчас есть в лабиринте,
+        // размещаться бар будет на земле, чтоб не затереть чужую уникальную точку
+        var groundCells = _mazeWhichWeBuildRightNow.Cells
+            .Where(x => x is Ground)
+            .ToList();
+        
+        if (groundCells.Count > 0)
+        {
+            var random = new Random();
+            var luckyGround = groundCells[random.Next(groundCells.Count)];
+
+            var vodka = new VodkaBar
+            {
+                X = luckyGround.X,
+                Y = luckyGround.Y,
+                MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
+            };
+        
+            // Заменяем эту единственную клетку на наш бар
+            _mazeWhichWeBuildRightNow.ReplaceToCell(vodka);
+        }
     }
 }

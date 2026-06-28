@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="ClassLibrary1/ClassLibrary1.csproj" />
   <Project Path="ConsoleApp1/ConsoleApp1.csproj" />
-  <Project Path="MazeConsole/MazeConsole.csproj" Id="12f5ccf2-9935-44ee-9775-07931b7b69a8" />
+  <Project Path="MazeConsole/MazeConsole.csproj" />
+  <Project Path="oop core/oop core.csproj" />
 </Solution>
