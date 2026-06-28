@@ -19,7 +19,6 @@ public class MazeBuilder
         BuildGround();
         BuildCoin();
         BuildIce();
-
         BuildAmongus();
         return _mazeWhichWeBuildRightNow;
     }
