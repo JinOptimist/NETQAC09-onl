@@ -19,6 +19,7 @@ public class MazeBuilder
         BuildGround();
         BuildCoin();
         BuildAmongus();
+        BuildPortal();
         return _mazeWhichWeBuildRightNow;
     }
 
@@ -69,4 +70,17 @@ public class MazeBuilder
         };
         _mazeWhichWeBuildRightNow.ReplaceToCell(amongus);
     }
+
+    private void BuildPortal()
+    {
+        var portal = new Portal
+        {
+            X = 3, 
+            Y = 4,
+            MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
+        };
+
+        _mazeWhichWeBuildRightNow.ReplaceToCell(portal);
+    }
+
 }
