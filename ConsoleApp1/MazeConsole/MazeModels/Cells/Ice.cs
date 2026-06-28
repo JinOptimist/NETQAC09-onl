@@ -36,7 +36,6 @@ namespace MazeConsole.MazeModels.Cells
             {
                 player.X = moveToX;
                 player.Y = moveToY;
-
             }
         
             return true;
