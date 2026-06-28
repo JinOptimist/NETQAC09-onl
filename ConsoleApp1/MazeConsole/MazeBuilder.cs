@@ -19,6 +19,7 @@ public class MazeBuilder
         BuildGround();
         BuildCoin();
         BuildAmongus();
+        BuildCrater(); //добавлен вызов метода для Ямы task-130
         return _mazeWhichWeBuildRightNow;
     }
 
@@ -68,5 +69,17 @@ public class MazeBuilder
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
         };
         _mazeWhichWeBuildRightNow.ReplaceToCell(amongus);
+    }
+
+    private void BuildCrater() //task-130 создан метод с ячейкой типа Яма и ее координатами
+    {
+        var crater = new Crater
+        {
+            X = 9,
+            Y = 8,
+            MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
+
+        };
+        _mazeWhichWeBuildRightNow.ReplaceToCell(crater);
     }
 }
