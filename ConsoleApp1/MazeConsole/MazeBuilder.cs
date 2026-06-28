@@ -19,6 +19,7 @@ public class MazeBuilder
         BuildGround();
         BuildCoin();
         BuildAmongus();
+        BuildDiamond();
         return _mazeWhichWeBuildRightNow;
     }
 
@@ -69,4 +70,15 @@ public class MazeBuilder
         };
         _mazeWhichWeBuildRightNow.ReplaceToCell(amongus);
     }
+    private void BuildDiamond()
+    {
+        var diamond = new Diamond
+        {
+            X = 8,
+            Y = 8,
+            MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
+        };
+        _mazeWhichWeBuildRightNow.ReplaceToCell(diamond);
+    }
 }
+
