@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
 using System.Text;
 
 namespace ConsoleApp1
 {
-    internal class GuessGame
+    internal class GuessGameLolita
     {
         public void Do()
         {
@@ -49,9 +50,12 @@ namespace ConsoleApp1
             }
             else
             {
+                // 1. Создаем объект нашего нового класса Компьютер
+                var random = new RandomLolita();
 
-                var random = new Random();
-                userMagicNumber = random.Next(MIN_NUMBER, MAX_NUMBER + 1);
+                // 2. Просим его сгенерировать число по правилам
+                userMagicNumber = random.GenerateNumber(MIN_NUMBER, MAX_NUMBER);
+
                 Console.WriteLine("Компьютер загадал число! Нажмите Enter, чтобы начать.");
                 Console.ReadLine();
             }
@@ -61,8 +65,8 @@ namespace ConsoleApp1
             int guess;
             var isWin = false;
 
-            // Создаем объект игрока из первого файла!
-            var player = new Player();
+            // Создаем объект игрока из файла Player
+            var player = new PlayerLolita();
 
             do
             {

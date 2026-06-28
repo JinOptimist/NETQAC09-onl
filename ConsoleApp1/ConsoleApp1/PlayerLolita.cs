@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ConsoleApp1
 {
-    internal class Player
+    internal class PlayerLolita
     {
         // Метод просит пользователя ввести догадку и возвращает её в виде числа
         public int Guess()
