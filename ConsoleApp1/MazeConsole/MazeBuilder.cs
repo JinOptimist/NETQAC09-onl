@@ -19,6 +19,9 @@ public class MazeBuilder
         BuildGround();
         BuildCoin();
         BuildAmongus();
+        BuildMimicChest();
+
+
         return _mazeWhichWeBuildRightNow;
     }
 
@@ -68,5 +71,16 @@ public class MazeBuilder
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
         };
         _mazeWhichWeBuildRightNow.ReplaceToCell(amongus);
+    }
+
+    private void BuildMimicChest()
+    {
+        var mimicChest = new MimicChest
+        {
+            X = 10,
+            Y = 4,
+            MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
+        };
+        _mazeWhichWeBuildRightNow.ReplaceToCell(mimicChest);
     }
 }
