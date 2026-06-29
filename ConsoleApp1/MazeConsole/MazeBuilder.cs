@@ -104,10 +104,17 @@ public class MazeBuilder
 
     private void BuildIce()
     {
+        var crossCenters = _mazeWhichWeBuildRightNow
+            .Cells
+            .Where(x => x is Ground)
+            .Where(x => GetNearCell<Ground>(x).Count == 3)
+            .ToList();
+        var crossCenter = GetRandomFromList(crossCenters);
+
         var ice = new Ice
         {
-            X = 2,
-            Y = 2,
+            X = crossCenter.X,
+            Y = crossCenter.Y,
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
         };
         _mazeWhichWeBuildRightNow.ReplaceToCell(ice);
