@@ -36,6 +36,7 @@ public class MazeBuilder
 
         BuildPlayer();
 
+        BuildPortal();
         return _mazeWhichWeBuildRightNow;
     }
 
@@ -217,4 +218,17 @@ public class MazeBuilder
         var randomCell = cells[randomIndex];
         return randomCell;
     }
+
+    private void BuildPortal()
+    {
+        var portal = new Portal
+        {
+            X = 3, 
+            Y = 4,
+            MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
+        };
+
+        _mazeWhichWeBuildRightNow.ReplaceToCell(portal);
+    }
+
 }
