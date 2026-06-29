@@ -31,6 +31,7 @@ public class MazeBuilder
         BuildTree();
         BuildIce();
         BuildAmongus();
+        BuildThief();
         BuildSnake();
         BuildFlower();
 
@@ -205,6 +206,16 @@ public class MazeBuilder
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
         };
         _mazeWhichWeBuildRightNow.ReplaceToCell(amongus);
+    }
+    private void BuildThief()
+    {
+        var thief = new Thief
+        {
+            X = 4,
+            Y = 4,
+            MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
+        };
+        _mazeWhichWeBuildRightNow.ReplaceToCell(thief);
     }
 
     private void BuildSnake()
