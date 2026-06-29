@@ -11,5 +11,6 @@ public class Thief : BaseCell
             player.Coin = 0;
         }
         return true;
+        
     }
 }
