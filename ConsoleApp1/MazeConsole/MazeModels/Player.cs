@@ -5,6 +5,7 @@ namespace MazeConsole.MazeModels;
 public class Player : BaseCell
 {
     public int Coin { get; set; }
+    public int health { get; set; }
 
     public override char MySymbol => '@';
 
