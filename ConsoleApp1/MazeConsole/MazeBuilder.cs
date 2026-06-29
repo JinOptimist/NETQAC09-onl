@@ -20,7 +20,35 @@ public class MazeBuilder
         BuildCoin();
         BuildAmongus();
         BuildHealthPotion();
+        BuildSnake();
+        BuildFlower();
+
         return _mazeWhichWeBuildRightNow;
+    }
+
+    private void BuildFlower()
+    {
+        for (int y = 0; y < _mazeWhichWeBuildRightNow.Height; y++)
+        {
+            for (int x = 0; x < _mazeWhichWeBuildRightNow.Width; x++)
+            {
+                var cell = _mazeWhichWeBuildRightNow.Cells.First(c => c.X == x && c.Y == y);
+                if (cell is not Wall)
+                {
+                    continue;
+                }
+
+                var flower = new Flower
+                {
+                    X = x,
+                    Y = y,
+                    MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
+                };
+                _mazeWhichWeBuildRightNow.ReplaceToCell(flower);
+
+                return;
+            }
+        }
     }
 
     private void BuildCoin()
@@ -88,4 +116,15 @@ public class MazeBuilder
         _mazeWhichWeBuildRightNow.ReplaceToCell(healthPotion);
     }
 
+    private void BuildSnake()
+    {
+        var snake = new Snake
+        {
+            X = 5,
+            Y = 3,
+            MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
+
+        };
+            _mazeWhichWeBuildRightNow.ReplaceToCell(snake);
+    }
 }
