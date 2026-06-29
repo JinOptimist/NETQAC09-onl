@@ -32,8 +32,8 @@ public class MazeBuilder
         BuildAmongus();
         BuildSnake();
         BuildFlower();
-        
-        
+
+
         BuildPlayer();
 
         return _mazeWhichWeBuildRightNow;
@@ -181,6 +181,8 @@ public class MazeBuilder
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
         };
         _mazeWhichWeBuildRightNow.ReplaceToCell(tree);
+    }
+
     private void BuildAmongus()
     {
         var amongus = new Amongus
