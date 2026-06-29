@@ -24,8 +24,8 @@ namespace MazeConsole.MazeModels.Cells
 
            //найти эту ячейку, куда игрок будет скользить
             var nextCell = MazeWhereIWasCreated.
-                Cells.
-                First(cell => cell.X == moveToX && cell.Y == moveToY); 
+            Cells.
+            First(cell => cell.X == moveToX && cell.Y == moveToY); 
 
             //логику ниже нужно будет перепридумать в зависимости от того, как будет развиваться игра дальше (синергия с другими ячейками и свойствами ячеек, проверить на выезд за пределы лабиринта...)
             //наступабельная ли найденная ячейка
