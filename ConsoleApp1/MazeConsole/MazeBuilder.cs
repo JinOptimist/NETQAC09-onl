@@ -1,12 +1,22 @@
 ﻿using MazeConsole.MazeModels;
 using MazeConsole.MazeModels.Cells;
+using System.Collections.Concurrent;
+using System.Dynamic;
 
 public class MazeBuilder
 {
     private Maze _mazeWhichWeBuildRightNow;
+    private Random _random;
 
-    public Maze BuildTestMaze(int width = 12, int height = 9)
+    public Maze BuildTestMaze(int width = 12, int height = 9, int? seed = null)
     {
+        if (seed == null)
+        {
+            seed = DateTime.Now.Millisecond;
+        }
+        Console.WriteLine(seed);
+        _random = new Random(seed.Value);
+
         _mazeWhichWeBuildRightNow = new Maze
         {
             Width = width,
@@ -21,8 +31,29 @@ public class MazeBuilder
         BuildAmongus();
         BuildSnake();
         BuildFlower();
+        
+        
+        BuildPlayer();
 
         return _mazeWhichWeBuildRightNow;
+    }
+
+    private void BuildPlayer()
+    {
+        var grounds = _mazeWhichWeBuildRightNow
+            .Cells
+            .Where(x => x is Ground)
+            .ToList();
+        var ground = GetRandomFromList(grounds);
+        var player = new Player()
+        {
+            Coin = 1,
+            MazeWhereIWasCreated = _mazeWhichWeBuildRightNow,
+            X = ground.X,
+            Y = ground.Y,
+        };
+
+        _mazeWhichWeBuildRightNow.Player = player;
     }
 
     private void BuildFlower()
@@ -52,10 +83,17 @@ public class MazeBuilder
 
     private void BuildCoin()
     {
+        var deadEnds = _mazeWhichWeBuildRightNow
+            .Cells
+            .Where(x => x is Ground)
+            .Where(x => GetNearCell<Ground>(x).Count == 1)
+            .ToList();
+        var deadEnd = GetRandomFromList(deadEnds);
+
         var coin = new Coin
         {
-            X = 1,
-            Y = 1,
+            X = deadEnd.X,
+            Y = deadEnd.Y,
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
         };
         _mazeWhichWeBuildRightNow.ReplaceToCell(coin);
@@ -63,11 +101,57 @@ public class MazeBuilder
 
     private void BuildGround()
     {
-        for (int y = 0; y < _mazeWhichWeBuildRightNow.Height; y++)
+        var maze = _mazeWhichWeBuildRightNow;
+        var cells = _mazeWhichWeBuildRightNow.Cells;
+
+        var miner = GetRandomFromList(cells);
+        var wallWhichWeCanBreak = new List<BaseCell>();
+
+        while (true)
         {
-            var wall = _mazeWhichWeBuildRightNow.Cells.First(x => x.X == 1 && x.Y == y);
-            _mazeWhichWeBuildRightNow.ReplaceCellToGround(wall);
+            var nearCells = GetNearCell<Wall>(miner);
+            wallWhichWeCanBreak.AddRange(nearCells);
+
+            wallWhichWeCanBreak = wallWhichWeCanBreak
+                .Where(wall => GetNearCell<Ground>(wall).Count < 2)
+                .ToList();
+
+            if (wallWhichWeCanBreak.Any() == false)
+            {
+                break;
+            }
+
+            miner = GetRandomFromList(wallWhichWeCanBreak);
+
+            _mazeWhichWeBuildRightNow.ReplaceCellToGround(miner);
+            wallWhichWeCanBreak.Remove(miner);
+
+            if (wallWhichWeCanBreak.Any() == false)
+            {
+                break;
+            }
         }
+    }
+
+    /// <summary>
+    /// Here we get near cells from maze
+    /// </summary>
+    /// <param name="miner">Current cell</param>
+    /// <returns></returns>
+    private List<BaseCell> GetNearCell<CellType>(BaseCell miner)
+        where CellType : BaseCell // Get only child of BaseCell
+    {
+        var nearCell = _mazeWhichWeBuildRightNow
+            .Cells
+            .Where(cell => cell is CellType)
+            .Where(cell =>
+                cell.X == miner.X && cell.Y == miner.Y + 1
+                || cell.X == miner.X && cell.Y == miner.Y - 1
+                || cell.X == miner.X + 1 && cell.Y == miner.Y
+                || cell.X == miner.X - 1 && cell.Y == miner.Y)
+            .ToList();
+
+        return nearCell;
     }
 
     private void BuildWall()
@@ -107,6 +191,18 @@ public class MazeBuilder
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
 
         };
-            _mazeWhichWeBuildRightNow.ReplaceToCell(snake);
+        _mazeWhichWeBuildRightNow.ReplaceToCell(snake);
+    }
+
+    /// <summary>
+    /// Get random element from list
+    /// </summary>
+    /// <param name="cells"></param>
+    /// <returns></returns>
+    private T GetRandomFromList<T>(List<T> cells)
+    {
+        var randomIndex = _random.Next(cells.Count);
+        var randomCell = cells[randomIndex];
+        return randomCell;
     }
 }

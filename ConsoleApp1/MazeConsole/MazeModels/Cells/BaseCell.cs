@@ -8,10 +8,21 @@ public abstract class BaseCell
 
     public abstract char MySymbol { get; }
 
+    /// <summary>
+    /// Return true if Player can move
+    /// Also do some stuff with you
+    /// </summary>
+    /// <param name="player"></param>
+    /// <returns></returns>
     public abstract bool PlayerStepInMe(Player player);
 
     public string GetMyPosition()
     {
         return $"[{X}, {Y}]";
+    }
+
+    public override string ToString()
+    {
+        return  $"[{X}, {Y}]";
     }
 }

@@ -1,4 +1,5 @@
 ﻿using MazeConsole.MazeModels;
+using MazeConsole.MazeModels.Cells;
 
 public class MazeDrawer
 {
@@ -12,7 +13,24 @@ public class MazeDrawer
 
             for (int x = 0; x < maze.Width; x++)
             {
-                var cell = maze.Cells.First(cell => cell.X == x && cell.Y == y);
+                //BaseCell cell;
+                //if (maze.Player.X == x && maze.Player.Y == y)
+                //{
+                //    cell = maze.Player;
+                //}
+                //else
+                //{
+                //    cell = maze
+                //        .Cells
+                //        .First(cell => cell.X == x && cell.Y == y);
+                //}
+
+                var cell = maze.Player.X == x && maze.Player.Y == y
+                    ? maze.Player
+                    : maze
+                        .Cells
+                        .First(cell => cell.X == x && cell.Y == y);
+
                 Console.Write(cell.MySymbol);
             }
         }
