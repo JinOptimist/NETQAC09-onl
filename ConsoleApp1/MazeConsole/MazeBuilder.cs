@@ -34,7 +34,7 @@ public class MazeBuilder
         BuildThief();
         BuildSnake();
         BuildFlower();
-
+        BuildMimicChest();
 
         BuildPlayer();
 
@@ -252,6 +252,16 @@ public class MazeBuilder
         };
 
         _mazeWhichWeBuildRightNow.ReplaceToCell(portal);
+    }
+    private void BuildMimicChest()
+    {
+        var mimicChest = new MimicChest
+        {
+            X = 10,
+            Y = 4,
+            MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
+        };
+        _mazeWhichWeBuildRightNow.ReplaceToCell(mimicChest);
     }
 
 }
