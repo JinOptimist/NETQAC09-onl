@@ -73,10 +73,19 @@ public class MazeBuilder
 
     private void BuildHealthPotion()
     {
+        var wall = _mazeWhichWeBuildRightNow.Cells.FirstOrDefault(x => x is Wall);
+        if (wall  == null)
+        {
+            return;
+        }
+
         var healthPotion = new HealthPotion
         {
-
-        }
+            X = wall.X,
+            Y = wall.Y,
+            MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
+        };
+        _mazeWhichWeBuildRightNow.ReplaceToCell(healthPotion);
     }
 
 }
