@@ -29,6 +29,7 @@ public class MazeBuilder
         BuildGround();
         BuildCoin();
         BuildTree();
+        BuildIce();
         BuildAmongus();
         BuildSnake();
         BuildFlower();
@@ -99,6 +100,17 @@ public class MazeBuilder
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
         };
         _mazeWhichWeBuildRightNow.ReplaceToCell(coin);
+    }
+
+    private void BuildIce()
+    {
+        var ice = new Ice
+        {
+            X = 2,
+            Y = 2,
+            MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
+        };
+        _mazeWhichWeBuildRightNow.ReplaceToCell(ice);
     }
 
     private void BuildGround()
