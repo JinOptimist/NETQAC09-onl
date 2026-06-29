@@ -19,6 +19,7 @@ public class MazeBuilder
         BuildGround();
         BuildCoin();
         BuildAmongus();
+        BuildSnake();
         BuildFlower();
 
         return _mazeWhichWeBuildRightNow;
@@ -95,5 +96,17 @@ public class MazeBuilder
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
         };
         _mazeWhichWeBuildRightNow.ReplaceToCell(amongus);
+    }
+
+    private void BuildSnake()
+    {
+        var snake = new Snake
+        {
+            X = 5,
+            Y = 3,
+            MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
+
+        };
+            _mazeWhichWeBuildRightNow.ReplaceToCell(snake);
     }
 }
