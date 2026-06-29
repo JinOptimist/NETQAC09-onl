@@ -35,4 +35,15 @@ public class Maze
         Cells.Add(ground);
     }
 
+    public void ReplaceCellToTree(BaseCell oldCell)
+    {
+        Cells.Remove(oldCell);
+        var tree = new Tree
+        {
+            X = oldCell.X,
+            Y = oldCell.Y,
+            MazeWhereIWasCreated = oldCell.MazeWhereIWasCreated,
+        };
+        Cells.Add(tree);
+    }
 }
