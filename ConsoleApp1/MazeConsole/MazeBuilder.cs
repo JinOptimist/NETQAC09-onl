@@ -18,6 +18,7 @@ public class MazeBuilder
         BuildWall();
         BuildGround();
         BuildCoin();
+        BuildTree();
         BuildAmongus();
         BuildSnake();
         BuildFlower();
@@ -87,6 +88,15 @@ public class MazeBuilder
             }
         }
     }
+    private void BuildTree()
+    {
+        var tree = new Tree
+        {
+            X = 2,
+            Y = 1,
+            MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
+        };
+        _mazeWhichWeBuildRightNow.ReplaceToCell(tree);
     private void BuildAmongus()
     {
         var amongus = new Amongus
