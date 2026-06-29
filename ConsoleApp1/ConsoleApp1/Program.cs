@@ -1,2 +1,4 @@
-var Maltsev = new Maltsev();
-Maltsev.Do();
+using ConsoleApp1;
+
+var game = new GameMaltsev();
+game.Do();
