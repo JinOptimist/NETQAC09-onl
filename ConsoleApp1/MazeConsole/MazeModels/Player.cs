@@ -6,6 +6,8 @@ public class Player : BaseCell
 {
     public int Coin { get; set; }
 
+    public int Sand { get; set; }
+
     public override char MySymbol => '@';
 
     public override bool PlayerStepInMe(Player player)

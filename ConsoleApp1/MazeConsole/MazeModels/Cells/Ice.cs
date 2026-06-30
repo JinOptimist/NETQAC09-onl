@@ -10,6 +10,20 @@ namespace MazeConsole.MazeModels.Cells
 
         public override bool PlayerStepInMe(Player player)
         {
+            if (player.Sand > 0)
+            {
+                player.Sand--;
+
+                var dirtCell = new Dirt { X = this.X, Y = this.Y };
+                int replacedToDirt = MazeWhereIWasCreated.Cells.IndexOf(this);
+
+                if (replacedToDirt != -1)
+                {
+                    MazeWhereIWasCreated.Cells[replacedToDirt] = dirtCell;
+                }
+                return true;
+            }
+                
             // 1. Откуда идет игрок
             var directionX = X - player.X;
             var directionY = Y - player.Y;

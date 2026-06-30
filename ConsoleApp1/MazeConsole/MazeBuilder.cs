@@ -33,10 +33,8 @@ public class MazeBuilder
         BuildAmongus();
         BuildSnake();
         BuildFlower();
-
-
         BuildPlayer();
-
+        BuildPileOfSand();
         BuildPortal();
         return _mazeWhichWeBuildRightNow;
     }
@@ -102,24 +100,6 @@ public class MazeBuilder
         _mazeWhichWeBuildRightNow.ReplaceToCell(coin);
     }
 
-    private void BuildIce()
-    {
-        var crossCenters = _mazeWhichWeBuildRightNow
-            .Cells
-            .Where(x => x is Ground)
-            .Where(x => GetNearCell<Ground>(x).Count == 3)
-            .ToList();
-        var crossCenter = GetRandomFromList(crossCenters);
-
-        var ice = new Ice
-        {
-            X = crossCenter.X,
-            Y = crossCenter.Y,
-            MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
-        };
-        _mazeWhichWeBuildRightNow.ReplaceToCell(ice);
-    }
-
     private void BuildGround()
     {
         var maze = _mazeWhichWeBuildRightNow;
@@ -153,6 +133,7 @@ public class MazeBuilder
             }
         }
     }
+
 
     /// <summary>
     /// Here we get near cells from maze
@@ -250,4 +231,37 @@ public class MazeBuilder
         _mazeWhichWeBuildRightNow.ReplaceToCell(portal);
     }
 
+    private void BuildIce()
+    {
+        var crossCenters = _mazeWhichWeBuildRightNow
+            .Cells
+            .Where(x => x is Ground)
+            .Where(x => GetNearCell<Ground>(x).Count == 3)
+            .ToList();
+        var crossCenter = GetRandomFromList(crossCenters);
+
+        var ice = new Ice
+        {
+            X = crossCenter.X,
+            Y = crossCenter.Y,
+            MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
+        };
+        _mazeWhichWeBuildRightNow.ReplaceToCell(ice);
+    }
+
+    private void BuildPileOfSand()
+    {
+        var grounds = _mazeWhichWeBuildRightNow
+            .Cells
+            .Where(x => x is Ground)
+            .ToList();
+        var ground = GetRandomFromList(grounds);
+        var pileOfSand = new PileOfSand
+        {
+            X = ground.X,
+            Y = ground.Y,
+            MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
+        };
+        _mazeWhichWeBuildRightNow.ReplaceToCell(pileOfSand);
+    }
 }
