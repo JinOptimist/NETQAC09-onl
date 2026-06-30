@@ -31,6 +31,7 @@ public class MazeBuilder
         BuildTree();
         BuildIce();
         BuildAmongus();
+        BuildHealthPotion();
         BuildThief();
         BuildSnake();
         BuildFlower();
@@ -216,6 +217,23 @@ public class MazeBuilder
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
         };
         _mazeWhichWeBuildRightNow.ReplaceToCell(thief);
+    }
+
+    private void BuildHealthPotion()
+    {
+        var wall = _mazeWhichWeBuildRightNow.Cells.FirstOrDefault(x => x is Wall);
+        if (wall  == null)
+        {
+            return;
+        }
+
+        var healthPotion = new HealthPotion
+        {
+            X = wall.X,
+            Y = wall.Y,
+            MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
+        };
+        _mazeWhichWeBuildRightNow.ReplaceToCell(healthPotion);
     }
 
     private void BuildSnake()
