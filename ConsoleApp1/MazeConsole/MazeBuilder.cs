@@ -40,6 +40,7 @@ public class MazeBuilder
         BuildPlayer();
 
         BuildPortal();
+        BuildRainbow();
         return _mazeWhichWeBuildRightNow;
     }
 
@@ -272,4 +273,17 @@ public class MazeBuilder
         _mazeWhichWeBuildRightNow.ReplaceToCell(portal);
     }
 
+}
+private void BuildRainbow()
+{
+    // Ставим радугу на координаты (например, x = 4, y = 2)
+    var rainbow = new Rainbow
+    {
+        X = 4,
+        Y = 2,
+        MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
+    };
+
+    // Метод уберет стену в этой точке и подменит её нашей радугой
+    _mazeWhichWeBuildRightNow.ReplaceToCell(rainbow);
 }
