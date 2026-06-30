@@ -224,7 +224,7 @@ public class MazeBuilder
     private void BuildHealthPotion()
     {
         var wall = _mazeWhichWeBuildRightNow.Cells.FirstOrDefault(x => x is Wall);
-        if (wall  == null)
+        if (wall == null)
         {
             return;
         }
@@ -266,7 +266,7 @@ public class MazeBuilder
     {
         var portal = new Portal
         {
-            X = 3, 
+            X = 3,
             Y = 4,
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
         };
@@ -274,19 +274,20 @@ public class MazeBuilder
         _mazeWhichWeBuildRightNow.ReplaceToCell(portal);
     }
 
-}
-private void BuildRainbow()
-{
-    // Ставим радугу на координаты (например, x = 4, y = 2)
-    var rainbow = new Rainbow
-    {
-        X = 4,
-        Y = 2,
-        MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
-    };
 
-    // Метод уберет стену в этой точке и подменит её нашей радугой
-    _mazeWhichWeBuildRightNow.ReplaceToCell(rainbow);
+    private void BuildRainbow()
+    {
+        // Ставим радугу на координаты (например, x = 4, y = 2)
+        var rainbow = new Rainbow
+        {
+            X = 4,
+            Y = 2,
+            MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
+        };
+
+        // Метод уберет стену в этой точке и подменит её нашей радугой
+        _mazeWhichWeBuildRightNow.ReplaceToCell(rainbow);
+    }
 
     private void BuildCrater() //task-130 создан метод с ячейкой типа Яма и ее координатами
     {
