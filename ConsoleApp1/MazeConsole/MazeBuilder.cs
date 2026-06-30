@@ -56,6 +56,8 @@ public class MazeBuilder
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow,
             X = ground.X,
             Y = ground.Y,
+            CurrentHealth = 20,
+            MaxHealth = 20,
         };
 
         _mazeWhichWeBuildRightNow.Player = player;
@@ -200,10 +202,15 @@ public class MazeBuilder
 
     private void BuildAmongus()
     {
+        var anyGrounds = _mazeWhichWeBuildRightNow
+            .Cells
+            .Where(x => x is Ground)
+            .ToList();
+        var anyGround = GetRandomFromList(anyGrounds);
         var amongus = new Amongus
         {
-            X = 6,
-            Y = 7,
+            X = anyGround.X,
+            Y = anyGround.Y,
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
         };
         _mazeWhichWeBuildRightNow.ReplaceToCell(amongus);
