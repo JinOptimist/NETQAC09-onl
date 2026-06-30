@@ -274,16 +274,39 @@ public class MazeBuilder
     }
 
 }
+//private void BuildRainbow()
+//{
+// Ставим радугу на координаты (например, x = 4, y = 2)
+//  var rainbow = new Rainbow
+//{
+//  X = 4,
+//Y = 2,
+//MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
+//};
+
+// Метод уберет стену в этой точке и подменит её нашей радугой
+//  _mazeWhichWeBuildRightNow.ReplaceToCell(rainbow);
+//}
+
 private void BuildRainbow()
 {
-    // Ставим радугу на координаты (например, x = 4, y = 2)
+    // 1. Вытаскиваем список всех клеток земли на карте
+    var grounds = _mazeWhichWeBuildRightNow
+        .Cells
+        .Where(x => x is Ground)
+        .ToList();
+
+    // 2. Выбираем из них одну случайную клетку встроенным методом проекта
+    var randomGround = GetRandomFromList(grounds);
+
+    // 3. Создаем радугу ровно на координатах этой земли
     var rainbow = new Rainbow
     {
-        X = 4,
-        Y = 2,
+        X = randomGround.X,
+        Y = randomGround.Y,
         MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
     };
 
-    // Метод уберет стену в этой точке и подменит её нашей радугой
+    // 4. Подменяем землю на нашу радугу
     _mazeWhichWeBuildRightNow.ReplaceToCell(rainbow);
 }
