@@ -10,17 +10,14 @@ namespace MazeConsole.MazeModels.Cells
 
         public override bool PlayerStepInMe(Player player)
         {
+            // если в инвентаре есть песок, то уменьшаем количество песка в инвентаре и меняем лед на грязь
             if (player.Sand > 0)
             {
                 player.Sand--;
 
                 var dirtCell = new Dirt { X = this.X, Y = this.Y };
-                int replacedToDirt = MazeWhereIWasCreated.Cells.IndexOf(this);
+                MazeWhereIWasCreated.Cells[MazeWhereIWasCreated.Cells.IndexOf(this)] = dirtCell;
 
-                if (replacedToDirt != -1)
-                {
-                    MazeWhereIWasCreated.Cells[replacedToDirt] = dirtCell;
-                }
                 return true;
             }
                 
@@ -50,7 +47,7 @@ namespace MazeConsole.MazeModels.Cells
                 player.Y = Y;
             }
 
-            //?
+            // уличная магия - запрещаем контроллеру двигать игрока, т.к. подвигали сами
             return false;
         }
     }

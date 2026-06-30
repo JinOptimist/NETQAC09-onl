@@ -10,7 +10,11 @@ namespace MazeConsole.MazeModels.Cells
 
         public override bool PlayerStepInMe(Player player)
         {
-            player.Sand++;
+            if (player.Sand < 1)
+            {
+                player.Sand++;
+            }
+
             return true;
         }
     }
