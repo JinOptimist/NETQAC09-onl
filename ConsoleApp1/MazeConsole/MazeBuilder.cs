@@ -41,6 +41,7 @@ public class MazeBuilder
 
         BuildPortal();
         BuildRainbow();
+        BuildCrater(); //добавлен вызов метода для Ямы task-130
         return _mazeWhichWeBuildRightNow;
     }
 
@@ -286,4 +287,16 @@ private void BuildRainbow()
 
     // Метод уберет стену в этой точке и подменит её нашей радугой
     _mazeWhichWeBuildRightNow.ReplaceToCell(rainbow);
+
+    private void BuildCrater() //task-130 создан метод с ячейкой типа Яма и ее координатами
+    {
+        var crater = new Crater
+        {
+            X = 9,
+            Y = 8,
+            MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
+
+        };
+        _mazeWhichWeBuildRightNow.ReplaceToCell(crater);
+    }
 }
