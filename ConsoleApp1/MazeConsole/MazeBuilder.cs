@@ -31,6 +31,7 @@ public class MazeBuilder
         BuildTree();
         BuildIce();
         BuildAmongus();
+        BuildDiamond();
         BuildHealthPotion();
         BuildThief();
         BuildSnake();
