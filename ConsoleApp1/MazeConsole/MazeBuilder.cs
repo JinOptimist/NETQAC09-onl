@@ -31,7 +31,7 @@ public class MazeBuilder
         BuildTree();
         BuildIce();
         BuildAmongus();
-        BuildDiamond();
+        //BuildDiamond();
         BuildHealthPotion();
         BuildThief();
         BuildSnake();
@@ -263,18 +263,6 @@ public class MazeBuilder
         return randomCell;
     }
 
-    private void BuildPortal()
-    {
-        var portal = new Portal
-        {
-            X = 3,
-            Y = 4,
-            MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
-        };
-
-        _mazeWhichWeBuildRightNow.ReplaceToCell(portal);
-    }
-
 
     private void BuildRainbow()
     {
@@ -300,5 +288,21 @@ public class MazeBuilder
 
         };
         _mazeWhichWeBuildRightNow.ReplaceToCell(crater);
+    }
+
+    private void BuildPortal()
+    {
+        
+        var grounds = _mazeWhichWeBuildRightNow.Cells.Where(x => x is Ground).ToList();
+
+        var randomGround = GetRandomFromList(grounds);
+
+        var portal = new Portal
+        {
+            X = randomGround.X,
+            Y = randomGround.Y,
+            MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
+        };
+        _mazeWhichWeBuildRightNow.ReplaceToCell(portal);
     }
 }
