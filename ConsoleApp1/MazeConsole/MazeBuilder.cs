@@ -325,4 +325,3 @@ public class MazeBuilder
         _mazeWhichWeBuildRightNow.ReplaceToCell(pileOfSand);
     }
 }
-}
