@@ -32,6 +32,7 @@ public class MazeBuilder
         BuildIce();
         BuildPileOfSand();
         BuildAmongus();
+        BuildDiamond();
         BuildHealthPotion();
         BuildThief();
         BuildSnake();
@@ -323,5 +324,16 @@ public class MazeBuilder
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
         };
         _mazeWhichWeBuildRightNow.ReplaceToCell(pileOfSand);
+    }
+
+    private void BuildDiamond()
+    {
+        var diamond = new Diamond
+        {
+            X = 8,
+            Y = 8,
+            MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
+        };
+        _mazeWhichWeBuildRightNow.ReplaceToCell(diamond);
     }
 }
