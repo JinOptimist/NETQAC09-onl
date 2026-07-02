@@ -36,7 +36,7 @@ public class MazeBuilder
         BuildThief();
         BuildSnake();
         BuildFlower();
-
+        BuildTreasure();
 
         BuildPlayer();
 
@@ -310,5 +310,22 @@ public class MazeBuilder
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
         };
         _mazeWhichWeBuildRightNow.ReplaceToCell(diamond);
+    }
+    private void BuildTreasure()
+    {
+        var deadEnds = _mazeWhichWeBuildRightNow
+            .Cells
+            .Where(x => x is Ground)
+            .Where(x => GetNearCell<Ground>(x).Count == 1)
+            .ToList();
+        var deadEnd = GetRandomFromList(deadEnds);
+
+        var treasure = new Treasure
+        {
+            X = deadEnd.X,
+            Y = deadEnd.Y,
+            MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
+        };
+        _mazeWhichWeBuildRightNow.ReplaceToCell(treasure);
     }
 }
