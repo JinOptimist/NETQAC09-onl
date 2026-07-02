@@ -8,8 +8,8 @@ public class Player : BaseCell
     public int Coin { get; set; }
     public int HealthPotion { get; set; }
     public int CurrentHealth { get; set; } = MAX_HEALTH;
-    public override char MySymbol => '@';
     public int Sand { get; set; }
+    public override char MySymbol => '@';
 
     public override bool PlayerStepInMe(Player player)
     {
