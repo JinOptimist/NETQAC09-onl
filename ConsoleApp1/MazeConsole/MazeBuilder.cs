@@ -35,9 +35,10 @@ public class MazeBuilder
         BuildHealthPotion();
         BuildThief();
         BuildSnake();
+        BuildFire();
         BuildFlower();
 
-
+        
         BuildPlayer();
 
         BuildPortal();
@@ -64,6 +65,17 @@ public class MazeBuilder
         _mazeWhichWeBuildRightNow.Player = player;
     }
 
+    private void BuildFire()
+    {
+        var fire = new Fire()
+        {
+            X = 8,
+            Y = 2,
+            MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
+        };
+            _mazeWhichWeBuildRightNow.ReplaceToCell(fire);
+    }
+    
     private void BuildFlower()
     {
         for (int y = 0; y < _mazeWhichWeBuildRightNow.Height; y++)
