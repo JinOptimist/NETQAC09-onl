@@ -15,7 +15,7 @@ public class SecretNumberCreator
         bool isSecretNumberValid;
         do
         {
-            Console.WriteLine($"Human creates the number. Please enter secret number from {rangeSettings.MinNumber} to {rangeSettings.MaxNumber}");
+            Console.WriteLine($"Human creates the number. Please enter secret number from {rangeSettings.minNumber} to {rangeSettings.maxNumber}");
             var secretNumberText = Console.ReadLine();
             isSecretNumberValid = int.TryParse(secretNumberText, out secretNumber);
             if (!isSecretNumberValid)
@@ -23,22 +23,22 @@ public class SecretNumberCreator
             {
                 Console.WriteLine("It's not a number");
             }
-            else if (secretNumber < rangeSettings.MinNumber || secretNumber > rangeSettings.MaxNumber)
+            else if (secretNumber < rangeSettings.minNumber || secretNumber > rangeSettings.maxNumber)
 
             {
-                Console.WriteLine($"Wrong choice. Must be from {rangeSettings.MinNumber} to {rangeSettings.MaxNumber}");
+                Console.WriteLine($"Wrong choice. Must be from {rangeSettings.minNumber} to {rangeSettings.maxNumber}");
             }
 
 
 
-        } while (!isSecretNumberValid || secretNumber < rangeSettings.MinNumber || secretNumber > rangeSettings.MaxNumber);
+        } while (!isSecretNumberValid || secretNumber < rangeSettings.minNumber || secretNumber > rangeSettings.maxNumber);
         Console.Clear();
         return secretNumber;
     }
     private int CreateByComputer(GameRangeSettings rangeSettings)
     {
         var random = new Random();
-        var secretNumber = random.Next(rangeSettings.MinNumber, rangeSettings.MaxNumber + 1);
+        var secretNumber = random.Next(rangeSettings.minNumber, rangeSettings.maxNumber + 1);
         Console.WriteLine("Computer creates the number. Start guessing!");
         return secretNumber;
 

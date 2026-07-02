@@ -3,8 +3,8 @@ public class GuessingProcessor
 {
     public bool StartGuessing(GameRangeSettings rangeSettings, int secretNumber)
     {
-        var currentMin = rangeSettings.MinNumber;
-        var currentMax = rangeSettings.MaxNumber;
+        var currentMin = rangeSettings.minNumber;
+        var currentMax = rangeSettings.maxNumber;
         var attempt = 0;
         var isWin = false;
         do
@@ -42,7 +42,7 @@ public class GuessingProcessor
                     isWin = true;
                 }
             }
-        } while (!isWin && attempt < rangeSettings.MaxAttempt);
+        } while (!isWin && attempt < rangeSettings.maxAttempt);
 
         return isWin;
     }

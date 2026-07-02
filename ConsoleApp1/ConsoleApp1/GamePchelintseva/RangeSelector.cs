@@ -45,9 +45,9 @@ public class RangeSelector
 
         return new GameRangeSettings
         {
-            MinNumber = minNumber,
-            MaxNumber = maxNumber,
-            MaxAttempt = maxAttempt
+            minNumber = minNumber,
+            maxNumber = maxNumber,
+            maxAttempt = maxAttempt
         };
     }
 }
