@@ -23,7 +23,7 @@ public class Diamond : BaseCell
             bonusCoins = 1;
         }
 
-        player.Coin += bonusCoins;
+        player.Coin = player.Coin + bonusCoins;
 
         Console.WriteLine($"Ты нашёл алмаз! Ты продал алмаз за {bonusCoins} монет!");
                
