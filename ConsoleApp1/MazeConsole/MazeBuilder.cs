@@ -194,10 +194,15 @@ public class MazeBuilder
 
     private void BuildAmongus()
     {
-        var amongus = new Amongus
+        var anyGrounds = _mazeWhichWeBuildRightNow
+            .Cells
+            .Where(x => x is Ground)
+            .ToList();
+        var anyGround = GetRandomFromList(anyGrounds);
+        var amongus = new Amongus(_random)
         {
-            X = 6,
-            Y = 7,
+            X = anyGround.X,
+            Y = anyGround.Y,
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
         };
         _mazeWhichWeBuildRightNow.ReplaceToCell(amongus);
