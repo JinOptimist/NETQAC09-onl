@@ -44,6 +44,7 @@ public class MazeBuilder
         BuildPortal();
         BuildRainbow();
         BuildCrater(); //добавлен вызов метода для Ямы task-130
+        BuildVodkaBar();
         return _mazeWhichWeBuildRightNow;
     }
 
@@ -335,5 +336,22 @@ public class MazeBuilder
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
         };
         _mazeWhichWeBuildRightNow.ReplaceToCell(diamond);
+    }
+    
+    private void BuildVodkaBar()
+    {
+        // не создаем абы где, берем любую землю, чтобы не затереть другие элементы
+        var grounds = _mazeWhichWeBuildRightNow.Cells.OfType<Ground>().ToList();
+        if (grounds.Any())
+        {
+            var spot = GetRandomFromList(grounds);
+            var bar = new VodkaBar
+            {
+                X = spot.X,
+                Y = spot.Y,
+                MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
+            };
+            _mazeWhichWeBuildRightNow.ReplaceToCell(bar);
+        }
     }
 }
