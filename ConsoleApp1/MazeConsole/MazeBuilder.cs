@@ -301,4 +301,14 @@ public class MazeBuilder
         };
         _mazeWhichWeBuildRightNow.ReplaceToCell(crater);
     }
+    private void BuildDiamond()
+    {
+        var diamond = new Diamond
+        {
+            X = 8,
+            Y = 8,
+            MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
+        };
+        _mazeWhichWeBuildRightNow.ReplaceToCell(diamond);
+    }
 }
