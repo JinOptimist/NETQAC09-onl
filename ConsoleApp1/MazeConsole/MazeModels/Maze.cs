@@ -5,6 +5,7 @@ namespace MazeConsole.MazeModels;
 // papa
 public class Maze
 {
+    public int Seed { get; set; }
     public int Width { get; set; }
     public int Height { get; set; }
     
@@ -27,6 +28,11 @@ public class Maze
 
     public void ReplaceCellToGround(BaseCell oldCell)
     {
+        if (!Cells.Contains(oldCell))
+        {
+            throw new Exception($"There is no oldCell {oldCell}");
+        }
+
         Cells.Remove(oldCell);
         var ground = new Ground
         {

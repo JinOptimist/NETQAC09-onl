@@ -1,7 +1,6 @@
-﻿using MazeConsole.MazeModels;
+﻿using MazeConsole.MazeExceptions;
+using MazeConsole.MazeModels;
 using MazeConsole.MazeModels.Cells;
-using System.Collections.Concurrent;
-using System.Dynamic;
 
 public class MazeBuilder
 {
@@ -21,6 +20,7 @@ public class MazeBuilder
         {
             Width = width,
             Height = height,
+            Seed = seed.Value,
         };
 
         // var cell = _mazeWhichWeBuildRightNow.Cells.First(x => x is Wall);
@@ -50,6 +50,12 @@ public class MazeBuilder
 
     private void BuildPlayer()
     {
+        // 500 is a midle of 0 - 999
+        //if (_mazeWhichWeBuildRightNow.Seed < 500)
+        //{
+        //    throw new MazeBuildException(_mazeWhichWeBuildRightNow.Seed, "Can't crate hero");
+        //}
+
         var grounds = _mazeWhichWeBuildRightNow
             .Cells
             .Where(x => x is Ground)

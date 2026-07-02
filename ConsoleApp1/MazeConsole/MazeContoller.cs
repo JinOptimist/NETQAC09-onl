@@ -5,13 +5,18 @@ namespace MazeConsole;
 public class MazeContoller
 {
     private Maze _maze;
+    private FileLogger _logger;
+
+    public MazeContoller()
+    {
+        _logger = new FileLogger();
+    }
 
     public void Play()
     {
-        var builder = new MazeBuilder();
         var drawer = new MazeDrawer();
-
-        _maze = builder.BuildTestMaze();
+        
+        MazeGeneration();
 
         while (true)
         {
@@ -26,6 +31,28 @@ public class MazeContoller
 
             PerfomAction(userAction);
         }
+    }
+
+    private void MazeGeneration()
+    {
+        var builder = new MazeBuilder();
+
+        var attempt = 0;
+        while (attempt < 3) {
+            try
+            {
+                _maze = builder.BuildTestMaze();
+                return;
+            }
+            catch (Exception ex)
+            {
+                _logger.AddLog(ex.Message);
+            }
+
+            attempt++;
+        }
+
+        throw new Exception($"We try build maze {attempt}. All fail. Read logs");        
     }
 
     private void PerfomAction(UserAction actionWhichUserTryToDo)
@@ -48,7 +75,7 @@ public class MazeContoller
                 destinationX--;
                 break;
             default:
-                break;
+                throw new Exception($"Unkown UserAction {actionWhichUserTryToDo}");
         }
 
         var destinationCell = _maze
@@ -86,6 +113,7 @@ public class MazeContoller
                 case ConsoleKey.DownArrow:
                     return UserAction.StepDown;
                 default:
+                    // no exception
                     break;
             }
         }

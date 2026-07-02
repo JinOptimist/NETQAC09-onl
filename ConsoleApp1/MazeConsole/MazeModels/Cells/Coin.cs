@@ -21,4 +21,3 @@ public class Coin : BaseCell
         return true;
     }
 }
-
