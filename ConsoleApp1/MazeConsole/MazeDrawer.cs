@@ -35,6 +35,10 @@ public class MazeDrawer
             }
         }
 
+        Console.WriteLine();
+        Console.WriteLine();
+        Console.WriteLine($"Health: {maze.Player.Health}/{maze.Player.MaxHealth}   Coins: {maze.Player.Coin}");
+        //тут добавили отступы и отображение текущего ХП и монеток у игрока
 
         //var x1 = 4;
         //var y1 = 7;
