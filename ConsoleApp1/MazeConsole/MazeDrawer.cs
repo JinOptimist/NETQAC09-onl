@@ -6,7 +6,7 @@ public class MazeDrawer
     public void Draw(Maze maze)
     {
         Console.Clear();
-
+        Console.WriteLine($"Player has {maze.Player.Coin} coins and {maze.Player.HealthPotion} Health potions");
         for (int y = 0; y < maze.Height; y++)
         {
             Console.WriteLine();
