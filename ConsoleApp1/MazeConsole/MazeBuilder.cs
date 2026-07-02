@@ -213,10 +213,16 @@ public class MazeBuilder
     }
     private void BuildThief()
     {
+        var thiefPossiblePositions = _mazeWhichWeBuildRightNow
+            .Cells
+            .Where(x => x is Ground)
+            .ToList();
+        var thiefPosition = GetRandomFromList(thiefPossiblePositions);
+        
         var thief = new Thief
         {
-            X = 4,
-            Y = 4,
+            X = thiefPosition.X,
+            Y = thiefPosition.Y,
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
         };
         _mazeWhichWeBuildRightNow.ReplaceToCell(thief);
