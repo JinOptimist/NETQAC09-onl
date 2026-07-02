@@ -29,7 +29,15 @@ public class MazeContoller
                 break;
             }
 
-            PerfomAction(userAction);
+            try
+            {
+                PerfomAction(userAction);
+            }
+            catch (Exception ex)
+            {
+                _logger.AddLog(ex.Message);
+                throw;
+            }
         }
     }
 
