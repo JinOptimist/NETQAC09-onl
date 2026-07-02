@@ -36,10 +36,8 @@ public class MazeBuilder
         BuildThief();
         BuildSnake();
         BuildFlower();
-
-
+        BuildIlyaCell()
         BuildPlayer();
-
         BuildPortal();
         BuildRainbow();
         BuildCrater(); //добавлен вызов метода для Ямы task-130
@@ -310,5 +308,22 @@ public class MazeBuilder
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
         };
         _mazeWhichWeBuildRightNow.ReplaceToCell(diamond);
+    }
+    private void BuildIlyaCell()
+    {
+        var walls = _mazeWhichWeBuildRightNow.Cells
+            .Where(cell => cell is Wall)
+            .ToList();
+
+        var randomWall = GetRandomFromList(walls);
+
+        var ilyaCell = new IlyaCell
+        {
+            X = randomWall.X,
+            Y = randomWall.Y,
+            MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
+        };
+
+        _mazeWhichWeBuildRightNow.ReplaceToCell(ilyaCell);
     }
 }
