@@ -42,7 +42,7 @@ public class MazeBuilder
 
         BuildPortal();
         BuildRainbow();
-        BuildCrater(); //добавлен вызов метода для Ямы task-130
+        BuildCrater(); //добавлен вызов метода для Ямы
         return _mazeWhichWeBuildRightNow;
     }
 
@@ -290,17 +290,24 @@ public class MazeBuilder
         _mazeWhichWeBuildRightNow.ReplaceToCell(rainbow);
     }
 
-    private void BuildCrater() //task-130 создан метод с ячейкой типа Яма и ее координатами
+    private void BuildCrater() //метод с ячейкой типа Яма и произвольным выбором координат
     {
+        var safeWalls = _mazeWhichWeBuildRightNow.Cells
+            .Where(cell => cell is Wall && cell.Y < _mazeWhichWeBuildRightNow.Height - 1)
+            .ToList(); //список ячеек Стена, которые можно использовать для проваливания вниз
+
+        var safeWall = GetRandomFromList(safeWalls);
+
         var crater = new Crater
         {
-            X = 9,
-            Y = 8,
+            X = safeWall.X,
+            Y = safeWall.Y,
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
-
         };
+
         _mazeWhichWeBuildRightNow.ReplaceToCell(crater);
     }
+
     private void BuildDiamond()
     {
         var diamond = new Diamond
