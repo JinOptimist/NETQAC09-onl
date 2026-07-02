@@ -11,6 +11,8 @@ public class Maze
 
     public Player Player { get; set; }
 
+    public List<string> LogMessages { get; set; } = new List<string>();
+
 
     // My child
     public List<BaseCell> Cells { get; set; } = new();
