@@ -44,6 +44,7 @@ public class MazeBuilder
         BuildPortal();
         BuildRainbow();
         BuildCrater(); //добавлен вызов метода для Ямы task-130
+        BuildVodkaBar();
         return _mazeWhichWeBuildRightNow;
     }
 
@@ -193,20 +194,31 @@ public class MazeBuilder
 
     private void BuildAmongus()
     {
-        var amongus = new Amongus
+        var anyGrounds = _mazeWhichWeBuildRightNow
+            .Cells
+            .Where(x => x is Ground)
+            .ToList();
+        var anyGround = GetRandomFromList(anyGrounds);
+        var amongus = new Amongus(_random)
         {
-            X = 6,
-            Y = 7,
+            X = anyGround.X,
+            Y = anyGround.Y,
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
         };
         _mazeWhichWeBuildRightNow.ReplaceToCell(amongus);
     }
     private void BuildThief()
     {
+        var thiefPossiblePositions = _mazeWhichWeBuildRightNow
+            .Cells
+            .Where(x => x is Ground)
+            .ToList();
+        var thiefPosition = GetRandomFromList(thiefPossiblePositions);
+        
         var thief = new Thief
         {
-            X = 4,
-            Y = 4,
+            X = thiefPosition.X,
+            Y = thiefPosition.Y,
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
         };
         _mazeWhichWeBuildRightNow.ReplaceToCell(thief);
@@ -335,5 +347,22 @@ public class MazeBuilder
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
         };
         _mazeWhichWeBuildRightNow.ReplaceToCell(diamond);
+    }
+    
+    private void BuildVodkaBar()
+    {
+        // не создаем абы где, берем любую землю, чтобы не затереть другие элементы
+        var grounds = _mazeWhichWeBuildRightNow.Cells.OfType<Ground>().ToList();
+        if (grounds.Any())
+        {
+            var spot = GetRandomFromList(grounds);
+            var bar = new VodkaBar
+            {
+                X = spot.X,
+                Y = spot.Y,
+                MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
+            };
+            _mazeWhichWeBuildRightNow.ReplaceToCell(bar);
+        }
     }
 }
