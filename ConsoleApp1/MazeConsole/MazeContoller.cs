@@ -17,6 +17,14 @@ public class MazeContoller
         {
             drawer.Draw(_maze);
 
+            if (_maze.Player.Health <= 0)
+            {
+                Console.WriteLine();
+                Console.WriteLine("You died! Game over.");
+                break;
+            }
+            //Если здоровье игрока закончится, то завершаем игру
+
             var userAction = GetUserAction();
 
             if (userAction == UserAction.Exit)
