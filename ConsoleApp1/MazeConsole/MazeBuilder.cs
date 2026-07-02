@@ -214,16 +214,16 @@ public class MazeBuilder
 
     private void BuildHealthPotion()
     {
-        var wall = _mazeWhichWeBuildRightNow.Cells.FirstOrDefault(x => x is Wall);
-        if (wall == null)
-        {
-            return;
-        }
-
+        var randomGrounds = _mazeWhichWeBuildRightNow
+             .Cells
+             .Where(x => x is Ground)
+             .ToList();
+        var randomGround = GetRandomFromList(randomGrounds);
+        
         var healthPotion = new HealthPotion
         {
-            X = wall.X,
-            Y = wall.Y,
+            X = randomGround.X,
+            Y = randomGround.Y,
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
         };
         _mazeWhichWeBuildRightNow.ReplaceToCell(healthPotion);

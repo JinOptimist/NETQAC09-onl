@@ -6,7 +6,7 @@ public class MazeDrawer
     public void Draw(Maze maze)
     {
         Console.Clear();
-
+        
         for (int y = 0; y < maze.Height; y++)
         {
             Console.WriteLine();
@@ -34,7 +34,8 @@ public class MazeDrawer
                 Console.Write(cell.MySymbol);
             }
         }
-
+        
+        Console.WriteLine($"\n\nPlayer has {maze.Player.Coin} coins and {maze.Player.HealthPotion} Health potions");
 
         //var x1 = 4;
         //var y1 = 7;
