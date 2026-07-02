@@ -56,8 +56,6 @@ public class MazeBuilder
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow,
             X = ground.X,
             Y = ground.Y,
-            CurrentHealth = 20,
-            MaxHealth = 20,
         };
 
         _mazeWhichWeBuildRightNow.Player = player;
@@ -207,7 +205,7 @@ public class MazeBuilder
             .Where(x => x is Ground)
             .ToList();
         var anyGround = GetRandomFromList(anyGrounds);
-        var amongus = new Amongus
+        var amongus = new Amongus(_random)
         {
             X = anyGround.X,
             Y = anyGround.Y,
