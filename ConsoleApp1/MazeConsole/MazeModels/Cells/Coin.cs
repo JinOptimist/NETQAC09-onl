@@ -16,7 +16,8 @@ public class Coin : BaseCell
             MazeWhereIWasCreated.ReplaceCellToGround(this);
         }
 
+        MazeWhereIWasCreated.LogMessages.Add("Hey it's a coin");
+
         return true;
     }
 }
-
