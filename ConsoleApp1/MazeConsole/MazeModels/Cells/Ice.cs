@@ -46,12 +46,12 @@ namespace MazeConsole.MazeModels.Cells
             else
             {
                 //корректная логика - не скользим, остаемся на месте
-                //player.X = X;
-                //player.Y = Y;
+                player.X = X;
+                player.Y = Y;
 
                 //сломанная логика - специально для HW6
-                player.X = moveToX;
-                player.Y = moveToY;
+                //player.X = moveToX;
+                //player.Y = moveToY;
             }
 
             // проверка на случай, если игрока перенесло куда-то не туда
