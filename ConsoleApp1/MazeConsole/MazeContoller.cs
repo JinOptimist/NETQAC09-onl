@@ -50,6 +50,8 @@ public class MazeContoller
             try
             {
                 _maze = builder.BuildTestMaze();
+                // раскомментить, если нужен сид в логах
+                //_logger.AddLog($"Maze build success with seed {_maze.Seed}");
                 return;
             }
             catch (Exception ex)
