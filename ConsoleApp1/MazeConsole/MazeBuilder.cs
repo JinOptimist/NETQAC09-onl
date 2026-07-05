@@ -74,26 +74,28 @@ public class MazeBuilder
 
     private void BuildFlower()
     {
-        for (int y = 0; y < _mazeWhichWeBuildRightNow.Height; y++)
+        var maxFlowers = Flower.MAX_FLOWERS + 1; 
+
+        var gounds = _mazeWhichWeBuildRightNow
+               .Cells
+               .Where(x => x is Ground)
+               .ToList();
+
+        BaseCell ground;
+
+        for (int i = 0; i < maxFlowers; i++)
         {
-            for (int x = 0; x < _mazeWhichWeBuildRightNow.Width; x++)
+            ground = GetRandomFromList(gounds);
+            var flower = new Flower
             {
-                var cell = _mazeWhichWeBuildRightNow.Cells.First(c => c.X == x && c.Y == y);
-                if (cell is not Wall)
-                {
-                    continue;
-                }
+                X = ground.X,
+                Y = ground.Y,
+                MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
+            };
 
-                var flower = new Flower
-                {
-                    X = x,
-                    Y = y,
-                    MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
-                };
-                _mazeWhichWeBuildRightNow.ReplaceToCell(flower);
+            _mazeWhichWeBuildRightNow.ReplaceToCell(flower);
 
-                return;
-            }
+            gounds.Remove(ground);
         }
     }
 
@@ -220,7 +222,7 @@ public class MazeBuilder
             .Where(x => x is Ground)
             .ToList();
         var thiefPosition = GetRandomFromList(thiefPossiblePositions);
-        
+
         var thief = new Thief
         {
             X = thiefPosition.X,
@@ -237,7 +239,7 @@ public class MazeBuilder
              .Where(x => x is Ground)
              .ToList();
         var randomGround = GetRandomFromList(randomGrounds);
-        
+
         var healthPotion = new HealthPotion
         {
             X = randomGround.X,
@@ -354,7 +356,7 @@ public class MazeBuilder
         };
         _mazeWhichWeBuildRightNow.ReplaceToCell(diamond);
     }
-    
+
     private void BuildVodkaBar()
     {
         // не создаем абы где, берем любую землю, чтобы не затереть другие элементы

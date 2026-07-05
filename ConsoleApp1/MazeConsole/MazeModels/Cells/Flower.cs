@@ -1,23 +1,37 @@
-﻿namespace MazeConsole.MazeModels.Cells;
+﻿using MazeConsole.MazeExceptions;
 
+namespace MazeConsole.MazeModels.Cells;
 
 public class Flower : BaseCell
 {
+    public const int MAX_FLOWERS = 3;
     public override char MySymbol => '*';
 
     public override bool PlayerStepInMe(Player player)
     {
-        player.HealthPotion++;
+        CheckFlowersLimit(player);
 
-        MazeWhereIWasCreated.ReplaceToCell(
-            new Ground
-            {
-                X = X,
-                Y = Y,
-                MazeWhereIWasCreated = MazeWhereIWasCreated
-            });
+        if (player.Flowers < MAX_FLOWERS)
+        {
+            player.Flowers++;
+            MazeWhereIWasCreated.LogMessages.Add($"You found a flower! 🌸 {player.Flowers}/{MAX_FLOWERS}");
+        }
+        else
+        {
+            MazeWhereIWasCreated.LogMessages.Add($"You found a flower, but your limit is reached ({MAX_FLOWERS}/{MAX_FLOWERS}).");
+            return true;
+        }
+
+        MazeWhereIWasCreated.ReplaceCellToGround(this);
 
         return true;
     }
-}
 
+    private void CheckFlowersLimit(Player player)
+    {
+        if (player.Flowers < 0 || player.Flowers > MAX_FLOWERS)
+        {
+            throw new FlowerLimitException($"Cell Flower {GetMyPosition()}, LimitException: Player has {player.Flowers} flowers, but limit is {MAX_FLOWERS}");
+        }
+    }
+}
