@@ -373,12 +373,17 @@ public class MazeBuilder
 
     private void BuildStarbucks()
     {
+        var random = new Random();
+        int x = random.Next(2, _mazeWhichWeBuildRightNow.Width);
+        int y = random.Next(0, _mazeWhichWeBuildRightNow.Height);
+
         var starbucks = new Starbucks
         {
-            X = 3,
-            Y = 3,
+            X = x,
+            Y = y,
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
         };
         _mazeWhichWeBuildRightNow.ReplaceToCell(starbucks);
     }
+    
 }
