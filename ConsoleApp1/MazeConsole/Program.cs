@@ -1,5 +1,12 @@
-﻿var builder = new MazeBuilder();
-var maze = builder.BuildTestMaze();
+﻿using MazeConsole;
 
-var drawer = new MazeDrawer();
-drawer.Draw(maze);
+var controller = new MazeContoller();
+
+try
+{
+    controller.Play();
+}
+catch(Exception ex)
+{
+    Console.WriteLine("Sorry. We are fail");
+}
