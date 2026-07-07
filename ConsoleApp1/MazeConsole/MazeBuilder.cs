@@ -36,6 +36,7 @@ public class MazeBuilder
         BuildThief();
         BuildSnake();
         BuildFlower();
+        BuildPaidDoor();
 
 
         BuildPlayer();
@@ -310,5 +311,30 @@ public class MazeBuilder
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
         };
         _mazeWhichWeBuildRightNow.ReplaceToCell(diamond);
+    }
+
+    private void BuildPaidDoor()
+    {
+        var wallsNearGround = _mazeWhichWeBuildRightNow
+            .Cells
+            .Where(cell => cell is Wall)
+            .Where(cell => _mazeWhichWeBuildRightNow.Cells.Any(nearCell =>
+                nearCell is Ground
+                && (nearCell.X == cell.X + 1 && nearCell.Y == cell.Y
+                    || nearCell.X == cell.X - 1 && nearCell.Y == cell.Y
+                    || nearCell.X == cell.X && nearCell.Y == cell.Y + 1
+                    || nearCell.X == cell.X && nearCell.Y == cell.Y - 1)))
+            .ToList();
+
+        var wall = GetRandomFromList(wallsNearGround);
+
+        var paidDoor = new PaidDoor
+        {
+            X = wall.X,
+            Y = wall.Y,
+            MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
+        };
+
+        _mazeWhichWeBuildRightNow.ReplaceToCell(paidDoor);
     }
 }
