@@ -19,6 +19,7 @@ public class MazeBuilder
         BuildGround();
         BuildCoin();
         BuildAmongus();
+        BuildPaidDoor();
         return _mazeWhichWeBuildRightNow;
     }
 
@@ -68,5 +69,17 @@ public class MazeBuilder
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
         };
         _mazeWhichWeBuildRightNow.ReplaceToCell(amongus);
+    }
+
+    private void BuildPaidDoor()
+    {
+        var paidDoor = new PaidDoor
+        {
+            X = 3,
+            Y = 3,
+            MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
+        };
+
+        _mazeWhichWeBuildRightNow.ReplaceToCell(paidDoor);
     }
 }
