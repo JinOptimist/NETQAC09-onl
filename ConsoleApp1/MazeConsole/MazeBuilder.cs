@@ -1,7 +1,6 @@
-﻿using MazeConsole.MazeModels;
+﻿using MazeConsole.MazeExceptions;
+using MazeConsole.MazeModels;
 using MazeConsole.MazeModels.Cells;
-using System.Collections.Concurrent;
-using System.Dynamic;
 
 public class MazeBuilder
 {
@@ -21,6 +20,7 @@ public class MazeBuilder
         {
             Width = width,
             Height = height,
+            Seed = seed.Value,
         };
 
         // var cell = _mazeWhichWeBuildRightNow.Cells.First(x => x is Wall);
@@ -30,6 +30,7 @@ public class MazeBuilder
         BuildCoin();
         BuildTree();
         BuildIce();
+        BuildPileOfSand();
         BuildAmongus();
         BuildDiamond();
         BuildHealthPotion();
@@ -43,11 +44,18 @@ public class MazeBuilder
         BuildPortal();
         BuildRainbow();
         BuildCrater(); //добавлен вызов метода для Ямы task-130
+        BuildVodkaBar();
         return _mazeWhichWeBuildRightNow;
     }
 
     private void BuildPlayer()
     {
+        // 500 is a midle of 0 - 999
+        //if (_mazeWhichWeBuildRightNow.Seed < 500)
+        //{
+        //    throw new MazeBuildException(_mazeWhichWeBuildRightNow.Seed, "Can't crate hero");
+        //}
+
         var grounds = _mazeWhichWeBuildRightNow
             .Cells
             .Where(x => x is Ground)
@@ -105,17 +113,6 @@ public class MazeBuilder
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
         };
         _mazeWhichWeBuildRightNow.ReplaceToCell(coin);
-    }
-
-    private void BuildIce()
-    {
-        var ice = new Ice
-        {
-            X = 2,
-            Y = 2,
-            MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
-        };
-        _mazeWhichWeBuildRightNow.ReplaceToCell(ice);
     }
 
     private void BuildGround()
@@ -203,20 +200,31 @@ public class MazeBuilder
 
     private void BuildAmongus()
     {
-        var amongus = new Amongus
+        var anyGrounds = _mazeWhichWeBuildRightNow
+            .Cells
+            .Where(x => x is Ground)
+            .ToList();
+        var anyGround = GetRandomFromList(anyGrounds);
+        var amongus = new Amongus(_random)
         {
-            X = 6,
-            Y = 7,
+            X = anyGround.X,
+            Y = anyGround.Y,
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
         };
         _mazeWhichWeBuildRightNow.ReplaceToCell(amongus);
     }
     private void BuildThief()
     {
+        var thiefPossiblePositions = _mazeWhichWeBuildRightNow
+            .Cells
+            .Where(x => x is Ground)
+            .ToList();
+        var thiefPosition = GetRandomFromList(thiefPossiblePositions);
+        
         var thief = new Thief
         {
-            X = 4,
-            Y = 4,
+            X = thiefPosition.X,
+            Y = thiefPosition.Y,
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
         };
         _mazeWhichWeBuildRightNow.ReplaceToCell(thief);
@@ -224,16 +232,16 @@ public class MazeBuilder
 
     private void BuildHealthPotion()
     {
-        var wall = _mazeWhichWeBuildRightNow.Cells.FirstOrDefault(x => x is Wall);
-        if (wall == null)
-        {
-            return;
-        }
-
+        var randomGrounds = _mazeWhichWeBuildRightNow
+             .Cells
+             .Where(x => x is Ground)
+             .ToList();
+        var randomGround = GetRandomFromList(randomGrounds);
+        
         var healthPotion = new HealthPotion
         {
-            X = wall.X,
-            Y = wall.Y,
+            X = randomGround.X,
+            Y = randomGround.Y,
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
         };
         _mazeWhichWeBuildRightNow.ReplaceToCell(healthPotion);
@@ -290,17 +298,58 @@ public class MazeBuilder
         _mazeWhichWeBuildRightNow.ReplaceToCell(rainbow);
     }
 
-    private void BuildCrater() //task-130 создан метод с ячейкой типа Яма и ее координатами
+    private void BuildCrater() //метод с ячейкой типа Яма и произвольным выбором координат
     {
+        var safeWalls = _mazeWhichWeBuildRightNow.Cells
+            .Where(cell => cell is Wall && cell.Y < _mazeWhichWeBuildRightNow.Height - 1)
+            .ToList(); //список ячеек Стена, которые можно использовать для проваливания вниз
+
+        var safeWall = GetRandomFromList(safeWalls);
+
         var crater = new Crater
         {
-            X = 9,
-            Y = 8,
+            X = safeWall.X,
+            Y = safeWall.Y,
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
-
         };
+
         _mazeWhichWeBuildRightNow.ReplaceToCell(crater);
     }
+
+    private void BuildIce()
+    {
+        var crossCenters = _mazeWhichWeBuildRightNow
+            .Cells
+            .Where(x => x is Ground)
+            .Where(x => GetNearCell<Ground>(x).Count == 3)
+            .ToList();
+        var crossCenter = GetRandomFromList(crossCenters);
+
+        var ice = new Ice
+        {
+            X = crossCenter.X,
+            Y = crossCenter.Y,
+            MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
+        };
+        _mazeWhichWeBuildRightNow.ReplaceToCell(ice);
+    }
+
+    private void BuildPileOfSand()
+    {
+        var grounds = _mazeWhichWeBuildRightNow
+            .Cells
+            .Where(x => x is Ground)
+            .ToList();
+        var ground = GetRandomFromList(grounds);
+        var pileOfSand = new PileOfSand
+        {
+            X = ground.X,
+            Y = ground.Y,
+            MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
+        };
+        _mazeWhichWeBuildRightNow.ReplaceToCell(pileOfSand);
+    }
+
     private void BuildDiamond()
     {
         var grounds = _mazeWhichWeBuildRightNow
@@ -324,5 +373,22 @@ public class MazeBuilder
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
         };
         _mazeWhichWeBuildRightNow.ReplaceToCell(diamond);
+    }
+    
+    private void BuildVodkaBar()
+    {
+        // не создаем абы где, берем любую землю, чтобы не затереть другие элементы
+        var grounds = _mazeWhichWeBuildRightNow.Cells.OfType<Ground>().ToList();
+        if (grounds.Any())
+        {
+            var spot = GetRandomFromList(grounds);
+            var bar = new VodkaBar
+            {
+                X = spot.X,
+                Y = spot.Y,
+                MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
+            };
+            _mazeWhichWeBuildRightNow.ReplaceToCell(bar);
+        }
     }
 }
