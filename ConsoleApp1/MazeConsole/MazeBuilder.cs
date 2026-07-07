@@ -366,7 +366,7 @@ public class MazeBuilder
             ? GetRandomFromList(deadEnds)
             : GetRandomFromList(grounds);
 
-        var diamond = new Diamond
+        var diamond = new Diamond(_random)
         {
             X = placeForDiamond.X,
             Y = placeForDiamond.Y,
