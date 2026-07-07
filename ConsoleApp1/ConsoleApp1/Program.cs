@@ -1,2 +1,2 @@
-var game = new GameParfenov();
-game.Play();
+var Maltsev = new Maltsev();
+Maltsev.Do();
