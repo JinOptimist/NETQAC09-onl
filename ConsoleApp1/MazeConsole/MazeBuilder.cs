@@ -352,10 +352,24 @@ public class MazeBuilder
 
     private void BuildDiamond()
     {
-        var diamond = new Diamond
+        var grounds = _mazeWhichWeBuildRightNow
+            .Cells
+            .Where(x => x is Ground)
+            .ToList();
+               
+        var deadEnds = grounds
+            .Where(x => GetNearCell<Ground>(x).Count == 1)
+            .ToList();
+
+        // если свободных тупиков нет - берём случайную клетку земли (запасной вариант)
+        var placeForDiamond = deadEnds.Any()
+            ? GetRandomFromList(deadEnds)
+            : GetRandomFromList(grounds);
+
+        var diamond = new Diamond(_random)
         {
-            X = 8,
-            Y = 8,
+            X = placeForDiamond.X,
+            Y = placeForDiamond.Y,
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
         };
         _mazeWhichWeBuildRightNow.ReplaceToCell(diamond);
