@@ -314,27 +314,30 @@ public class MazeBuilder
     }
 
     private void BuildPaidDoor()
-    {
-        var wallsNearGround = _mazeWhichWeBuildRightNow
-            .Cells
+    {   //берем все
+        var wallsNearGround = _mazeWhichWeBuildRightNow.Cells
+            //фильтруем стены
             .Where(cell => cell is Wall)
-            .Where(cell => _mazeWhichWeBuildRightNow.Cells.Any(nearCell =>
-                nearCell is Ground
+            //проверяем рядом землю
+            .Where(cell => _mazeWhichWeBuildRightNow.Cells.Any(nearCell => nearCell is Ground
                 && (nearCell.X == cell.X + 1 && nearCell.Y == cell.Y
                     || nearCell.X == cell.X - 1 && nearCell.Y == cell.Y
                     || nearCell.X == cell.X && nearCell.Y == cell.Y + 1
-                    || nearCell.X == cell.X && nearCell.Y == cell.Y - 1)))
+                    || nearCell.X == cell.X && nearCell.Y == cell.Y - 1)
+                    )
+            )
             .ToList();
-
+        //выбираем стену из списка
         var wall = GetRandomFromList(wallsNearGround);
 
+        //ставим
         var paidDoor = new PaidDoor
         {
             X = wall.X,
             Y = wall.Y,
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
         };
-
+        //меняем
         _mazeWhichWeBuildRightNow.ReplaceToCell(paidDoor);
     }
 }
