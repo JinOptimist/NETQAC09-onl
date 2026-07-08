@@ -249,10 +249,16 @@ public class MazeBuilder
 
     private void BuildSnake()
     {
+
+        var grounds = _mazeWhichWeBuildRightNow
+            .Cells
+            .Where(x => x is Ground && GetNearCell<Wall>(x).Count < 3)
+            .ToList();
+        var snakenest = GetRandomFromList(grounds);
         var snake = new Snake
         {
-            X = 5,
-            Y = 3,
+            X = snakenest.X,
+            Y = snakenest.Y,
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
 
         };
@@ -298,15 +304,21 @@ public class MazeBuilder
         _mazeWhichWeBuildRightNow.ReplaceToCell(rainbow);
     }
 
-    private void BuildCrater() //task-130 создан метод с ячейкой типа Яма и ее координатами
+    private void BuildCrater() //метод с ячейкой типа Яма и произвольным выбором координат
     {
+        var safeWalls = _mazeWhichWeBuildRightNow.Cells
+            .Where(cell => cell is Wall && cell.Y < _mazeWhichWeBuildRightNow.Height - 1)
+            .ToList(); //список ячеек Стена, которые можно использовать для проваливания вниз
+
+        var safeWall = GetRandomFromList(safeWalls);
+
         var crater = new Crater
         {
-            X = 9,
-            Y = 8,
+            X = safeWall.X,
+            Y = safeWall.Y,
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
-
         };
+
         _mazeWhichWeBuildRightNow.ReplaceToCell(crater);
     }
 
@@ -346,10 +358,24 @@ public class MazeBuilder
 
     private void BuildDiamond()
     {
-        var diamond = new Diamond
+        var grounds = _mazeWhichWeBuildRightNow
+            .Cells
+            .Where(x => x is Ground)
+            .ToList();
+               
+        var deadEnds = grounds
+            .Where(x => GetNearCell<Ground>(x).Count == 1)
+            .ToList();
+
+        // если свободных тупиков нет - берём случайную клетку земли (запасной вариант)
+        var placeForDiamond = deadEnds.Any()
+            ? GetRandomFromList(deadEnds)
+            : GetRandomFromList(grounds);
+
+        var diamond = new Diamond(_random)
         {
-            X = 8,
-            Y = 8,
+            X = placeForDiamond.X,
+            Y = placeForDiamond.Y,
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
         };
         _mazeWhichWeBuildRightNow.ReplaceToCell(diamond);

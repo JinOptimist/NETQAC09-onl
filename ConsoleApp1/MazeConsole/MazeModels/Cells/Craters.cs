@@ -7,7 +7,9 @@
 
         public override bool PlayerStepInMe(Player player)
         {
-            return false;
+            player.Y++;
+            player.Coin--;
+            return true;
         }
     }
 }
