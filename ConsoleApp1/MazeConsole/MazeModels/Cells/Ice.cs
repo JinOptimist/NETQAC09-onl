@@ -9,6 +9,7 @@ namespace MazeConsole.MazeModels.Cells
     public class Ice : BaseCell
     {
         public override char MySymbol => '=';
+        public override ConsoleColor Color => ConsoleColor.Cyan;
 
         public override bool PlayerStepInMe(Player player)
         {

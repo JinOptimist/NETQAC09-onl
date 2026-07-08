@@ -7,6 +7,7 @@ public abstract class BaseCell
     public Maze MazeWhereIWasCreated { get; set; }
 
     public abstract char MySymbol { get; }
+    public virtual ConsoleColor Color => ConsoleColor.White;
 
     /// <summary>
     /// Return true if Player can move
