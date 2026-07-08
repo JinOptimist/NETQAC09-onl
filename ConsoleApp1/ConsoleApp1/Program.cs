@@ -1,2 +1,4 @@
-var game = new GameParfenov();
-game.Play();
+using ConsoleApp1;
+
+var game = new GameMaltsev();
+game.Do();
