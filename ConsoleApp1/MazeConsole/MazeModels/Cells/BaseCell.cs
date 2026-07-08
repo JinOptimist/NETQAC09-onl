@@ -7,6 +7,8 @@ public abstract class BaseCell
     public Maze MazeWhereIWasCreated { get; set; }
 
     public abstract char MySymbol { get; }
+
+    // добавлен дефолтный цвет клетки - белый, чтобы ничего не поменялось по дефолтну
     public virtual ConsoleColor Color => ConsoleColor.White;
 
     /// <summary>
