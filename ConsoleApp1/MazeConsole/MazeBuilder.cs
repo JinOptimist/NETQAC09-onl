@@ -21,6 +21,7 @@ public class MazeBuilder
             Width = width,
             Height = height,
             Seed = seed.Value,
+            Random = _random
         };
 
         // var cell = _mazeWhichWeBuildRightNow.Cells.First(x => x is Wall);
