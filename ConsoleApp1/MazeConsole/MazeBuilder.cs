@@ -37,6 +37,7 @@ public class MazeBuilder
         BuildThief();
         BuildSnake();
         BuildFlower();
+        BuildStarbucks();
 
 
         BuildPlayer();
@@ -195,9 +196,7 @@ public class MazeBuilder
             Y = 1,
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
         };
-        _mazeWhichWeBuildRightNow.ReplaceToCell(tree);
-    }
-
+        _mazeWhichWeBuildRightNow.ReplaceToCell(tree);}
     private void BuildAmongus()
     {
         var anyGrounds = _mazeWhichWeBuildRightNow
@@ -396,5 +395,16 @@ public class MazeBuilder
             };
             _mazeWhichWeBuildRightNow.ReplaceToCell(bar);
         }
+    }
+
+    private void BuildStarbucks()
+    {
+        var starbucks = new Starbucks
+        {
+            X = 3,
+            Y = 3,
+            MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
+        };
+        _mazeWhichWeBuildRightNow.ReplaceToCell(starbucks);
     }
 }
