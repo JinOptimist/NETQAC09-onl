@@ -18,16 +18,27 @@ public class Snake : BaseCell
     {
         var oldNest = MazeWhereIWasCreated.Cells.First(x => x is Snake);
         MazeWhereIWasCreated.ReplaceCellToGround(oldNest);
-        if (snakeMeets < 3)
+        List<BaseCell> newNest = new List<BaseCell>();
+        var randomCell = 0;
+
+        try
         {
-        Console.WriteLine("You've scared the snake! And she has scared you!");// Сейчас печатается и сразу стирается при отображении нового лабиринта. Сделать общий метод для вывода сообщений и выводить там
-        var newNest = MazeWhereIWasCreated.Cells.Where(x => x is Ground && !(x.X == oldNest.X && x.Y == oldNest.Y)).ToList();
-        var randomCell = random.Next(newNest.Count);
-        MazeWhereIWasCreated.ReplaceCellToSnake(newNest[randomCell]);  
+        newNest = MazeWhereIWasCreated.Cells.Where(x => x is Ground && !(x.X == oldNest.X && x.Y == oldNest.Y)).ToList();
+        randomCell = random.Next(newNest.Count);
+        }
+        catch
+        {
+        Console.WriteLine("Not enough free spaces for a snake!");
+        }
+        
+        if (snakeMeets < 3 && newNest.Count > 0)
+        {
+        MazeWhereIWasCreated.ReplaceCellToSnake(newNest[randomCell]);
+        MazeWhereIWasCreated.LogMessages.Add("You've scared the snake! And she has scared you!");
         }
         else
         {
-        Console.WriteLine("This is a bad neighborhood. Snake is moving out for good.");
+        MazeWhereIWasCreated.LogMessages.Add("This is a bad neighborhood. Snake is moving out for good.");
         }
     }
 }
