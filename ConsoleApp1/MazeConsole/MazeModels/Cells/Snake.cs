@@ -4,7 +4,7 @@ public class Snake : BaseCell
 {
     public override char MySymbol => 'S';
 
-    private Random _random;
+    private Random _random = new Random();
   
     public override bool PlayerStepInMe(Player player)
     {
