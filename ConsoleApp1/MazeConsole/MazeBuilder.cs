@@ -249,10 +249,16 @@ public class MazeBuilder
 
     private void BuildSnake()
     {
+
+        var grounds = _mazeWhichWeBuildRightNow
+            .Cells
+            .Where(x => x is Ground && GetNearCell<Wall>(x).Count < 3)
+            .ToList();
+        var snakenest = GetRandomFromList(grounds);
         var snake = new Snake
         {
-            X = 5,
-            Y = 3,
+            X = snakenest.X,
+            Y = snakenest.Y,
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
 
         };
