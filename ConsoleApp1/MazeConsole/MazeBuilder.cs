@@ -37,6 +37,7 @@ public class MazeBuilder
         BuildThief();
         BuildSnake();
         BuildFlower();
+        BuildMimicChest();
 
 
         BuildPlayer();
@@ -396,5 +397,53 @@ public class MazeBuilder
             };
             _mazeWhichWeBuildRightNow.ReplaceToCell(bar);
         }
+    }
+    private void BuildMimicChest()
+    {
+        var maze = _mazeWhichWeBuildRightNow;
+
+        // Клетка считается "периметром", если она находится в крайней строке или крайнем столбце лабиринта (X == 0, X == Width-1, Y == 0, Y == Height-1).
+        bool IsPerimeter(BaseCell cell) =>
+            cell.X == 0 || cell.X == maze.Width - 1
+            || cell.Y == 0 || cell.Y == maze.Height - 1;
+
+        // Основной вариант: земля, которая одновременно 1) лежит на периметре лабиринта 2) стоит рядом со стеной
+        var perimeterGroundsNearWall = maze
+            .Cells
+            .Where(x => x is Ground)
+            .Where(IsPerimeter)
+            .Where(x => GetNearCell<Wall>(x).Count > 0)
+            .ToList();
+
+        // Запасной вариант 1: если по периметру рядом со стеной ничего не нашлось, просто берём любую землю на периметре
+        var fallbackCandidates = perimeterGroundsNearWall.Any()
+            ? perimeterGroundsNearWall
+            : maze.Cells.Where(x => x is Ground).Where(IsPerimeter).ToList();
+
+        // Запасной вариант 2: если на периметре вообще нет земли (если застроили внешний контур целиком стенами), берём любую доступную землю рядом со стеной.
+        if (fallbackCandidates.Any() == false)
+        {
+            fallbackCandidates = maze
+                .Cells
+                .Where(x => x is Ground)
+                .Where(x => GetNearCell<Wall>(x).Count > 0)
+                .ToList();
+        }
+
+        // Запасной вариант 3:  любая земля вообще
+        if (fallbackCandidates.Any() == false)
+        {
+            fallbackCandidates = maze.Cells.Where(x => x is Ground).ToList();
+        }
+
+        var cell = GetRandomFromList(fallbackCandidates);
+
+        var mimicChest = new MimicChest
+        {
+            X = cell.X,
+            Y = cell.Y,
+            MazeWhereIWasCreated = maze
+        };
+        maze.ReplaceToCell(mimicChest);
     }
 }
