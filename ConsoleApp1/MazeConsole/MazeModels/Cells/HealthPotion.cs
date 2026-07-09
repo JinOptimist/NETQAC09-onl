@@ -8,6 +8,7 @@ public class HealthPotion : BaseCell
     public override bool PlayerStepInMe(Player player)
     {
         player.HealthPotion++;
+        MazeWhereIWasCreated.ReplaceCellToGround(this);
         return true;
     }
 }

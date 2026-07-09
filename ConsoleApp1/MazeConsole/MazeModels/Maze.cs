@@ -5,11 +5,14 @@ namespace MazeConsole.MazeModels;
 // papa
 public class Maze
 {
+    public int Seed { get; set; }
     public int Width { get; set; }
     public int Height { get; set; }
     
 
     public Player Player { get; set; }
+
+    public List<string> LogMessages { get; set; } = new List<string>();
 
 
     // My child
@@ -25,6 +28,11 @@ public class Maze
 
     public void ReplaceCellToGround(BaseCell oldCell)
     {
+        if (!Cells.Contains(oldCell))
+        {
+            throw new Exception($"There is no oldCell {oldCell}");
+        }
+
         Cells.Remove(oldCell);
         var ground = new Ground
         {
@@ -45,5 +53,17 @@ public class Maze
             MazeWhereIWasCreated = oldCell.MazeWhereIWasCreated,
         };
         Cells.Add(tree);
+    }
+
+    public void ReplaceCellToSnake(BaseCell oldCell)
+    {
+        Cells.Remove(oldCell);
+        var snake = new Snake
+        {
+            X = oldCell.X,
+            Y = oldCell.Y,
+            MazeWhereIWasCreated = oldCell.MazeWhereIWasCreated,
+        };
+        Cells.Add(snake);
     }
 }
