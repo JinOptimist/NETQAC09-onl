@@ -9,6 +9,10 @@ public class Amongus : BaseCell
     }
     public override bool PlayerStepInMe(Player player)
     {
+        if (player.CurrentHealth > Player.MAX_HEALTH || player.CurrentHealth < 0)
+        {
+            throw new NotImplementedException($"Player current health is {player.CurrentHealth} which is bigger then his Max Health or less then 0");
+        }
         var damage = random.Next(1, 4);
         player.CurrentHealth = player.CurrentHealth - damage;
         MazeWhereIWasCreated.ReplaceCellToGround(this);
