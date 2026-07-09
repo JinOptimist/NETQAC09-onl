@@ -2,13 +2,20 @@
 
 public class Amongus : BaseCell
 {    public override char MySymbol => 'A';
-     
+    private Random random;
+    public Amongus(Random randomInput)
+    {
+        random = randomInput;
+    }
     public override bool PlayerStepInMe(Player player)
     {
-        Console.WriteLine("Amongus! He stabs you for 1d4 before you strike back");
-        var random = new Random();
+        if (player.CurrentHealth > Player.MAX_HEALTH || player.CurrentHealth < 0)
+        {
+            throw new NotImplementedException($"Player current health is {player.CurrentHealth} which is bigger then his Max Health or less then 0");
+        }
         var damage = random.Next(1, 4);
-        //TODO remove hp from player
+        player.CurrentHealth = player.CurrentHealth - damage;
+        MazeWhereIWasCreated.ReplaceCellToGround(this);
         return true;
     }
 }

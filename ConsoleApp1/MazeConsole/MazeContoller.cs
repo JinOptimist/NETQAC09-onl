@@ -5,17 +5,30 @@ namespace MazeConsole;
 public class MazeContoller
 {
     private Maze _maze;
+    private FileLogger _logger;
+
+    public MazeContoller()
+    {
+        _logger = new FileLogger();
+    }
 
     public void Play()
     {
-        var builder = new MazeBuilder();
         var drawer = new MazeDrawer();
-
-        _maze = builder.BuildTestMaze();
+        
+        MazeGeneration();
 
         while (true)
         {
             drawer.Draw(_maze);
+
+            if (_maze.Player.CurrentHealth <= 0)
+            {
+                Console.WriteLine();
+                Console.WriteLine("You died! Game over.");
+                break;
+            }
+            //Если здоровье игрока закончится, то завершаем игру
 
             var userAction = GetUserAction();
 
@@ -24,8 +37,40 @@ public class MazeContoller
                 break;
             }
 
-            PerfomAction(userAction);
+            try
+            {
+                PerfomAction(userAction);
+            }
+            catch (Exception ex)
+            {
+                _logger.AddLog(ex.Message);
+                throw;
+            }
         }
+    }
+
+    private void MazeGeneration()
+    {
+        var builder = new MazeBuilder();
+
+        var attempt = 0;
+        while (attempt < 3) {
+            try
+            {
+                _maze = builder.BuildTestMaze();
+                // раскомментить, если нужен сид в логах
+                //_logger.AddLog($"Maze build success with seed {_maze.Seed}");
+                return;
+            }
+            catch (Exception ex)
+            {
+                _logger.AddLog(ex.Message);
+            }
+
+            attempt++;
+        }
+
+        throw new Exception($"We try build maze {attempt}. All fail. Read logs");        
     }
 
     private void PerfomAction(UserAction actionWhichUserTryToDo)
@@ -48,7 +93,7 @@ public class MazeContoller
                 destinationX--;
                 break;
             default:
-                break;
+                throw new Exception($"Unkown UserAction {actionWhichUserTryToDo}");
         }
 
         var destinationCell = _maze
@@ -86,6 +131,7 @@ public class MazeContoller
                 case ConsoleKey.DownArrow:
                     return UserAction.StepDown;
                 default:
+                    // no exception
                     break;
             }
         }
