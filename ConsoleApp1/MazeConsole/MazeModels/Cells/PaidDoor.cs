@@ -11,8 +11,8 @@ public class PaidDoor : BaseCell
         if (player.Coin < doorPrice)
         {
             MazeWhereIWasCreated.LogMessages.Add("You need 2 coins to open this door");
-            //Console.WriteLine("You need 2 coins to open this door");
-            return false;
+
+            //логируем
             throw new Exception(
                 $"PaidDoor error. Position: {GetMyPosition()}. " +
                 $"Need coins: {doorPrice}. Player coins: {player.Coin}. " +
@@ -22,7 +22,6 @@ public class PaidDoor : BaseCell
         player.Coin = player.Coin - doorPrice;
         MazeWhereIWasCreated.ReplaceCellToGround(this);
         MazeWhereIWasCreated.LogMessages.Add("You opened the paid door");
-        //Console.WriteLine("You opened the paid door");
         return true;
     }
 }
