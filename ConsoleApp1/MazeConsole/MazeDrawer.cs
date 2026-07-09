@@ -10,7 +10,7 @@ public class MazeDrawer
 
         DrawMaze();
         
-        Console.WriteLine($"\n\nPlayer has {maze.Player.Coin} coins and {maze.Player.HealthPotion} Health potions");
+        Console.WriteLine($"\n\nPlayer has {maze.Player.Coin} coins and {maze.Player.CurrentHealth} Health and {maze.Player.HealthPotion} Health potions");
 
         foreach (var message in _maze.LogMessages)
         {
