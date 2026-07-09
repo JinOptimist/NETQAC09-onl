@@ -1,16 +1,34 @@
-using MazeConsole.MazeModels;
-
 namespace MazeConsole.MazeModels.Cells;
 
 public class IlyaCell : BaseCell
 {
-	public override char MySymbol => 'I';
+    private static readonly Random Random = new();
 
-	public override bool PlayerStepInMe(Player player)
-	{
-		Console.WriteLine("You found the Ilya Cell! +3 coins.");
-		player.Coin += 3;
+    private const int MIN_COINS = 1;
+    private const int MAX_COINS = 6;
 
-		return true;
-	}
+    public override char MySymbol => 'I';
+
+    public override bool PlayerStepInMe(Player player)
+    {
+        Console.WriteLine("You found Ilya Cell!");
+
+        var coins = Random.Next(MIN_COINS, MAX_COINS);
+
+        if (player.Coin < coins)
+        {
+            throw new Exception(
+                $"IlyaCell error. Player position: {player.GetMyPosition()}. " +
+                $"Cell position: {GetMyPosition()}. " +
+                $"Player coins: {player.Coin}. Required coins: {coins}."
+            );
+        }
+
+        player.Coin -= coins;
+
+        Console.WriteLine($"Ilya Cell took {coins} coins.");
+        Console.WriteLine($"Now you have {player.Coin} coins.");
+
+        return true;
+    }
 }
