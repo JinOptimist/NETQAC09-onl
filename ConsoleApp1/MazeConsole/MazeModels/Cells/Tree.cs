@@ -7,7 +7,7 @@ public class Tree : BaseCell
 
     public override bool PlayerStepInMe(Player player)
     {
-        return false;
+        return true;
     }
 }
 

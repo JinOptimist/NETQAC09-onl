@@ -195,10 +195,17 @@ public class MazeBuilder
     }
     private void BuildTree()
     {
+        var onWays = _mazeWhichWeBuildRightNow
+            .Cells
+            .Where(x => x is Ground)
+            .Where(x => GetNearCell<Ground>(x).Count == 3)
+            .ToList();
+        var onWay = GetRandomFromList(onWays);
+
         var tree = new Tree
         {
-            X = 2,
-            Y = 1,
+            X = onWay.X,
+            Y = onWay.Y,
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
         };
         _mazeWhichWeBuildRightNow.ReplaceToCell(tree);

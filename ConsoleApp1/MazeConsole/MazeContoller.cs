@@ -1,4 +1,6 @@
-﻿using MazeConsole.MazeModels;
+﻿using System.Reflection.PortableExecutable;
+using MazeConsole.MazeModels;
+using MazeConsole.MazeModels.Cells;
 
 namespace MazeConsole;
 
@@ -101,11 +103,33 @@ public class MazeContoller
             .SingleOrDefault(cell => cell.X == destinationX && cell.Y == destinationY);
 
         //if (destinationCell != null && destinationCell.PlayerStepInMe(_maze.Player))
+        var tree = new Tree();
         if (destinationCell?.PlayerStepInMe(_maze.Player) ?? false)
         {
             _maze.Player.X = destinationX;
             _maze.Player.Y = destinationY;
         }
+        
+      //  if (destinationCell == tree)
+      //  {
+      //      var toGos = _maze
+      //          .Cells
+     //           .Where(x => x is Ground)
+     //           .ToList;
+      //      var toGo = GetRandomFromList(toGos);
+      //          _maze.Player.X = toGo.X;
+     //           _maze.Player.Y = toGo.Y;
+     //   }
+    }
+
+    private object GetRandomFromList(object ground)
+    {
+        throw new NotImplementedException();
+    }
+
+    private object GetRandomFromList(Ground ground)
+    {
+        throw new NotImplementedException();
     }
 
     private UserAction GetUserAction()
