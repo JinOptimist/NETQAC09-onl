@@ -78,9 +78,10 @@ public class MazeDrawer
                         .Cells
                         .First(cell => cell.X == x && cell.Y == y);
 
+                var colorBefore = Console.ForegroundColor;
                 Console.ForegroundColor = cell.CellColor;
                 Console.Write(cell.MySymbol);
-                Console.ResetColor();
+                Console.ForegroundColor = colorBefore;
             }
         }
 

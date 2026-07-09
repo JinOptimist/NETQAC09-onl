@@ -14,8 +14,6 @@ catch (IceCellExceptions ex) //можно протестировать на publ
     Console.WriteLine("Oops smth went wrong");
     Console.WriteLine(ex.Message);
     Console.ResetColor();
-
-    var logger = new FileLogger();
 }
 
 catch (Exception ex)
