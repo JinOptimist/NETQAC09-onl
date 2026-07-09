@@ -8,7 +8,7 @@ namespace MazeConsole.MazeModels.Cells
     {
         public override char MySymbol => '=';
 
-        public override bool PlayerStepInMe(Player player)
+        public override bool PlayerStepInMe(IPlayer player)
         {
             // если в инвентаре есть песок, то уменьшаем количество песка в инвентаре и меняем лед на грязь
             if (player.Sand > 0)

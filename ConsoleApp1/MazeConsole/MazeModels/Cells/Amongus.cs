@@ -7,7 +7,7 @@ public class Amongus : BaseCell
     {
         random = randomInput;
     }
-    public override bool PlayerStepInMe(Player player)
+    public override bool PlayerStepInMe(IPlayer player)
     {
         if (player.CurrentHealth > Player.MAX_HEALTH || player.CurrentHealth < 0)
         {

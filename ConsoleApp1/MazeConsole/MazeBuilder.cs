@@ -1,6 +1,7 @@
 ﻿using MazeConsole.MazeExceptions;
 using MazeConsole.MazeModels;
 using MazeConsole.MazeModels.Cells;
+using MazeConsole.MazeModels.Cells.Interaces;
 
 namespace MazeConsole;
 
@@ -127,7 +128,7 @@ public class MazeBuilder
         var cells = _mazeWhichWeBuildRightNow.Cells;
 
         var miner = GetRandomFromList(cells);
-        var wallWhichWeCanBreak = new List<BaseCell>();
+        var wallWhichWeCanBreak = new List<IBaseCell>();
 
         while (true)
         {
@@ -160,8 +161,8 @@ public class MazeBuilder
     /// </summary>
     /// <param name="miner">Current cell</param>
     /// <returns></returns>
-    private List<BaseCell> GetNearCell<CellType>(BaseCell miner)
-        where CellType : BaseCell // Get only child of BaseCell
+    private List<IBaseCell> GetNearCell<CellType>(IBaseCell miner)
+        where CellType : IBaseCell // Get only child of BaseCell
     {
         var nearCell = _mazeWhichWeBuildRightNow
             .Cells
@@ -432,7 +433,7 @@ public class MazeBuilder
         var maze = _mazeWhichWeBuildRightNow;
 
         // Клетка считается "периметром", если она находится в крайней строке или крайнем столбце лабиринта (X == 0, X == Width-1, Y == 0, Y == Height-1).
-        bool IsPerimeter(BaseCell cell) =>
+        bool IsPerimeter(IBaseCell cell) =>
             cell.X == 0 || cell.X == maze.Width - 1
             || cell.Y == 0 || cell.Y == maze.Height - 1;
 

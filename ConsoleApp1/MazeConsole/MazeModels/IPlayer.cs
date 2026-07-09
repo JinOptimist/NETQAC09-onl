@@ -3,8 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MazeConsole.MazeModels;
 
-public class Player : BaseCell
-{   public const int MAX_HEALTH = 20;
+public class Player : BaseCell, IPlayer
+{
+    public const int MAX_HEALTH = 20;
     public int Coin { get; set; }
     public int HealthPotion { get; set; }
 
@@ -14,7 +15,7 @@ public class Player : BaseCell
     public int Sand { get; set; }
     public override char MySymbol => '@';
 
-    public override bool PlayerStepInMe(Player player)
+    public override bool PlayerStepInMe(IPlayer player)
     {
         throw new NotImplementedException();
     }

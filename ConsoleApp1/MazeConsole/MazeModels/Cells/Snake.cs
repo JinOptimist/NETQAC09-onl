@@ -6,7 +6,7 @@ public class Snake : BaseCell
 
     private Random _random = new Random();
   
-    public override bool PlayerStepInMe(Player player)
+    public override bool PlayerStepInMe(IPlayer player)
     {
         player.SnakeMeets++;
         MoveSnake(player.SnakeMeets, _random);

@@ -8,7 +8,7 @@ namespace MazeConsole.MazeModels.Cells
     {
         public override char MySymbol => '^';
 
-        public override bool PlayerStepInMe(Player player)
+        public override bool PlayerStepInMe(IPlayer player)
         {
             if (player.Sand < 1)
             {

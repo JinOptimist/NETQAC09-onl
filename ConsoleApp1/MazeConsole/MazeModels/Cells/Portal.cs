@@ -8,7 +8,7 @@ public class Portal : BaseCell
 {
     public override char MySymbol => 'P';
 
-    public override bool PlayerStepInMe(Player player)
+    public override bool PlayerStepInMe(IPlayer player)
     {
         return true;
     }

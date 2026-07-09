@@ -9,7 +9,7 @@ public class MimicChest : BaseCell
     private int _visitCount;
     public override char MySymbol => 'M';
 
-    public override bool PlayerStepInMe(Player player)
+    public override bool PlayerStepInMe(IPlayer player)
     {
         _visitCount++;
         LogFarmingIfNeeded(player);
@@ -37,7 +37,7 @@ public class MimicChest : BaseCell
     //Пока что логика такая, что в сундк можно заглядывать бесконечно, и либо находить монетку, либо терять здоровье, у нас тут казино!
 
     //HW6  Логируем подозрение на "фарм" сундука: если игрок посетил именно эту клетку
-    private void LogFarmingIfNeeded(Player player)
+    private void LogFarmingIfNeeded(IPlayer player)
     {
         if (_visitCount < FarmingVisitsThreshold)
         {

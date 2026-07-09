@@ -6,7 +6,7 @@ public class PaidDoor : BaseCell
 
     public override char MySymbol => 'D';
 
-    public override bool PlayerStepInMe(Player player)
+    public override bool PlayerStepInMe(IPlayer player)
     {
 
         if (player.Coin < DOOR_PRICE)
