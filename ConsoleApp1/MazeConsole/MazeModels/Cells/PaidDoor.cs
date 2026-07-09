@@ -2,21 +2,22 @@ namespace MazeConsole.MazeModels.Cells;
 
 public class PaidDoor : BaseCell
 {
+    private const int DoorPrice = 2;
+
     public override char MySymbol => 'D';
 
     public override bool PlayerStepInMe(Player player)
     {
-        var doorPrice = 2;
 
         if (player.Coin < doorPrice)
         {
             MazeWhereIWasCreated.LogMessages.Add("You need 2 coins to open this door");
 
-            //логируем
+            //log
             throw new Exception(
-                $"PaidDoor error. Position: {GetMyPosition()}. " +
-                $"Need coins: {doorPrice}. Player coins: {player.Coin}. " +
-                $"Maze seed: {MazeWhereIWasCreated.Seed}.");
+                $"PaidDoor error. Position: {GetMyPosition()}." 
+                +$"Need coins: {doorPrice}. Player coins: {player.Coin}." 
+                +$"Maze seed: {MazeWhereIWasCreated.Seed}.");
         }
 
         player.Coin = player.Coin - doorPrice;

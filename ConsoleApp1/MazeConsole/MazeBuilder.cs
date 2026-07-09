@@ -385,12 +385,7 @@ public class MazeBuilder
             //фильтруем стены
             .Where(cell => cell is Wall)
             //проверяем рядом землю
-            .Where(cell => _mazeWhichWeBuildRightNow.Cells.Any(nearCell => nearCell is Ground
-                && (nearCell.X == cell.X + 1 && nearCell.Y == cell.Y
-                    || nearCell.X == cell.X - 1 && nearCell.Y == cell.Y
-                    || nearCell.X == cell.X && nearCell.Y == cell.Y + 1
-                    || nearCell.X == cell.X && nearCell.Y == cell.Y - 1)
-                    )
+            .Where(cell => GetNearCell<Ground>(cell).Any()
             )
             .ToList();
         //выбираем стену из списка
