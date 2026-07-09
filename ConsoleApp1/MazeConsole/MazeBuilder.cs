@@ -276,14 +276,21 @@ public class MazeBuilder
 }
 private void BuildRainbow()
 {
-    // Ставим радугу на координаты (например, x = 4, y = 2)
+    // 1. Ищем всю доступную землю в лабиринте (ДЗ-5)
+    var grounds = _mazeWhichWeBuildRightNow.Cells.Where(x => x is Ground).ToList();
+    var randomGround = GetRandomFromList(grounds);
+
+    // 2. Рандом для создания искусственного сбоя (ДЗ-6)
+    var rand = new Random();
+    bool isGenerationBug = rand.Next(1, 101) <= 30; // 30% шанс на ошибку
+
     var rainbow = new Rainbow
     {
-        X = 4,
-        Y = 2,
+        X = isGenerationBug ? -1 : randomGround.X, // Если баг, ставим -1, иначе нормальный X
+        Y = randomGround.Y,
         MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
     };
 
-    // Метод уберет стену в этой точке и подменит её нашей радугой
+    // 3. Заменяем клетку
     _mazeWhichWeBuildRightNow.ReplaceToCell(rainbow);
 }
