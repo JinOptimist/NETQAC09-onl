@@ -35,7 +35,7 @@ public class MazeBuilder
         BuildIce();
         BuildPileOfSand();
         BuildAmongus();
-        BuildDiamond();
+        //BuildDiamond();
         BuildHealthPotion();
         BuildThief();
         BuildSnake();
@@ -281,18 +281,6 @@ public class MazeBuilder
         var randomIndex = _random.Next(cells.Count);
         var randomCell = cells[randomIndex];
         return randomCell;
-    }
-
-    private void BuildPortal()
-    {
-        var portal = new Portal
-        {
-            X = 3,
-            Y = 4,
-            MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
-        };
-
-        _mazeWhichWeBuildRightNow.ReplaceToCell(portal);
     }
 
 
