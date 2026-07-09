@@ -2,6 +2,8 @@
 using MazeConsole.MazeModels;
 using MazeConsole.MazeModels.Cells;
 
+namespace MazeConsole;
+
 public class MazeBuilder
 {
     private Maze _mazeWhichWeBuildRightNow;
@@ -42,8 +44,6 @@ public class MazeBuilder
         BuildPaidDoor();
 
         BuildMimicChest();
-
-
 
         BuildPlayer();
 
@@ -427,8 +427,6 @@ public class MazeBuilder
         //меняем
         _mazeWhichWeBuildRightNow.ReplaceToCell(paidDoor);
     }
-}
-
     private void BuildMimicChest()
     {
         var maze = _mazeWhichWeBuildRightNow;
@@ -478,4 +476,3 @@ public class MazeBuilder
         maze.ReplaceToCell(mimicChest);
     }
 }
-
