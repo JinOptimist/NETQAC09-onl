@@ -8,7 +8,7 @@ public class Maze
     public int Seed { get; set; }
     public int Width { get; set; }
     public int Height { get; set; }
-    
+    public Random Random { get; set; }
 
     public Player Player { get; set; }
 
@@ -53,5 +53,17 @@ public class Maze
             MazeWhereIWasCreated = oldCell.MazeWhereIWasCreated,
         };
         Cells.Add(tree);
+    }
+
+    public void ReplaceCellToSnake(BaseCell oldCell)
+    {
+        Cells.Remove(oldCell);
+        var snake = new Snake
+        {
+            X = oldCell.X,
+            Y = oldCell.Y,
+            MazeWhereIWasCreated = oldCell.MazeWhereIWasCreated,
+        };
+        Cells.Add(snake);
     }
 }

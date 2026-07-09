@@ -7,6 +7,9 @@ public class Player : BaseCell
 {   public const int MAX_HEALTH = 20;
     public int Coin { get; set; }
     public int HealthPotion { get; set; }
+
+    public int SnakeMeets { get; set; }
+
     public int CurrentHealth { get; set; } = MAX_HEALTH;
     public int Sand { get; set; }
     public override char MySymbol => '@';
