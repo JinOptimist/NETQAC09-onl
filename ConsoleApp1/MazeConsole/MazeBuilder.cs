@@ -38,7 +38,11 @@ public class MazeBuilder
         BuildThief();
         BuildSnake();
         BuildFlower();
+
+        BuildPaidDoor();
+
         BuildMimicChest();
+
 
 
         BuildPlayer();
@@ -399,6 +403,32 @@ public class MazeBuilder
             _mazeWhichWeBuildRightNow.ReplaceToCell(bar);
         }
     }
+
+
+    private void BuildPaidDoor()
+    {   //берем все
+        var wallsNearGround = _mazeWhichWeBuildRightNow.Cells
+            //фильтруем стены
+            .Where(cell => cell is Wall)
+            //проверяем рядом землю
+            .Where(cell => GetNearCell<Ground>(cell).Any()
+            )
+            .ToList();
+        //выбираем стену из списка
+        var wall = GetRandomFromList(wallsNearGround);
+
+        //ставим
+        var paidDoor = new PaidDoor
+        {
+            X = wall.X,
+            Y = wall.Y,
+            MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
+        };
+        //меняем
+        _mazeWhichWeBuildRightNow.ReplaceToCell(paidDoor);
+    }
+}
+
     private void BuildMimicChest()
     {
         var maze = _mazeWhichWeBuildRightNow;
@@ -448,3 +478,4 @@ public class MazeBuilder
         maze.ReplaceToCell(mimicChest);
     }
 }
+
