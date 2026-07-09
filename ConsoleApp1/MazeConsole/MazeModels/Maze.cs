@@ -8,7 +8,7 @@ public class Maze
     public int Seed { get; set; }
     public int Width { get; set; }
     public int Height { get; set; }
-    
+    public Random Random { get; set; }
 
     public Player Player { get; set; }
 
