@@ -8,6 +8,8 @@ public abstract class BaseCell
 
     public abstract char MySymbol { get; }
 
+    public virtual ConsoleColor CellColor => ConsoleColor.White;
+
     /// <summary>
     /// Return true if Player can move
     /// Also do some stuff with you
