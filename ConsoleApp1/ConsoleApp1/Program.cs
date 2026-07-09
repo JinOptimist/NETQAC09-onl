@@ -1,2 +1,2 @@
-var game = new GameParfenov();
+var game = new HM_3();
 game.Play();
