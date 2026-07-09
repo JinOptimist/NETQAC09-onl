@@ -54,4 +54,16 @@ public class Maze
         };
         Cells.Add(tree);
     }
+
+    public void ReplaceCellToSnake(BaseCell oldCell)
+    {
+        Cells.Remove(oldCell);
+        var snake = new Snake
+        {
+            X = oldCell.X,
+            Y = oldCell.Y,
+            MazeWhereIWasCreated = oldCell.MazeWhereIWasCreated,
+        };
+        Cells.Add(snake);
+    }
 }
