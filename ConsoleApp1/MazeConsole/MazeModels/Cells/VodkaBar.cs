@@ -7,7 +7,7 @@ public class VodkaBar : BaseCell
 {
     public override char MySymbol => '⚗'; // иконка на карте
 
-    public override bool PlayerStepInMe(Player player)
+    public override bool PlayerStepInMe(IPlayer player)
     {
         Console.WriteLine("Игрок в баре 🍻🍻🍻"); //логируем
         Thread.Sleep(5000);

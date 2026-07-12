@@ -10,7 +10,7 @@ public class MazeDrawer
 
         DrawMaze();
         
-        Console.WriteLine($"\n\nPlayer has {maze.Player.Coin} coins and {maze.Player.HealthPotion} Health potions");
+        Console.WriteLine($"\n\nPlayer has {maze.Player.Coin} coins and {maze.Player.CurrentHealth} Health and {maze.Player.HealthPotion} Health potions");
 
         foreach (var message in _maze.LogMessages)
         {
@@ -78,7 +78,10 @@ public class MazeDrawer
                         .Cells
                         .First(cell => cell.X == x && cell.Y == y);
 
+                var colorBefore = Console.ForegroundColor;
+                Console.ForegroundColor = cell.CellColor;
                 Console.Write(cell.MySymbol);
+                Console.ForegroundColor = colorBefore;
             }
         }
 

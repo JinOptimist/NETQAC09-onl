@@ -6,7 +6,7 @@
         public override char MySymbol => 'R';
 
         // Логика шага: когда игрок наступает на радугу, он просто проходит сквозь неё
-        public override bool PlayerStepInMe(Player player)
+        public override bool PlayerStepInMe(IPlayer player)
         {
             return true;
         }
