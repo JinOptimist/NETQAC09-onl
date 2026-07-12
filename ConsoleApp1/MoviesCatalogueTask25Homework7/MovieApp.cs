@@ -38,6 +38,9 @@ namespace MoviesCatalogueTask25Homework7
                     case 3:
                         ShowAllMovies();
                         break;
+                    case 4:
+                        SearchByTitle();
+                        break;
                     case 5:
                         FilterByGenre();
                         break;
@@ -56,6 +59,7 @@ namespace MoviesCatalogueTask25Homework7
 
         private void AddMovie()
         {
+            Console.Clear();
             Console.WriteLine("=== Add new movie ===");
 
             var movieTitle = string.Empty;
@@ -113,6 +117,7 @@ namespace MoviesCatalogueTask25Homework7
 
         private void ShowAllMovies()
         {
+            Console.Clear();
             Console.WriteLine("=== All Movies ===");
 
             var moviesList = _catalog.GetAll();
@@ -133,6 +138,7 @@ namespace MoviesCatalogueTask25Homework7
 
         private void DeleteMovie()
         {
+            Console.Clear();
             Console.WriteLine("=== Delete a movie ===");
 
             var moviesList = _catalog.GetAll();
@@ -154,7 +160,6 @@ namespace MoviesCatalogueTask25Homework7
                 Console.WriteLine("Enter movie index to delete:");
                 var indexInput = Console.ReadLine();
 
-                // Проверяем, что введено число от 0 до максимального индекса списка
                 if (int.TryParse(indexInput, out var parsedIndex) && parsedIndex >= 0 && parsedIndex < moviesList.Count)
                 {
                     selectedMovieNumberToDelete = parsedIndex;
@@ -165,7 +170,6 @@ namespace MoviesCatalogueTask25Homework7
 
             var selectedMovieToDelete = moviesList[selectedMovieNumberToDelete].Title;
 
-            // 3. Вызываем простой метод Delete
             var isDeleted = _catalog.Delete(selectedMovieNumberToDelete);
 
             if (isDeleted)
@@ -179,6 +183,7 @@ namespace MoviesCatalogueTask25Homework7
         }
         private void FilterByGenre()
         {
+            Console.Clear();
             Console.WriteLine("=== Filter by Genre ===");
 
             var allMovies = _catalog.GetAll();
@@ -228,6 +233,7 @@ namespace MoviesCatalogueTask25Homework7
 
         private void RateMovie()
         {
+            Console.Clear();
             Console.WriteLine("=== Rate a Movie ===");
 
             var moviesList = _catalog.GetAll();
@@ -283,6 +289,45 @@ namespace MoviesCatalogueTask25Homework7
             else
             {
                 Console.WriteLine("Could not apply rating");
+            }
+        }
+
+        private void SearchByTitle()
+        {
+            Console.Clear();
+            Console.WriteLine("=== Search by title ===");
+
+            var allMovies = _catalog.GetAll();
+            if (allMovies.Count == 0)
+            {
+                Console.WriteLine("The catalog is empty. Nothing to search");
+                return;
+            }
+
+            var searchKeyword = string.Empty;
+            while (string.IsNullOrWhiteSpace(searchKeyword))
+            {
+                Console.Write("Enter movie title or part of it:");
+                searchKeyword = Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(searchKeyword))
+                {
+                    Console.WriteLine("Search cannot be empty");
+                }
+            }
+
+            var foundMovies = _catalog.SearchByTitle(searchKeyword);
+
+            Console.WriteLine($"--- Search Results for \"{searchKeyword}\" ---");
+            if (foundMovies.Count == 0)
+            {
+                Console.WriteLine("No movies found matching your search");
+                return;
+            }
+
+            foreach (var movie in foundMovies)
+            {
+                var ratingDisplay = movie.Rating.HasValue ? $"{movie.Rating.Value}/10" : "N/A";
+                Console.WriteLine($"- \"{movie.Title}\" ({movie.Year}) | Genre: {movie.Genre} | Rating: {ratingDisplay}");
             }
         }
     }

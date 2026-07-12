@@ -44,6 +44,12 @@ namespace MoviesCatalogueTask25Homework7
             _movies[index].Rating = rating;
             return true;
         }
-        //Search, GetTop5 и т.д.
+
+        public List<Movie> SearchByTitle(string keyword)
+        {
+            return _movies
+                .Where(m => m.Title.Contains(keyword, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+        }
     }
 }
