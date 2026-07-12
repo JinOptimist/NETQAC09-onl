@@ -11,16 +11,14 @@ public class Flower : BaseCell
     {
         CheckFlowersLimit(player);
 
-        if (player.Flowers < MAX_FLOWERS)
-        {
-            player.Flowers++;
-            MazeWhereIWasCreated.LogMessages.Add($"You found a flower! 🌸 {player.Flowers}/{MAX_FLOWERS}");
-        }
-        else
-        {
+        if (player.Flowers >= MAX_FLOWERS)
+        {           
             MazeWhereIWasCreated.LogMessages.Add($"You found a flower, but your limit is reached ({MAX_FLOWERS}/{MAX_FLOWERS}).");
             return true;
         }
+
+        player.Flowers++;
+        MazeWhereIWasCreated.LogMessages.Add($"You found a flower! 🌸 {player.Flowers}/{MAX_FLOWERS}");
 
         MazeWhereIWasCreated.ReplaceCellToGround(this);
 
