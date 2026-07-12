@@ -10,6 +10,7 @@ public interface IPlayer : IBaseCell
     char MySymbol { get; }
     int Sand { get; set; }
     int SnakeMeets { get; set; }
+    int Flowers { get; set; }
 
     bool PlayerStepInMe(IPlayer player);
 }

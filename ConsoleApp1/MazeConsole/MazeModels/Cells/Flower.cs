@@ -25,7 +25,7 @@ public class Flower : BaseCell
         return true;
     }
 
-    private void CheckFlowersLimit(Player player)
+    private void CheckFlowersLimit(IPlayer player)
     {
         if (player.Flowers < 0 || player.Flowers > MAX_FLOWERS)
         {
