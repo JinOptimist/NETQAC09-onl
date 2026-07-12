@@ -21,7 +21,7 @@ namespace MoviesCatalogueTask25Homework7
                 Console.WriteLine("7. Delete a movie");
                 Console.WriteLine("0. Exit");
 
-                if (!int.TryParse(Console.ReadLine(), out int option) || option < 0 || option > 7)
+                if (!int.TryParse(Console.ReadLine(), out var option) || option < 0 || option > 7)
                 {
                     Console.WriteLine("Invalid option");
                     continue;
@@ -80,7 +80,7 @@ namespace MoviesCatalogueTask25Homework7
                     movieYear = parsedYear;
                     break;
                 }
-                Console.WriteLine("Please enter a four-digit year (1990-2050)");
+                Console.WriteLine("Please enter a four-digit year (1900-2050)");
             }
 
             Console.WriteLine("Please have a look at the list of the available genres:");
@@ -125,7 +125,7 @@ namespace MoviesCatalogueTask25Homework7
 
             foreach (var movie in moviesList)
             {
-                string movieRating = movie.Rating.HasValue ? $"{movie.Rating.Value}/10" : "N/A";
+                var movieRating = movie.Rating.HasValue ? $"{movie.Rating.Value}/10" : "N/A";
 
                 Console.WriteLine($"- \"{movie.Title}\" ({movie.Year}) | Genre: {movie.Genre} | Rating: {movieRating}");
             }

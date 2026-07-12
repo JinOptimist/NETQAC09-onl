@@ -7,7 +7,7 @@ namespace MoviesCatalogueTask25Homework7
     {
         static void Main(string[] args)
         {
-            MovieApp app = new MovieApp();
+            var app = new MovieApp();
             app.Run();
         }
     }
