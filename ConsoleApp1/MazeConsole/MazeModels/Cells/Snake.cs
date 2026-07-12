@@ -21,14 +21,13 @@ public class Snake : BaseCell
         List<BaseCell> newNest = new List<BaseCell>();
         var randomCell = 0;
 
-        try
-        {
+        
         newNest = MazeWhereIWasCreated.Cells.Where(x => x is Ground && !(x.X == oldNest.X && x.Y == oldNest.Y)).ToList();
         randomCell = random.Next(newNest.Count);
-        }
-        catch
+        
+        if (newNest.Count==0)
         {
-        Console.WriteLine("Not enough free spaces for a snake!");
+            throw new Exception("Not enough places for a nest!");
         }
         
         if (snakeMeets < 3 && newNest.Count > 0)
