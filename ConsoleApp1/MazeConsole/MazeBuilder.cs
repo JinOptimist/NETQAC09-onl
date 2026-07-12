@@ -82,13 +82,22 @@ public class MazeBuilder
 
     private void BuildFire()
     {
-        var fire = new Fire()
+        var fireCells = _mazeWhichWeBuildRightNow.Cells
+            .Where(cell => cell is Ground) // выбираем только клетки типа Ground
+            .Where(cell => (cell.X + cell.Y) % 5 == 0) // фильтруем по если сумма координат делится на 5
+            .Take(3) // берем первые 3 клетки
+            .ToList();
+             
+        foreach (var cell in fireCells)
         {
-            X = 8,
-            Y = 2,
-            MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
-        };
+            var fire = new Fire
+            {
+                X = cell.X,
+                Y = cell.Y,
+                MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
+            };
             _mazeWhichWeBuildRightNow.ReplaceToCell(fire);
+        }
     }
     
     private void BuildFlower()
