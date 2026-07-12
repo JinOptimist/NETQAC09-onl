@@ -6,7 +6,7 @@ using RPG_inventory.Items;
 
 namespace RPG_inventory.Managers
 {
-    internal class InventoryManager
+    public class InventoryManager
     {
         public bool AddItem(Hero hero, BaseItem item) //добавление предмета в инвентарь
         {
@@ -24,5 +24,44 @@ namespace RPG_inventory.Managers
         {
             return hero.Inventory.Remove(item);
         }
+
+        //Честно говоря мне не нравится реализация этого метода, как то слишком костыльно что-ли, особенно если типов вещей будет больше, может попозже подумаю как переделать
+        public bool EquipItem(Hero hero, BaseItem item)//Надеть предмет
+        {
+            if (item is Weapon weapon)
+            {
+                hero.EquippedWeapon = weapon;
+                return true;
+            }
+
+            if (item is Armor armor)
+            {
+                hero.EquippedArmor = armor;
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool UsePotion(Hero hero, BaseItem item)//Использование зелья
+        {
+            if (item is Potion potion)
+            {
+                hero.HP += potion.HealAmount;
+
+                if (hero.HP > hero.MaxHP)
+                {
+                    hero.HP = hero.MaxHP;
+                }
+
+                RemoveItem(hero, item);
+
+                return true;
+            }
+
+            return false;
+        }
+
+
     }
 }
