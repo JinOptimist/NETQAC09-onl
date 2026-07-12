@@ -14,6 +14,7 @@ public class Player : BaseCell
     public int Sand { get; set; }
     public override char MySymbol => '@';
 
+
     public override bool PlayerStepInMe(Player player)
     {
         throw new NotImplementedException();
