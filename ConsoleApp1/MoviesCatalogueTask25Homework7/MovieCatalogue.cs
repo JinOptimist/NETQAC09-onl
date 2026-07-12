@@ -34,6 +34,16 @@ namespace MoviesCatalogueTask25Homework7
             return _movies.Where(m => m.Genre == genre).ToList();
         }
 
+        public bool RateMovie(int index, int rating)
+        {
+            if (index < 0 || index >= _movies.Count)
+            {
+                return false;
+            }
+
+            _movies[index].Rating = rating;
+            return true;
+        }
         //Search, GetTop5 и т.д.
     }
 }

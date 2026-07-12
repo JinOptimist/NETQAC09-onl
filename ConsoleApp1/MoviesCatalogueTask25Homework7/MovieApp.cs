@@ -32,6 +32,9 @@ namespace MoviesCatalogueTask25Homework7
                     case 1:
                         AddMovie();
                         break;
+                    case 2:
+                        RateMovie();
+                        break;
                     case 3:
                         ShowAllMovies();
                         break;
@@ -220,6 +223,66 @@ namespace MoviesCatalogueTask25Homework7
             {
                 var ratingDisplay = movie.Rating.HasValue ? $"{movie.Rating.Value}/10" : "N/A";
                 Console.WriteLine($"- \"{movie.Title}\" ({movie.Year}) | Rating: {ratingDisplay}");
+            }
+        }
+
+        private void RateMovie()
+        {
+            Console.WriteLine("=== Rate a Movie ===");
+
+            var moviesList = _catalog.GetAll();
+            if (moviesList.Count == 0)
+            {
+                Console.WriteLine("The catalog is empty. Nothing to rate");
+                return;
+            }
+
+            Console.WriteLine("Select the index of the movie you want to rate:");
+            for (var i = 0; i < moviesList.Count; i++)
+            {
+                var currentRating = moviesList[i].Rating.HasValue ? $"{moviesList[i].Rating.Value}/10" : "No rating yet";
+                Console.WriteLine($"{i}. \"{moviesList[i].Title}\" (Current rating: {currentRating})");
+            }
+
+            var selectedIndex = 0;
+            while (true)
+            {
+                Console.Write("\nEnter movie index:");
+                var indexInput = Console.ReadLine();
+
+                if (int.TryParse(indexInput, out var parsedIndex) && parsedIndex >= 0 && parsedIndex < moviesList.Count)
+                {
+                    selectedIndex = parsedIndex;
+                    break;
+                }
+                Console.WriteLine($"Please enter a number between 0 and {moviesList.Count - 1}");
+            }
+
+            var movieRating = 0;
+            while (true)
+            {
+                Console.Write("Enter your rating (from 1 to 10): ");
+                var ratingInput = Console.ReadLine();
+
+                if (int.TryParse(ratingInput, out var parsedRating) && parsedRating >= 1.0 && parsedRating <= 10.0)
+                {
+                    movieRating = parsedRating;
+                    break;
+                }
+                Console.WriteLine("Error: Invalid rating. Please enter a number between 1 and 10");
+            }
+
+            var targetMovieTitle = moviesList[selectedIndex].Title;
+
+            var isRated = _catalog.RateMovie(selectedIndex, movieRating);
+
+            if (isRated)
+            {
+                Console.WriteLine($"Success: Movie \"{targetMovieTitle}\" has been rated {movieRating}/10");
+            }
+            else
+            {
+                Console.WriteLine("Could not apply rating");
             }
         }
     }
