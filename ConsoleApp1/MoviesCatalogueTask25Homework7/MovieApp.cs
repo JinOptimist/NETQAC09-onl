@@ -6,12 +6,12 @@ namespace MoviesCatalogueTask25Homework7
 {
     public class MovieApp
     {
-        private MovieCatalog _catalog = new MovieCatalog();
+        private MovieCatalogue _catalog = new MovieCatalogue();
         public void Run()
         {
             while (true)
             {
-                Console.WriteLine("=== Movie Catalog ===");
+                Console.WriteLine("=== Movie Catalogue ===");
                 Console.WriteLine("1. Add new movie");
                 Console.WriteLine("2. Rate movie");
                 Console.WriteLine("3. Show all movies");
@@ -32,8 +32,11 @@ namespace MoviesCatalogueTask25Homework7
                     case 1:
                         AddMovie();
                         break;
+                    case 3:
+                        ShowAllMovies();
+                        break;
                     case 0:
-                        Console.WriteLine("Goodbye!");
+                        Console.WriteLine("We don't have a db now, so say goodbye to your data");
                         return;
                     default:
                         Console.WriteLine("Not implemented yet.");
@@ -42,33 +45,85 @@ namespace MoviesCatalogueTask25Homework7
             }
         }
 
-        // Вспомогательный метод меню для сбора данных с консоли
         private void AddMovie()
         {
-            Console.WriteLine("--- Add a New Movie ---");
+            Console.WriteLine("=== Add new movie ===");
 
-            Console.Write("Enter movie title");
-            string title = Console.ReadLine();
-            if (string.IsNullOrWhiteSpace(title)) return;
+            var movieTitle = string.Empty;
+            while (string.IsNullOrWhiteSpace(movieTitle))
+            {
+                Console.Write("Enter movie title:");
+                movieTitle = Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(movieTitle))
+                {
+                    Console.WriteLine("Error: Title cannot be empty. Please try again.");
+                }
+            }
 
-            Console.Write("Enter movie release year");
-            if (!int.TryParse(Console.ReadLine(), out int year)) return;
+            var movieYear = 0;
+            while (true)
+            {
+                Console.Write("Enter movie release year (e.g. 2010):");
+                var yearInput = Console.ReadLine();
 
-            Console.WriteLine("Select a genre");
+                if (int.TryParse(yearInput, out var parsedYear) && parsedYear >= 1900 && parsedYear <= 2050)
+                {
+                    movieYear = parsedYear;
+                    break;
+                }
+                Console.WriteLine("Error: Invalid input. Please enter a valid four-digit year (1990-2050).");
+            }
+
+            Console.WriteLine("Select a genre:");
             foreach (var genreValue in Enum.GetValues(typeof(MovieGenreList)))
             {
                 Console.WriteLine($"{(int)genreValue}. {genreValue}");
             }
-            Console.Write("Enter genre number: ");
-            if (!int.TryParse(Console.ReadLine(), out int genreNumber) || !Enum.IsDefined(typeof(MovieGenreList), genreNumber)) return;
 
-            MovieGenreList selectedGenre = (MovieGenreList)genreNumber;
+            var genreInputNumber = 0;
+            while (true)
+            {
+                Console.Write("Enter genre number:");
+                var genreInput = Console.ReadLine();
 
-            // СОЗДАЕМ ОБЪЕКТ И ОТДАЕМ ЕГО В КАТАЛОГ (как требует ТЗ!)
-            Movie newMovie = new Movie(title, year, selectedGenre);
+                if (int.TryParse(genreInput, out var parsedGenre) && Enum.IsDefined(typeof(MovieGenreList), parsedGenre))
+                {
+                    genreInputNumber = parsedGenre;
+                    break;
+                }
+                Console.WriteLine("Error: Invalid genre selection. Please choose a number from the list.");
+            }
+
+            var movieGenre = (MovieGenreList)genreInputNumber;
+
+            var newMovie = new Movie(movieTitle, movieYear, movieGenre);
             _catalog.Add(newMovie);
 
-            Console.WriteLine($"\nSuccess: Movie \"{title}\" added to catalog!");
+            Console.WriteLine($"Movie \"{movieTitle}\" ({movieYear}) added to catalogue");
+        }
+
+        private void ShowAllMovies()
+        {
+            Console.WriteLine("=== All Movies ===");
+
+            // Запрашиваем список фильмов у каталога
+            var moviesList = _catalog.GetAll();
+
+            // Проверяем: если фильмов еще нет, то и выводить нечего
+            if (moviesList.Count == 0)
+            {
+                Console.WriteLine("There's no movies yet");
+                return;
+            }
+
+            // Бежим циклом по каждому фильму и выводим его свойства на экран
+            foreach (var movie in moviesList)
+            {
+                // Проверяем рейтинг: если он null, пишем "N/A", иначе выводим число
+                string ratingDisplay = movie.Rating.HasValue ? $"{movie.Rating.Value}/10" : "N/A";
+
+                Console.WriteLine($"- \"{movie.Title}\" ({movie.Year}) | Genre: {movie.Genre} | Rating: {ratingDisplay}");
+            }
         }
     }
 }

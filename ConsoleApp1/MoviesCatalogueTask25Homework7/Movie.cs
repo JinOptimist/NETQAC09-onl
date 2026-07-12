@@ -9,7 +9,7 @@ namespace MoviesCatalogueTask25Homework7
         public int Id { get; set; }
         public string Title { get; set; }
         public int Year { get; set; }
-        public MovieGenreList Genre { get; set; } // Ипользуем измененный enum MovieGenre
+        public MovieGenreList Genre { get; set; }
         public int? Rating { get; set; }
 
         public Movie() { }
@@ -20,12 +20,6 @@ namespace MoviesCatalogueTask25Homework7
             Year = year;
             Genre = genre;
             Rating = null;
-        }
-
-        public override string ToString()
-        {
-            string ratingStr = Rating.HasValue ? $"{Rating.Value}/10" : "not rated";
-            return $"\"{Title}\" ({Year}) — Genre: {Genre} — Rating: {ratingStr}";
         }
     }
 }

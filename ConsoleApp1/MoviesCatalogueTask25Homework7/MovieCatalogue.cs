@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MoviesCatalogueTask25Homework7
 {
-    public class MovieCatalog
+    public class MovieCatalogue
     {
         private List<Movie> _movies = new List<Movie>();
 
@@ -13,6 +13,10 @@ namespace MoviesCatalogueTask25Homework7
             _movies.Add(movie);
         }
 
+        public List<Movie> GetAll()
+        {
+            return _movies;
+        }
         // Rate, Search, GetTop5 и т.д.
     }
 }
