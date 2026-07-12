@@ -57,11 +57,12 @@ namespace MoviesCatalogueTask25Homework7
             }
         }
 
-        private void AddMovie()
+        private void AddMovie() //метод добавления фильма
         {
             Console.Clear();
             Console.WriteLine("=== Add new movie ===");
 
+            //ввоод названия фильма с проверкой на пустую строку
             var movieTitle = string.Empty;
             while (string.IsNullOrWhiteSpace(movieTitle))
             {
@@ -73,21 +74,25 @@ namespace MoviesCatalogueTask25Homework7
                 }
             }
 
+            //ввод года выпуска фильма с проверкой на корректность в заданном интервале
             var movieYear = 0;
+            var minYear = 1900;
+            var maxYear = 2050;
             while (true)
             {
-                Console.Write("Enter movie release year (e.g. 2010):");
+                Console.Write($"Enter movie release year between {minYear} - {maxYear}:");
                 var yearInput = Console.ReadLine();
 
-                if (int.TryParse(yearInput, out var parsedYear) && parsedYear >= 1900 && parsedYear <= 2050)
+                if (int.TryParse(yearInput, out var parsedYear) && parsedYear >= minYear && parsedYear <= maxYear)
                 {
                     movieYear = parsedYear;
                     break;
                 }
-                Console.WriteLine("Please enter a four-digit year (1900-2050)");
+                Console.WriteLine($"Please enter a four-digit year ({minYear} - {maxYear})");
             }
 
-            Console.WriteLine("Please have a look at the list of the available genres:");
+
+            Console.WriteLine("Please select a genre from the list below:");
             foreach (var genreValue in Enum.GetValues(typeof(MovieGenreList)))
             {
                 Console.WriteLine($"{(int)genreValue}. {genreValue}");
@@ -96,7 +101,6 @@ namespace MoviesCatalogueTask25Homework7
             var genreInputNumber = 0;
             while (true)
             {
-                Console.WriteLine("And enter genre number:");
                 var genreInput = Console.ReadLine();
 
                 if (int.TryParse(genreInput, out var parsedGenre) && Enum.IsDefined(typeof(MovieGenreList), parsedGenre))
@@ -267,7 +271,7 @@ namespace MoviesCatalogueTask25Homework7
             var movieRating = 0;
             while (true)
             {
-                Console.Write("Enter your rating (from 1 to 10): ");
+                Console.Write("Enter your rating (from 1 to 10):");
                 var ratingInput = Console.ReadLine();
 
                 if (int.TryParse(ratingInput, out var parsedRating) && parsedRating >= 1.0 && parsedRating <= 10.0)
@@ -275,7 +279,7 @@ namespace MoviesCatalogueTask25Homework7
                     movieRating = parsedRating;
                     break;
                 }
-                Console.WriteLine("Error: Invalid rating. Please enter a number between 1 and 10");
+                Console.WriteLine("Please enter a number between 1 and 10");
             }
 
             var targetMovieTitle = moviesList[selectedIndex].Title;
@@ -284,7 +288,7 @@ namespace MoviesCatalogueTask25Homework7
 
             if (isRated)
             {
-                Console.WriteLine($"Success: Movie \"{targetMovieTitle}\" has been rated {movieRating}/10");
+                Console.WriteLine($"Movie \"{targetMovieTitle}\" has been rated {movieRating}/10");
             }
             else
             {
@@ -317,7 +321,7 @@ namespace MoviesCatalogueTask25Homework7
 
             var foundMovies = _catalog.SearchByTitle(searchKeyword);
 
-            Console.WriteLine($"--- Search Results for \"{searchKeyword}\" ---");
+            Console.WriteLine($"Search results for \"{searchKeyword}\"");
             if (foundMovies.Count == 0)
             {
                 Console.WriteLine("No movies found matching your search");
