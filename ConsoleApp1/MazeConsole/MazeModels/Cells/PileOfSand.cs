@@ -7,8 +7,9 @@ namespace MazeConsole.MazeModels.Cells
     public class PileOfSand : BaseCell
     {
         public override char MySymbol => '^';
+        public override ConsoleColor CellColor => ConsoleColor.DarkYellow;
 
-        public override bool PlayerStepInMe(Player player)
+        public override bool PlayerStepInMe(IPlayer player)
         {
             if (player.Sand < 1)
             {

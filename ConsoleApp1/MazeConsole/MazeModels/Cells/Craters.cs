@@ -5,9 +5,11 @@
     {
         public override char MySymbol => 'O'; //перезаписываю на символ для типа Яма
 
-        public override bool PlayerStepInMe(Player player)
+        public override bool PlayerStepInMe(IPlayer player)
         {
-            return false;
+            player.Y++;
+            player.Coin--;
+            return true;
         }
     }
 }

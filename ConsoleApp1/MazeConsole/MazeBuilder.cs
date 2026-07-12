@@ -1,6 +1,9 @@
 ﻿using MazeConsole.MazeExceptions;
 using MazeConsole.MazeModels;
 using MazeConsole.MazeModels.Cells;
+using MazeConsole.MazeModels.Cells.Interaces;
+
+namespace MazeConsole;
 
 public class MazeBuilder
 {
@@ -21,6 +24,7 @@ public class MazeBuilder
             Width = width,
             Height = height,
             Seed = seed.Value,
+            Random = _random
         };
 
         // var cell = _mazeWhichWeBuildRightNow.Cells.First(x => x is Wall);
@@ -38,6 +42,9 @@ public class MazeBuilder
         BuildSnake();
         BuildFlower();
 
+        BuildPaidDoor();
+
+        BuildMimicChest();
 
         BuildPlayer();
 
@@ -123,7 +130,7 @@ public class MazeBuilder
         var cells = _mazeWhichWeBuildRightNow.Cells;
 
         var miner = GetRandomFromList(cells);
-        var wallWhichWeCanBreak = new List<BaseCell>();
+        var wallWhichWeCanBreak = new List<IBaseCell>();
 
         while (true)
         {
@@ -156,8 +163,8 @@ public class MazeBuilder
     /// </summary>
     /// <param name="miner">Current cell</param>
     /// <returns></returns>
-    private List<BaseCell> GetNearCell<CellType>(BaseCell miner)
-        where CellType : BaseCell // Get only child of BaseCell
+    private List<IBaseCell> GetNearCell<CellType>(IBaseCell miner)
+        where CellType : IBaseCell // Get only child of BaseCell
     {
         var nearCell = _mazeWhichWeBuildRightNow
             .Cells
@@ -251,10 +258,16 @@ public class MazeBuilder
 
     private void BuildSnake()
     {
+
+        var grounds = _mazeWhichWeBuildRightNow
+            .Cells
+            .Where(x => x is Ground && GetNearCell<Wall>(x).Count < 3)
+            .ToList();
+        var snakenest = GetRandomFromList(grounds);
         var snake = new Snake
         {
-            X = 5,
-            Y = 3,
+            X = snakenest.X,
+            Y = snakenest.Y,
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
 
         };
@@ -300,15 +313,21 @@ public class MazeBuilder
         _mazeWhichWeBuildRightNow.ReplaceToCell(rainbow);
     }
 
-    private void BuildCrater() //task-130 создан метод с ячейкой типа Яма и ее координатами
+    private void BuildCrater() //метод с ячейкой типа Яма и произвольным выбором координат
     {
+        var safeWalls = _mazeWhichWeBuildRightNow.Cells
+            .Where(cell => cell is Wall && cell.Y < _mazeWhichWeBuildRightNow.Height - 1)
+            .ToList(); //список ячеек Стена, которые можно использовать для проваливания вниз
+
+        var safeWall = GetRandomFromList(safeWalls);
+
         var crater = new Crater
         {
-            X = 9,
-            Y = 8,
+            X = safeWall.X,
+            Y = safeWall.Y,
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
-
         };
+
         _mazeWhichWeBuildRightNow.ReplaceToCell(crater);
     }
 
@@ -348,10 +367,24 @@ public class MazeBuilder
 
     private void BuildDiamond()
     {
-        var diamond = new Diamond
+        var grounds = _mazeWhichWeBuildRightNow
+            .Cells
+            .Where(x => x is Ground)
+            .ToList();
+               
+        var deadEnds = grounds
+            .Where(x => GetNearCell<Ground>(x).Count == 1)
+            .ToList();
+
+        // если свободных тупиков нет - берём случайную клетку земли (запасной вариант)
+        var placeForDiamond = deadEnds.Any()
+            ? GetRandomFromList(deadEnds)
+            : GetRandomFromList(grounds);
+
+        var diamond = new Diamond(_random)
         {
-            X = 8,
-            Y = 8,
+            X = placeForDiamond.X,
+            Y = placeForDiamond.Y,
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
         };
         _mazeWhichWeBuildRightNow.ReplaceToCell(diamond);
@@ -372,5 +405,77 @@ public class MazeBuilder
             };
             _mazeWhichWeBuildRightNow.ReplaceToCell(bar);
         }
+    }
+
+
+    private void BuildPaidDoor()
+    {   //берем все
+        var wallsNearGround = _mazeWhichWeBuildRightNow.Cells
+            //фильтруем стены
+            .Where(cell => cell is Wall)
+            //проверяем рядом землю
+            .Where(cell => GetNearCell<Ground>(cell).Any()
+            )
+            .ToList();
+        //выбираем стену из списка
+        var wall = GetRandomFromList(wallsNearGround);
+
+        //ставим
+        var paidDoor = new PaidDoor
+        {
+            X = wall.X,
+            Y = wall.Y,
+            MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
+        };
+        //меняем
+        _mazeWhichWeBuildRightNow.ReplaceToCell(paidDoor);
+    }
+    private void BuildMimicChest()
+    {
+        var maze = _mazeWhichWeBuildRightNow;
+
+        // Клетка считается "периметром", если она находится в крайней строке или крайнем столбце лабиринта (X == 0, X == Width-1, Y == 0, Y == Height-1).
+        bool IsPerimeter(IBaseCell cell) =>
+            cell.X == 0 || cell.X == maze.Width - 1
+            || cell.Y == 0 || cell.Y == maze.Height - 1;
+
+        // Основной вариант: земля, которая одновременно 1) лежит на периметре лабиринта 2) стоит рядом со стеной
+        var perimeterGroundsNearWall = maze
+            .Cells
+            .Where(x => x is Ground)
+            .Where(IsPerimeter)
+            .Where(x => GetNearCell<Wall>(x).Count > 0)
+            .ToList();
+
+        // Запасной вариант 1: если по периметру рядом со стеной ничего не нашлось, просто берём любую землю на периметре
+        var fallbackCandidates = perimeterGroundsNearWall.Any()
+            ? perimeterGroundsNearWall
+            : maze.Cells.Where(x => x is Ground).Where(IsPerimeter).ToList();
+
+        // Запасной вариант 2: если на периметре вообще нет земли (если застроили внешний контур целиком стенами), берём любую доступную землю рядом со стеной.
+        if (fallbackCandidates.Any() == false)
+        {
+            fallbackCandidates = maze
+                .Cells
+                .Where(x => x is Ground)
+                .Where(x => GetNearCell<Wall>(x).Count > 0)
+                .ToList();
+        }
+
+        // Запасной вариант 3:  любая земля вообще
+        if (fallbackCandidates.Any() == false)
+        {
+            fallbackCandidates = maze.Cells.Where(x => x is Ground).ToList();
+        }
+
+        var cell = GetRandomFromList(fallbackCandidates);
+
+        var mimicChest = new MimicChest
+        {
+            X = cell.X,
+            Y = cell.Y,
+            MazeWhereIWasCreated = maze
+        };
+        maze.ReplaceToCell(mimicChest);
     }
 }

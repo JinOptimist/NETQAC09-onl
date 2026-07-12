@@ -5,7 +5,7 @@ public class Thief : BaseCell
     private bool _isThiefActivated = false;
     public override char MySymbol => 'T';
     
-    public override bool PlayerStepInMe(Player player)
+    public override bool PlayerStepInMe(IPlayer player)
     {
         if (player.Coin > 0)
         { 

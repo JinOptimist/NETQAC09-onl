@@ -7,7 +7,7 @@ public class Flower : BaseCell
     public const int MAX_FLOWERS = 3;
     public override char MySymbol => '*';
 
-    public override bool PlayerStepInMe(Player player)
+    public override bool PlayerStepInMe(IPlayer player)
     {
         CheckFlowersLimit(player);
 
