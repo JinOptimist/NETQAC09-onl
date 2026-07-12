@@ -4,7 +4,7 @@ public class Thief : BaseCell
 {
     private bool _isThiefActivated = false;
     public override char MySymbol => 'T';
-    public override bool PlayerStepInMe(Player player)
+    public override bool PlayerStepInMe(IPlayer player)
     {
         try
         {
@@ -32,11 +32,8 @@ public class Thief : BaseCell
         }
         catch (Exception)
         {
-            //Console.WriteLine($"Invalid amount of coins. Check logs for more information."); //force-stop exception
-            //throw; //force-stop exception
-            
-            MazeWhereIWasCreated.LogMessages.Add("(T) Thief: Error occurred"); //informational exception
-            return false; //informational exception
+            Console.WriteLine($"Invalid amount of coins. Check logs for more information."); //force-stop exception
+            throw;
         }
     }
 }
