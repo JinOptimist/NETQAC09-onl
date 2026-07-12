@@ -72,15 +72,15 @@ namespace RPG_inventory.Game
                         break;
 
                     case 2:
-                        Console.WriteLine("Экипировка пока не реализована.");
+                        EquipItemMenu();
                         break;
 
                     case 3:
-                        Console.WriteLine("Использование зелий пока не реализовано.");
+                        Console.WriteLine("Использование зелий пока не готово");
                         break;
 
                     case 4:
-                        Console.WriteLine("Удаление предметов пока не реализовано.");
+                        Console.WriteLine("Удаление предметов пока не готово.");
                         break;
 
                     case 0:
@@ -150,7 +150,8 @@ namespace RPG_inventory.Game
             Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~");
         }
 
-        //попытка надесь вещь из инвентарю (выбор в меню)
+        //попытка надесь вещь из инвентарю (выбор в меню) - если закоменчено, значит переписал на новый вид
+        /*
         private void EquipItemMenu()
         {
             ShowInventory();
@@ -179,7 +180,9 @@ namespace RPG_inventory.Game
             {
                 Console.WriteLine("Этот предмет нельзя экипировать");
             }
-        }
+        }*/
+        
+
     }
 
 }

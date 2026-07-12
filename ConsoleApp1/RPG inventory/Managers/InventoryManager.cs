@@ -6,7 +6,7 @@ using RPG_inventory.Items;
 
 namespace RPG_inventory.Managers
 {
-    public class InventoryManager
+     class InventoryManager
     {
         public bool AddItem(Hero hero, BaseItem item) //добавление предмета в инвентарь
         {
