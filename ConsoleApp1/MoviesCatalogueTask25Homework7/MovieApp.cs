@@ -94,7 +94,7 @@ namespace MoviesCatalogueTask25Homework7
                 Console.WriteLine($"Please enter a four-digit year ({minYear} - {maxYear})");
             }
 
-
+            //вывод списка жанров и выбор жанра с проверкой на корректность ввода
             Console.WriteLine("Please select a genre from the list below:");
             foreach (var genreValue in Enum.GetValues(typeof(MovieGenreList)))
             {
@@ -122,7 +122,7 @@ namespace MoviesCatalogueTask25Homework7
             Console.WriteLine($"Movie \"{movieTitle}\" ({movieYear}) added to catalogue");
         }
 
-        private void ShowAllMovies()
+        private void ShowAllMovies() //метод отображения всех фильмов
         {
             Console.Clear();
             Console.WriteLine("=== All Movies ===");
@@ -143,7 +143,7 @@ namespace MoviesCatalogueTask25Homework7
             }
         }
 
-        private void DeleteMovie()
+        private void DeleteMovie() //метод удаления фильма
         {
             Console.Clear();
             Console.WriteLine("=== Delete a movie ===");
@@ -155,6 +155,7 @@ namespace MoviesCatalogueTask25Homework7
                 return;
             }
 
+            //удаление фильма по индексу с проверкой на корректность ввода
             Console.WriteLine("Select the index of the movie you want to delete:");
             for (var i = 0; i < moviesList.Count; i++)
             {
@@ -179,6 +180,7 @@ namespace MoviesCatalogueTask25Homework7
 
             var isDeleted = _catalog.Delete(selectedMovieNumberToDelete);
 
+            //вывод сообщения об успешном удалении или ошибке
             if (isDeleted)
             {
                 Console.WriteLine($"Movie \"{selectedMovieToDelete}\" has been removed");
@@ -188,7 +190,7 @@ namespace MoviesCatalogueTask25Homework7
                 Console.WriteLine("Could not delete the movie");
             }
         }
-        private void FilterByGenre()
+        private void FilterByGenre() //метод фильтрации фильмов по жанру
         {
             Console.Clear();
             Console.WriteLine("=== Filter by Genre ===");
@@ -200,6 +202,7 @@ namespace MoviesCatalogueTask25Homework7
                 return;
             }
 
+            //вывод списка жанров и выбор жанра с проверкой на корректность ввода
             Console.WriteLine("Select a genre to filter by:");
             foreach (var genreValue in Enum.GetValues(typeof(MovieGenreList)))
             {
@@ -220,6 +223,7 @@ namespace MoviesCatalogueTask25Homework7
                 Console.WriteLine("Please choose a number from the list");
             }
 
+            //фильтрация фильмов по выбранному жанру и вывод результатов
             var selectedGenre = (MovieGenreList)genreInputNumber;
 
             var filteredMovies = _catalog.GetByGenre(selectedGenre);
@@ -238,7 +242,7 @@ namespace MoviesCatalogueTask25Homework7
             }
         }
 
-        private void RateMovie()
+        private void RateMovie() //метод оценки фильма
         {
             Console.Clear();
             Console.WriteLine("=== Rate a Movie ===");
@@ -250,6 +254,7 @@ namespace MoviesCatalogueTask25Homework7
                 return;
             }
 
+            //вывод списка фильмов с текущим рейтингом и выбор фильма по индексу с проверкой на корректность ввода
             Console.WriteLine("Select the index of the movie you want to rate:");
             for (var i = 0; i < moviesList.Count; i++)
             {
@@ -271,6 +276,7 @@ namespace MoviesCatalogueTask25Homework7
                 Console.WriteLine($"Please enter a number between 0 and {moviesList.Count - 1}");
             }
 
+            //ввод рейтинга фильма с проверкой на корректность ввода
             var movieRating = 0;
             while (true)
             {
@@ -299,7 +305,7 @@ namespace MoviesCatalogueTask25Homework7
             }
         }
 
-        private void SearchByTitle()
+        private void SearchByTitle() //метод поиска фильма по названию
         {
             Console.Clear();
             Console.WriteLine("=== Search by title ===");
@@ -311,6 +317,7 @@ namespace MoviesCatalogueTask25Homework7
                 return;
             }
 
+            //ввод ключевого слова для поиска с проверкой на пустую строку
             var searchKeyword = string.Empty;
             while (string.IsNullOrWhiteSpace(searchKeyword))
             {
@@ -322,6 +329,8 @@ namespace MoviesCatalogueTask25Homework7
                 }
             }
 
+
+            //поиск фильмов по ключевому слову и вывод результатов
             var foundMovies = _catalog.SearchByTitle(searchKeyword);
 
             Console.WriteLine($"Search results for \"{searchKeyword}\"");
@@ -338,20 +347,22 @@ namespace MoviesCatalogueTask25Homework7
             }
         }
 
-        private void ShowTopMovies()
+        private void ShowTopMovies() //метод отображения топ 5 фильмов по рейтингу
         {
+            var topCount = 5;
             Console.Clear(); 
-            Console.WriteLine("=== Top 5 ===");
+            Console.WriteLine($"=== Top {topCount} ===");
 
-            var topMovies = _catalog.GetTopMovies(5);
+
+            var topMovies = _catalog.GetTopMovies(topCount);
 
             if (topMovies.Count == 0)
             {
                 Console.WriteLine("No rated movies found");
                 return;
             }
-
-            Console.WriteLine("Here are the highest rated movies:");
+           
+            Console.WriteLine($"Here are the highest rated movies (if there're more than 5 highest rated, the first rated will be shown):");
             var position = 1;
             foreach (var movie in topMovies)
             {
