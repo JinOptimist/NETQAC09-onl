@@ -32,7 +32,7 @@ public class Thief : BaseCell
         }
         catch (Exception)
         {
-            Console.WriteLine($"Invalid amount of coins. Check logs for more information."); //force-stop exception
+            Console.WriteLine($"Invalid amount of coins. Check logs for more information.");
             throw;
         }
     }
