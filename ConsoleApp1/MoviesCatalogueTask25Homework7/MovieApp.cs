@@ -17,7 +17,7 @@ namespace MoviesCatalogueTask25Homework7
                 Console.WriteLine("3. Show all movies");
                 Console.WriteLine("4. Search by title");
                 Console.WriteLine("5. Filter by genre");
-                Console.WriteLine("6. Top 5");
+                Console.WriteLine("6. Top movies");
                 Console.WriteLine("7. Delete a movie");
                 Console.WriteLine("0. Exit");
 
