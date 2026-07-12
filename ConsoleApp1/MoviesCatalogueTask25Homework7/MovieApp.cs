@@ -48,7 +48,7 @@ namespace MoviesCatalogueTask25Homework7
                         ShowTopMovies();
                         break;
                     case 7:
-                        DeleteMovie(); 
+                        DeleteMovie();
                         break;
                     case 0:
                         Console.WriteLine("We don't have a db now, so say goodbye to your data");
@@ -134,12 +134,11 @@ namespace MoviesCatalogueTask25Homework7
                 Console.WriteLine("There's no movies yet");
                 return;
             }
-
+            
             foreach (var movie in moviesList)
             {
-                var movieRating = movie.Rating.HasValue ? $"{movie.Rating.Value}/10" : "N/A";
-
-                Console.WriteLine($"- \"{movie.Title}\" ({movie.Year}) | Genre: {movie.Genre} | Rating: {movieRating}");
+                var ratingDisplay = movie.Rating.HasValue ? $"{movie.Rating.Value}/10" : "N/A";
+                Console.WriteLine($"- \"{movie.Title}\" ({movie.Year}) | Genre: {movie.Genre} | Rating: {ratingDisplay}");
             }
         }
 
@@ -173,7 +172,7 @@ namespace MoviesCatalogueTask25Homework7
                     selectedMovieNumberToDelete = parsedIndex;
                     break;
                 }
-                Console.WriteLine($"Error: Invalid selection. Please enter a number between 0 and {moviesList.Count - 1}");
+                Console.WriteLine($"Please enter a number between 0 and {moviesList.Count - 1}");
             }
 
             var selectedMovieToDelete = moviesList[selectedMovieNumberToDelete].Title;
@@ -190,10 +189,11 @@ namespace MoviesCatalogueTask25Homework7
                 Console.WriteLine("Could not delete the movie");
             }
         }
+
         private void FilterByGenre() //метод фильтрации фильмов по жанру
         {
             Console.Clear();
-            Console.WriteLine("=== Filter by Genre ===");
+            Console.WriteLine("=== Filter by genre ===");
 
             var allMovies = _catalog.GetAll();
             if (allMovies.Count == 0)
@@ -258,14 +258,14 @@ namespace MoviesCatalogueTask25Homework7
             Console.WriteLine("Select the index of the movie you want to rate:");
             for (var i = 0; i < moviesList.Count; i++)
             {
-                var currentRating = moviesList[i].Rating.HasValue ? $"{moviesList[i].Rating.Value}/10" : "No rating yet";
-                Console.WriteLine($"{i}. \"{moviesList[i].Title}\" (Current rating: {currentRating})");
+                var ratingDisplay = moviesList[i].Rating.HasValue ? $"{moviesList[i].Rating.Value}/10" : "No rating yet";
+                Console.WriteLine($"{i}. \"{moviesList[i].Title}\" (Current rating: {ratingDisplay})");
             }
 
             var selectedIndex = 0;
             while (true)
             {
-                Console.Write("\nEnter movie index:");
+                Console.Write("Enter movie index:");
                 var indexInput = Console.ReadLine();
 
                 if (int.TryParse(indexInput, out var parsedIndex) && parsedIndex >= 0 && parsedIndex < moviesList.Count)
@@ -283,7 +283,7 @@ namespace MoviesCatalogueTask25Homework7
                 Console.Write("Enter your rating (from 1 to 10):");
                 var ratingInput = Console.ReadLine();
 
-                if (int.TryParse(ratingInput, out var parsedRating) && parsedRating >= 1.0 && parsedRating <= 10.0)
+                if (int.TryParse(ratingInput, out var parsedRating) && parsedRating >= 1 && parsedRating <= 10)
                 {
                     movieRating = parsedRating;
                     break;
@@ -329,7 +329,6 @@ namespace MoviesCatalogueTask25Homework7
                 }
             }
 
-
             //поиск фильмов по ключевому слову и вывод результатов
             var foundMovies = _catalog.SearchByTitle(searchKeyword);
 
@@ -350,9 +349,8 @@ namespace MoviesCatalogueTask25Homework7
         private void ShowTopMovies() //метод отображения топ 5 фильмов по рейтингу
         {
             var topCount = 5;
-            Console.Clear(); 
+            Console.Clear();
             Console.WriteLine($"=== Top {topCount} ===");
-
 
             var topMovies = _catalog.GetTopMovies(topCount);
 
@@ -361,12 +359,13 @@ namespace MoviesCatalogueTask25Homework7
                 Console.WriteLine("No rated movies found");
                 return;
             }
-           
+
             Console.WriteLine($"Here are the highest rated movies (if there're more than 5 highest rated, the first rated will be shown):");
             var position = 1;
             foreach (var movie in topMovies)
             {
-                Console.WriteLine($"{position}. \"{movie.Title}\" ({movie.Year}) | Rating: {movie.Rating.Value}/10");
+                var ratingDisplay = movie.Rating.HasValue ? $"{movie.Rating.Value}/10" : "N/A";
+                Console.WriteLine($"{position}. \"{movie.Title}\" ({movie.Year}) | Rating: {ratingDisplay}");
                 position++;
             }
         }
