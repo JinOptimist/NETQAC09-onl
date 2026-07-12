@@ -44,6 +44,9 @@ namespace MoviesCatalogueTask25Homework7
                     case 5:
                         FilterByGenre();
                         break;
+                    case 6:
+                        ShowTopMovies();
+                        break;
                     case 7:
                         DeleteMovie(); 
                         break;
@@ -332,6 +335,28 @@ namespace MoviesCatalogueTask25Homework7
             {
                 var ratingDisplay = movie.Rating.HasValue ? $"{movie.Rating.Value}/10" : "N/A";
                 Console.WriteLine($"- \"{movie.Title}\" ({movie.Year}) | Genre: {movie.Genre} | Rating: {ratingDisplay}");
+            }
+        }
+
+        private void ShowTopMovies()
+        {
+            Console.Clear(); 
+            Console.WriteLine("=== Top 5 ===");
+
+            var topMovies = _catalog.GetTopMovies(5);
+
+            if (topMovies.Count == 0)
+            {
+                Console.WriteLine("No rated movies found");
+                return;
+            }
+
+            Console.WriteLine("Here are the highest rated movies:");
+            var position = 1;
+            foreach (var movie in topMovies)
+            {
+                Console.WriteLine($"{position}. \"{movie.Title}\" ({movie.Year}) | Rating: {movie.Rating.Value}/10");
+                position++;
             }
         }
     }

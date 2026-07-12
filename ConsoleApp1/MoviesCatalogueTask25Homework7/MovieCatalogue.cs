@@ -51,5 +51,14 @@ namespace MoviesCatalogueTask25Homework7
                 .Where(m => m.Title.Contains(keyword, StringComparison.OrdinalIgnoreCase))
                 .ToList();
         }
+
+        public List<Movie> GetTopMovies(int count)
+        {
+            return _movies
+                .Where(m => m.Rating.HasValue)
+                .OrderByDescending(m => m.Rating.Value)
+                .Take(count)
+                .ToList();
+        }
     }
 }
