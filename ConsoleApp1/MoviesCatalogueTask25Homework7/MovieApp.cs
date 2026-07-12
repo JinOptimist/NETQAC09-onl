@@ -231,7 +231,7 @@ namespace MoviesCatalogueTask25Homework7
             Console.WriteLine($"Movies in genre: {selectedGenre}");
             if (filteredMovies.Count == 0)
             {
-                Console.WriteLine($"No movies found in {selectedGenre} genre.");
+                Console.WriteLine($"No movies found in {selectedGenre} genre");
                 return;
             }
 
@@ -258,7 +258,7 @@ namespace MoviesCatalogueTask25Homework7
             Console.WriteLine("Select the index of the movie you want to rate:");
             for (var i = 0; i < moviesList.Count; i++)
             {
-                var ratingDisplay = moviesList[i].Rating.HasValue ? $"{moviesList[i].Rating.Value}/10" : "No rating yet";
+                var ratingDisplay = moviesList[i].Rating.HasValue ? $"{moviesList[i].Rating.Value}/10" : "N/A";
                 Console.WriteLine($"{i}. \"{moviesList[i].Title}\" (Current rating: {ratingDisplay})");
             }
 
