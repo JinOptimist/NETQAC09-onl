@@ -14,6 +14,7 @@ public class Player : BaseCell, IPlayer
     public int CurrentHealth { get; set; } = MAX_HEALTH;
     public int Sand { get; set; }
     public override char MySymbol => '@';
+    public int Flowers { get; set; } = 0;
 
     public override bool PlayerStepInMe(IPlayer player)
     {
