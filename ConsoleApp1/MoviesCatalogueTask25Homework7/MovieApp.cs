@@ -18,12 +18,12 @@ namespace MoviesCatalogueTask25Homework7
                 Console.WriteLine("4. Search by title");
                 Console.WriteLine("5. Filter by genre");
                 Console.WriteLine("6. Top 5");
-                Console.WriteLine("7. Delete movie");
+                Console.WriteLine("7. Delete a movie");
                 Console.WriteLine("0. Exit");
 
                 if (!int.TryParse(Console.ReadLine(), out int option) || option < 0 || option > 7)
                 {
-                    Console.WriteLine("Invalid option. Try again.");
+                    Console.WriteLine("Invalid option");
                     continue;
                 }
 
@@ -35,11 +35,17 @@ namespace MoviesCatalogueTask25Homework7
                     case 3:
                         ShowAllMovies();
                         break;
+                    case 5:
+                        FilterByGenre();
+                        break;
+                    case 7:
+                        DeleteMovie(); 
+                        break;
                     case 0:
                         Console.WriteLine("We don't have a db now, so say goodbye to your data");
                         return;
                     default:
-                        Console.WriteLine("Not implemented yet.");
+                        Console.WriteLine("Not implemented yet");
                         break;
                 }
             }
@@ -71,10 +77,10 @@ namespace MoviesCatalogueTask25Homework7
                     movieYear = parsedYear;
                     break;
                 }
-                Console.WriteLine("Please enter a four-digit year (1990-2050).");
+                Console.WriteLine("Please enter a four-digit year (1990-2050)");
             }
 
-            Console.WriteLine("Select a genre:");
+            Console.WriteLine("Please have a look at the list of the available genres:");
             foreach (var genreValue in Enum.GetValues(typeof(MovieGenreList)))
             {
                 Console.WriteLine($"{(int)genreValue}. {genreValue}");
@@ -83,7 +89,7 @@ namespace MoviesCatalogueTask25Homework7
             var genreInputNumber = 0;
             while (true)
             {
-                Console.WriteLine("Enter genre number:");
+                Console.WriteLine("And enter genre number:");
                 var genreInput = Console.ReadLine();
 
                 if (int.TryParse(genreInput, out var parsedGenre) && Enum.IsDefined(typeof(MovieGenreList), parsedGenre))
@@ -91,7 +97,7 @@ namespace MoviesCatalogueTask25Homework7
                     genreInputNumber = parsedGenre;
                     break;
                 }
-                Console.WriteLine("Please choose a number from the list.");
+                Console.WriteLine("Please choose a number from the list");
             }
 
             var movieGenre = (MovieGenreList)genreInputNumber;
@@ -119,6 +125,101 @@ namespace MoviesCatalogueTask25Homework7
                 string movieRating = movie.Rating.HasValue ? $"{movie.Rating.Value}/10" : "N/A";
 
                 Console.WriteLine($"- \"{movie.Title}\" ({movie.Year}) | Genre: {movie.Genre} | Rating: {movieRating}");
+            }
+        }
+
+        private void DeleteMovie()
+        {
+            Console.WriteLine("=== Delete a movie ===");
+
+            var moviesList = _catalog.GetAll();
+            if (moviesList.Count == 0)
+            {
+                Console.WriteLine("No movies to delete");
+                return;
+            }
+
+            Console.WriteLine("Select the index of the movie you want to delete:");
+            for (var i = 0; i < moviesList.Count; i++)
+            {
+                Console.WriteLine($"{i}. \"{moviesList[i].Title}\" ({moviesList[i].Year})");
+            }
+
+            var selectedMovieNumberToDelete = 0;
+            while (true)
+            {
+                Console.WriteLine("Enter movie index to delete:");
+                var indexInput = Console.ReadLine();
+
+                // Проверяем, что введено число от 0 до максимального индекса списка
+                if (int.TryParse(indexInput, out var parsedIndex) && parsedIndex >= 0 && parsedIndex < moviesList.Count)
+                {
+                    selectedMovieNumberToDelete = parsedIndex;
+                    break;
+                }
+                Console.WriteLine($"Error: Invalid selection. Please enter a number between 0 and {moviesList.Count - 1}");
+            }
+
+            var selectedMovieToDelete = moviesList[selectedMovieNumberToDelete].Title;
+
+            // 3. Вызываем простой метод Delete
+            var isDeleted = _catalog.Delete(selectedMovieNumberToDelete);
+
+            if (isDeleted)
+            {
+                Console.WriteLine($"Movie \"{selectedMovieToDelete}\" has been removed");
+            }
+            else
+            {
+                Console.WriteLine("Could not delete the movie");
+            }
+        }
+        private void FilterByGenre()
+        {
+            Console.WriteLine("=== Filter by Genre ===");
+
+            var allMovies = _catalog.GetAll();
+            if (allMovies.Count == 0)
+            {
+                Console.WriteLine("No movies to filter");
+                return;
+            }
+
+            Console.WriteLine("Select a genre to filter by:");
+            foreach (var genreValue in Enum.GetValues(typeof(MovieGenreList)))
+            {
+                Console.WriteLine($"{(int)genreValue}. {genreValue}");
+            }
+
+            var genreInputNumber = 0;
+            while (true)
+            {
+                Console.WriteLine("Enter genre number:");
+                var genreInput = Console.ReadLine();
+
+                if (int.TryParse(genreInput, out var parsedGenre) && Enum.IsDefined(typeof(MovieGenreList), parsedGenre))
+                {
+                    genreInputNumber = parsedGenre;
+                    break;
+                }
+                Console.WriteLine("Please choose a number from the list");
+            }
+
+            var selectedGenre = (MovieGenreList)genreInputNumber;
+
+            var filteredMovies = _catalog.GetByGenre(selectedGenre);
+
+            Console.WriteLine($"Movies in genre: {selectedGenre}");
+            if (filteredMovies.Count == 0)
+            {
+                Console.WriteLine($"No movies found in {selectedGenre} genre.");
+                return;
+            }
+
+            foreach (var movie in filteredMovies)
+            {
+                var ratingDisplay = movie.Rating.HasValue ? $"{movie.Rating.Value}/10" : "N/A";
+                Console.WriteLine($"- \"{movie.Title}\" ({movie.Year}) | Rating: {ratingDisplay}");
             }
         }
     }

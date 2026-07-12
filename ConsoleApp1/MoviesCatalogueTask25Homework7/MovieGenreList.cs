@@ -12,6 +12,8 @@ namespace MoviesCatalogueTask25Homework7
         SciFi = 4,
         Horror = 5,
         Animation = 6,
+        History = 7,
+        TV_Show = 8,
         Other
     }
 }

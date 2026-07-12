@@ -17,6 +17,23 @@ namespace MoviesCatalogueTask25Homework7
         {
             return _movies;
         }
-        // Rate, Search, GetTop5 и т.д.
+
+        public bool Delete(int index)
+        {
+            if (index < 0 || index >= _movies.Count)
+            {
+                return false; 
+            }
+
+            _movies.RemoveAt(index);
+            return true;
+        }
+
+        public List<Movie> GetByGenre(MovieGenreList genre)
+        {
+            return _movies.Where(m => m.Genre == genre).ToList();
+        }
+
+        //Search, GetTop5 и т.д.
     }
 }
