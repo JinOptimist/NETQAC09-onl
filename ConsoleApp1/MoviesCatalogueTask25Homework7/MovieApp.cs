@@ -56,7 +56,7 @@ namespace MoviesCatalogueTask25Homework7
                 movieTitle = Console.ReadLine();
                 if (string.IsNullOrWhiteSpace(movieTitle))
                 {
-                    Console.WriteLine("Error: Title cannot be empty. Please try again.");
+                    Console.WriteLine("Title cannot be empty");
                 }
             }
 
@@ -71,7 +71,7 @@ namespace MoviesCatalogueTask25Homework7
                     movieYear = parsedYear;
                     break;
                 }
-                Console.WriteLine("Error: Invalid input. Please enter a valid four-digit year (1990-2050).");
+                Console.WriteLine("Please enter a four-digit year (1990-2050).");
             }
 
             Console.WriteLine("Select a genre:");
@@ -83,7 +83,7 @@ namespace MoviesCatalogueTask25Homework7
             var genreInputNumber = 0;
             while (true)
             {
-                Console.Write("Enter genre number:");
+                Console.WriteLine("Enter genre number:");
                 var genreInput = Console.ReadLine();
 
                 if (int.TryParse(genreInput, out var parsedGenre) && Enum.IsDefined(typeof(MovieGenreList), parsedGenre))
@@ -91,7 +91,7 @@ namespace MoviesCatalogueTask25Homework7
                     genreInputNumber = parsedGenre;
                     break;
                 }
-                Console.WriteLine("Error: Invalid genre selection. Please choose a number from the list.");
+                Console.WriteLine("Please choose a number from the list.");
             }
 
             var movieGenre = (MovieGenreList)genreInputNumber;
@@ -106,23 +106,19 @@ namespace MoviesCatalogueTask25Homework7
         {
             Console.WriteLine("=== All Movies ===");
 
-            // Запрашиваем список фильмов у каталога
             var moviesList = _catalog.GetAll();
 
-            // Проверяем: если фильмов еще нет, то и выводить нечего
             if (moviesList.Count == 0)
             {
                 Console.WriteLine("There's no movies yet");
                 return;
             }
 
-            // Бежим циклом по каждому фильму и выводим его свойства на экран
             foreach (var movie in moviesList)
             {
-                // Проверяем рейтинг: если он null, пишем "N/A", иначе выводим число
-                string ratingDisplay = movie.Rating.HasValue ? $"{movie.Rating.Value}/10" : "N/A";
+                string movieRating = movie.Rating.HasValue ? $"{movie.Rating.Value}/10" : "N/A";
 
-                Console.WriteLine($"- \"{movie.Title}\" ({movie.Year}) | Genre: {movie.Genre} | Rating: {ratingDisplay}");
+                Console.WriteLine($"- \"{movie.Title}\" ({movie.Year}) | Genre: {movie.Genre} | Rating: {movieRating}");
             }
         }
     }
