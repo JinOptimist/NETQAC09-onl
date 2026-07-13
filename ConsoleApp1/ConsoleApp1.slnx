@@ -1,4 +1,5 @@
 <Solution>
+  <Project Path="Bingo/Bingo.csproj" Id="00761b70-ba58-438e-9c24-59720ef1bd35" />
   <Project Path="ClassLibrary1/ClassLibrary1.csproj" />
   <Project Path="ConsoleApp1/ConsoleApp1.csproj" />
   <Project Path="ExceptionExamples/ExceptionExamples.csproj" Id="ac629eb6-82a8-4dc6-9917-f2e6e235941e" />
