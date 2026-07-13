@@ -15,6 +15,17 @@ namespace Bingo
 
             while (true)
             {
+                Console.WriteLine("Press Enter to draw next number or 'b' + Enter to check for BINGO ('q' to quit).");
+                var input = Console.ReadLine()?.Trim().ToLower();
+
+                if (input == "q") break;
+
+                if (input == "b")
+                {
+                    Console.WriteLine(_card.CheckBingo() ? "BINGO confirmed!" : "No BINGO.");
+                    continue;
+                }
+
                 var number = _bag.Draw();
                 if (number == null)
                 {
@@ -31,13 +42,6 @@ namespace Bingo
                     Console.WriteLine("BINGO! You're victorious!");
                     break;
                 }
-
-                Console.WriteLine("Press Enter to draw next number or 'b' + Enter to check for BINGO.");
-                var input = Console.ReadLine();
-                if (input?.Trim().ToLower() == "b")
-                {
-                    Console.WriteLine(_card.CheckBingo() ? "BINGO confirmed!" : "No BINGO.");
-                }
             }
 
         }
@@ -45,7 +49,7 @@ namespace Bingo
         {
             Console.Clear();
             Console.WriteLine(_card.Render());
-            Console.WriteLine($"Выпало: {string.Join(", ", _bag.Drawn)}");
+            Console.WriteLine($"Numbers drawn: {string.Join(", ", _bag.Drawn)}");
             if (!string.IsNullOrEmpty(status)) Console.WriteLine(status);
         }
     }
