@@ -1,12 +1,17 @@
-﻿namespace MazeConsole.MazeModels.Cells;
+﻿using MazeConsole.MazeModels.Cells.Interaces;
+using MazeConsole.MazeModels.Intefaces;
 
-public abstract class BaseCell
+namespace MazeConsole.MazeModels.Cells;
+
+public abstract class BaseCell : IBaseCell
 {
     public int X { get; set; }
     public int Y { get; set; }
-    public Maze MazeWhereIWasCreated { get; set; }
+    public IMaze MazeWhereIWasCreated { get; set; }
 
     public abstract char MySymbol { get; }
+
+    public virtual ConsoleColor CellColor => ConsoleColor.White;
 
     /// <summary>
     /// Return true if Player can move
@@ -14,7 +19,7 @@ public abstract class BaseCell
     /// </summary>
     /// <param name="player"></param>
     /// <returns></returns>
-    public abstract bool PlayerStepInMe(Player player);
+    public abstract bool PlayerStepInMe(IPlayer player);
 
     public string GetMyPosition()
     {
@@ -23,6 +28,6 @@ public abstract class BaseCell
 
     public override string ToString()
     {
-        return  $"[{X}, {Y}]";
+        return $"[{X}, {Y}]";
     }
 }

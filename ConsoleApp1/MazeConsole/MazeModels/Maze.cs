@@ -1,32 +1,34 @@
 ﻿using MazeConsole.MazeModels.Cells;
+using MazeConsole.MazeModels.Cells.Interaces;
+using MazeConsole.MazeModels.Intefaces;
 
 namespace MazeConsole.MazeModels;
 
 // papa
-public class Maze
+public class Maze : IMaze
 {
     public int Seed { get; set; }
     public int Width { get; set; }
     public int Height { get; set; }
-    
+    public Random Random { get; set; }
 
-    public Player Player { get; set; }
+    public IPlayer Player { get; set; }
 
     public List<string> LogMessages { get; set; } = new List<string>();
 
 
     // My child
-    public List<BaseCell> Cells { get; set; } = new();
+    public List<IBaseCell> Cells { get; set; } = new();
 
-    public void ReplaceToCell(BaseCell newCell)
+    public void ReplaceToCell(IBaseCell newCell)
     {
-        var oldCell = Cells.First(x => x.X == newCell.X 
+        var oldCell = Cells.First(x => x.X == newCell.X
             && x.Y == newCell.Y);
         Cells.Remove(oldCell);
         Cells.Add(newCell);
     }
 
-    public void ReplaceCellToGround(BaseCell oldCell)
+    public void ReplaceCellToGround(IBaseCell oldCell)
     {
         if (!Cells.Contains(oldCell))
         {
@@ -43,7 +45,7 @@ public class Maze
         Cells.Add(ground);
     }
 
-    public void ReplaceCellToTree(BaseCell oldCell)
+    public void ReplaceCellToTree(IBaseCell oldCell)
     {
         Cells.Remove(oldCell);
         var tree = new Tree
@@ -55,7 +57,7 @@ public class Maze
         Cells.Add(tree);
     }
 
-    public void ReplaceCellToSnake(BaseCell oldCell)
+    public void ReplaceCellToSnake(IBaseCell oldCell)
     {
         Cells.Remove(oldCell);
         var snake = new Snake

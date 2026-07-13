@@ -22,6 +22,14 @@ public class MazeContoller
         {
             drawer.Draw(_maze);
 
+            if (_maze.Player.CurrentHealth <= 0)
+            {
+                Console.WriteLine();
+                Console.WriteLine("You died! Game over.");
+                break;
+            }
+            //Если здоровье игрока закончится, то завершаем игру
+
             var userAction = GetUserAction();
 
             if (userAction == UserAction.Exit)
@@ -50,6 +58,8 @@ public class MazeContoller
             try
             {
                 _maze = builder.BuildTestMaze();
+                // раскомментить, если нужен сид в логах
+                //_logger.AddLog($"Maze build success with seed {_maze.Seed}");
                 return;
             }
             catch (Exception ex)

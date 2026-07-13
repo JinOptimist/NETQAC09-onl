@@ -2,11 +2,18 @@
 
 public class Coin : BaseCell
 {
-    private int coinCount = 3;
+    public const int COINT_COUNT_INITIAL = 3;
+
+    private int coinCount = COINT_COUNT_INITIAL;
     public override char MySymbol => 'c';
 
-    public override bool PlayerStepInMe(Player player)
+    public override bool PlayerStepInMe(IPlayer player)
     {
+        if (player.Coin < 0)
+        {
+            throw new Exception("Player can't be with our money");
+        }
+
         player.Coin++;
 
         coinCount--;
