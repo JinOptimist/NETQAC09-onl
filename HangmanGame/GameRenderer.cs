@@ -9,12 +9,11 @@ namespace HangmanGame
         public void Do()
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
-            Console.InputEncoding = System.Text.Encoding.UTF8;
 
-            WordBank wordRepository = new WordBank();
+            WordBank WordBank = new WordBank();
 
             // Создаем состояние игры, передав туда случайное слово
-            HangmanGame game = new HangmanGame(wordRepository.GetRandomWord());
+            HangmanGame game = new HangmanGame(WordBank.GetRandomWord());
 
             Console.WriteLine("=== ДОБРО ПОЖАЛОВАТЬ В ИГРУ ВИСЕЛИЦА! ===");
 
@@ -34,7 +33,6 @@ namespace HangmanGame
                 if (string.IsNullOrEmpty(input) || input.Length != 1 || !char.IsLetter(input[0]))
                 {
                     ShowMessage("⚠️ Пожалуйста, введите ровно ОДНУ букву.", ConsoleColor.Yellow);
-                    continue;
                 }
 
                 char inputLetter = input[0];
@@ -42,7 +40,6 @@ namespace HangmanGame
                 if (game.IsLetterAlreadyGuessed(inputLetter))
                 {
                     ShowMessage("⚠️ Вы уже вводили эту букву.", ConsoleColor.Yellow);
-                    continue;
                 }
 
                 // Передаем букву в состояние игры и проверяем результат
