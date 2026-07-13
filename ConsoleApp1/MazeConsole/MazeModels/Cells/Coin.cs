@@ -4,7 +4,8 @@ public class Coin : BaseCell
 {
     public const int COINT_COUNT_INITIAL = 3;
 
-    private int coinCount = COINT_COUNT_INITIAL;
+    private int _coinCount = COINT_COUNT_INITIAL;
+
     public override char MySymbol => 'c';
 
     public override bool PlayerStepInMe(IPlayer player)
@@ -16,9 +17,9 @@ public class Coin : BaseCell
 
         player.Coin++;
 
-        coinCount--;
+        _coinCount--;
 
-        if (coinCount == 0)
+        if (_coinCount == 0)
         {
             MazeWhereIWasCreated.ReplaceCellToGround(this);
         }
