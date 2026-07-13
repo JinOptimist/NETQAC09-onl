@@ -88,7 +88,7 @@ public class MazeBuilder
                .Where(x => x is Ground)
                .ToList();
 
-        BaseCell ground;
+        IBaseCell ground;
 
         for (int i = 0; i < maxFlowers; i++)
         {
