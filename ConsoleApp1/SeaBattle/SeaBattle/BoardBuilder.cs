@@ -259,10 +259,11 @@ public class BoardBuilder
             for (int i = yStart; i > yStart - shipToBuild; i--)
             {
                 cellToIterate = board.Cells.First(x => x.X == xStart && x.Y == i);
-                var shipPartToAdd = board.ReplaceCellToShip(cellToIterate, whoToBuildFor);
-                ShipToReturn.ShipParts.Add(shipPartToAdd);
-                MakeCellsNotAvailable(board,xStart, i);
-                 
+                BuildShip(board, cellToIterate, whoToBuildFor, ShipToReturn, xStart, i);
+                //var shipPartToAdd = board.ReplaceCellToShip(cellToIterate, whoToBuildFor);
+                //ShipToReturn.ShipParts.Add(shipPartToAdd);
+                //MakeCellsNotAvailable(board,xStart, i);
+
             }
         }
         if (navigation == Direction.Down) // Будем строить вниз
@@ -270,9 +271,10 @@ public class BoardBuilder
             for (int i = yStart; i < yStart + shipToBuild; i++)
             {
                 cellToIterate = board.Cells.First(x => x.X == xStart && x.Y == i);
-                var shipPartToAdd = board.ReplaceCellToShip(cellToIterate, whoToBuildFor);
-                ShipToReturn.ShipParts.Add(shipPartToAdd);
-                MakeCellsNotAvailable(board,xStart, i);
+                BuildShip(board, cellToIterate,whoToBuildFor,ShipToReturn,xStart,i);
+                //var shipPartToAdd = board.ReplaceCellToShip(cellToIterate, whoToBuildFor);
+                //ShipToReturn.ShipParts.Add(shipPartToAdd);
+                //MakeCellsNotAvailable(board,xStart, i);
             }
         }
         if (navigation == Direction.Left) // Будем строить влево
@@ -280,9 +282,10 @@ public class BoardBuilder
             for (int i = xStart; i > xStart - shipToBuild; i--)
             {
                 cellToIterate = board.Cells.First(x => x.X == i && x.Y == yStart);
-                var shipPartToAdd = board.ReplaceCellToShip(cellToIterate, whoToBuildFor);
-                ShipToReturn.ShipParts.Add(shipPartToAdd);
-                MakeCellsNotAvailable(board,i, yStart);
+                BuildShip(board, cellToIterate, whoToBuildFor, ShipToReturn, i, yStart);
+                //var shipPartToAdd = board.ReplaceCellToShip(cellToIterate, whoToBuildFor);
+                //ShipToReturn.ShipParts.Add(shipPartToAdd);
+                //MakeCellsNotAvailable(board,i, yStart);
             }
         }
         if (navigation == Direction.Right) // Будем строить вправо
@@ -290,10 +293,11 @@ public class BoardBuilder
             for (int i = xStart; i < xStart + shipToBuild; i++)
             {
                 cellToIterate = board.Cells.First(x => x.X == i && x.Y == yStart);
-                var shipPartToAdd = board.ReplaceCellToShip(cellToIterate, whoToBuildFor);
-                ShipToReturn.ShipParts.Add(shipPartToAdd);
-                MakeCellsNotAvailable(board,i, yStart);
-                
+                BuildShip(board, cellToIterate, whoToBuildFor, ShipToReturn, i, yStart);
+                //var shipPartToAdd = board.ReplaceCellToShip(cellToIterate, whoToBuildFor);
+                //ShipToReturn.ShipParts.Add(shipPartToAdd);
+                //MakeCellsNotAvailable(board,i, yStart);
+
             }
         }
         return ShipToReturn;
@@ -327,5 +331,12 @@ public class BoardBuilder
                 board.Cells.First(x => x.X == i && x.Y == j).IsAvailable = false;
             }
         }
+    }
+    private void BuildShip(Board board, BaseCell cellToBuild ,CellType whoToBuildFor, Ship shipToFix, int x, int y)
+    {
+        var shipPartToAdd = board.ReplaceCellToShip(cellToBuild, whoToBuildFor);
+        shipToFix.ShipParts.Add(shipPartToAdd);
+        MakeCellsNotAvailable(board, x, y);
+
     }
 }
