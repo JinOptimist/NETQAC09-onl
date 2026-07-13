@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using RPG_inventory.Characters;
+using RPG_inventory.Enums;
 using RPG_inventory.Items;
 using RPG_inventory.Managers;
 
@@ -11,16 +12,45 @@ namespace RPG_inventory.Game
     {
         private Hero hero;
         private InventoryManager inventoryManager;
-        public RpgInventoryGame()
+        private List<Monster> monsters;
+        private Random random;
+        private List<BaseItem> possibleLoot;
+        public RpgInventoryGame() //это конструктор всей игры
         {
+            random = new Random();
             // Создается менеджер инвентаря и стартовый герой, пока что это статичная заглушка, позже надо переделать на создание в виде метода типа createHero() и стартовых айтемов
             inventoryManager = new InventoryManager();
+            
             hero = new Hero(
                 "Воин",
                 100, // Максимальное HP
                 10,  // Базовая атака
                 5    // Базовая защита
             );
+
+            //список возможныых монстров
+            monsters = new List<Monster>()
+    {
+        new Monster("Орк", 18, 8),
+        new Monster("Скелет", 10, 4),
+        new Monster("Волк", 8, 3),
+        new Monster("Тролль", 25, 10),
+        new Monster("Призрак", 9, 11)
+    };
+            possibleLoot = new List<BaseItem>()
+{
+    new Weapon("Стальной меч", "Прочный меч", 7),
+
+    new Weapon("Боевой топор", "Тяжелый топор", 9),
+
+    new Armor("Железная броня", "Крепкая броня", 5),
+
+    new Armor("Щит", "Усиливает защиту", 4),
+
+    new Potion("Большое зелье", "Восстанавливает 50 HP", 50),
+
+    new Potion("Малое зелье", "Восстанавливает 20 HP", 20)
+};
 
             //Создаем ему стартовый меч, броню и зелье
             Weapon ironSword = new Weapon(
@@ -76,11 +106,15 @@ namespace RPG_inventory.Game
                         break;
 
                     case 3:
-                        Console.WriteLine("Использование зелий пока не готово");
+                        UsePotionMenu();
                         break;
 
                     case 4:
-                        Console.WriteLine("Удаление предметов пока не готово.");
+                        DropItemMenu();
+                        break;
+
+                    case 5:
+                        FightMonster();
                         break;
 
                     case 0:
@@ -88,7 +122,7 @@ namespace RPG_inventory.Game
                         return;
 
                     default:
-                        Console.WriteLine("Такого пункта меню нет.");
+                        Console.WriteLine("Такого пункта меню нет");
                         break;
                 }
 
@@ -145,44 +179,185 @@ namespace RPG_inventory.Game
             Console.WriteLine("1 - Показать инвентарь");
             Console.WriteLine("2 - Экипировать предмет");
             Console.WriteLine("3 - Использовать зелье");
+            Console.WriteLine("5 - Сразиться с монстром");
             Console.WriteLine("4 - Выбросить предмет");
             Console.WriteLine("0 - Выход");
             Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~");
         }
 
-        //попытка надесь вещь из инвентарю (выбор в меню) - если закоменчено, значит переписал на новый вид
+        //выбор предмета из инвентаря в меню, v1
         /*
-        private void EquipItemMenu()
+        private BaseItem? SelectItemFromInventory()
         {
+
             ShowInventory();
-            Console.Write("Введите номер предмета для экипировки: ");
+            Console.Write("Введите номер предмета: ");
+            string input = Console.ReadLine();
+            if (!int.TryParse(input, out int choice))   
+            {
+                Console.WriteLine("Некорректный ввод.");
+                return null;
+            }
+            // Проверяем, существует ли такой предмет
+            if (choice < 1 || choice > hero.Inventory.Count)
+            {
+                Console.WriteLine("Предмет с таким номером отсутствует.");
+                return null;
+            }
+            // Преобразуем номер пользователя в индекс списка (что бы не считать с 0)
+            int index = choice - 1;
+            return hero.Inventory[index];
+        }*/
+
+
+
+        //выбор предмета из инвентаря в меню,v2
+        private BaseItem? SelectItemFromInventory(params ItemType[] allowedTypes)
+        {
+            //Создаем список предметов, который будем показывать пользователю.
+            List<BaseItem> itemsToShow;
+            //Если типы не переданы, показываем весь инвентарь
+            if (allowedTypes.Length == 0)
+            {
+                itemsToShow = hero.Inventory;
+            }
+            else
+            {
+                //Оставляем только предметы нужных типов
+                itemsToShow = hero.Inventory
+                    .Where(item => allowedTypes.Contains(item.ItemType))
+                    .ToList();
+            }
+            //Проверяем, есть ли вообще подходящие предметы
+            if (itemsToShow.Count == 0)
+            {
+                Console.WriteLine("Нет подходящих предметов");
+                return null;
+            }
+            //Показываем список предметов
+            Console.WriteLine("\nИнвентарь:");
+
+            for (int i = 0; i < itemsToShow.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {itemsToShow[i].Name}");
+            }
+            Console.Write("\nВведите номер предмета: ");
             string input = Console.ReadLine();
             if (!int.TryParse(input, out int choice))
             {
                 Console.WriteLine("Некорректный ввод");
-                return;
+                return null;
             }
-            //Проверяем, существует ли такой номер.
-            if (choice < 1 || choice > hero.Inventory.Count)
+            if (choice < 1 || choice > itemsToShow.Count)
             {
-                Console.WriteLine("Предмет с таким номером отсутствует");
+                Console.WriteLine("Такого предмета нет");
+                return null;
+            }
+            return itemsToShow[choice - 1];
+        }
+
+
+        //надеть вещь из инвентаря
+        private void EquipItemMenu()
+        {
+            //Показываем только предметы, которые можно экипировать
+            BaseItem? item = SelectItemFromInventory(
+        ItemType.Weapon,
+        ItemType.Armor,
+        ItemType.Accessory
+        );
+            if (item == null)
+            {
                 return;
             }
-            //Преобразуем номер пользователя в индекс списка (что бы не считать с 0)
-            int index = choice - 1;
-            BaseItem item = hero.Inventory[index];
-            bool success = inventoryManager.EquipItem(hero, item);
+            bool success = inventoryManager.EquipItem(hero, item);// Пытаемся экипировать предмет
             if (success)
             {
-                Console.WriteLine($"Предмет \"{item.Name}\" успешно экипирован");
+                Console.WriteLine($"Предмет \"{item.Name}\" успешно экипирован.");
             }
             else
             {
-                Console.WriteLine("Этот предмет нельзя экипировать");
+                Console.WriteLine("Этот предмет нельзя экипировать.");
             }
-        }*/
-        
+        }
 
+        //использование зелья
+        private void UsePotionMenu()
+        {
+            //показываются только зелья
+            BaseItem? item = SelectItemFromInventory(ItemType.Potion);
+            if (item == null)
+            {
+                return;
+            }
+            bool success = inventoryManager.UsePotion(hero, item);
+            if (success)
+            {
+                Console.WriteLine($"Зелье \"{item.Name}\" использовано.");
+            }
+            else
+            {
+                Console.WriteLine("Выбранный предмет не является зельем.");
+            }
+        }
+
+        //Выбросить предмет из инвентаря
+        private void DropItemMenu()
+        {
+            BaseItem? item = SelectItemFromInventory();
+            if (item == null)
+            {
+                return;
+            }
+            bool success = inventoryManager.RemoveItem(hero, item);
+            if (success)
+            {
+                Console.WriteLine($"Предмет \"{item.Name}\" выброшен");
+            }
+            else
+            {
+                Console.WriteLine("Не удалось выбросить предмет");
+            }
+        }
+
+        private Monster CreateRandomMonster()//выбор(создание) монстра из списка
+        {
+            Monster original = monsters[random.Next(monsters.Count)];
+
+            return original.Clone();
+        }
+
+        private void FightMonster() //монстр, TODO когда нибудь потом бы все это тоже раскидать по отдельным методам
+        {
+            Monster monster = CreateRandomMonster();
+            Console.WriteLine($"\nНа вас напал {monster.Name}!");
+            Console.WriteLine($"HP монстра: {monster.HP}");
+            Console.WriteLine($"Атака монстра: {monster.Attack}");
+            Console.WriteLine($"\nВаша атака: {hero.Attack}");
+            if (hero.Attack > monster.HP)
+            {
+                Console.WriteLine($"\n{monster.Name} побежден!");
+                BaseItem reward = CreateRandomLoot();
+                inventoryManager.AddItem(hero, reward);
+                Console.WriteLine($"Получен предмет: {reward.Name}");
+                return;
+            }
+            hero.HP -= monster.Attack;
+            if (hero.HP < 0)
+            {
+                hero.HP = 0;
+            }
+            Console.WriteLine($"\n{monster.Name} оказался сильнее!");
+            Console.WriteLine($"Вы получили {monster.Attack} урона.");
+            Console.WriteLine($"Текущее HP: {hero.HP}/{hero.MaxHP}");
+        }
+
+        private BaseItem CreateRandomLoot()
+        {
+            BaseItem original =
+                possibleLoot[random.Next(possibleLoot.Count)];
+
+            return original.Clone();
+        }
     }
-
 }
