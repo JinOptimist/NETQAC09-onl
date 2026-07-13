@@ -1,9 +1,10 @@
 ﻿using SeaBattleConsole.BoardTest;
+using SeaBattleConsole.SeaBattleModels;
 using SeaBattleConsole.SeaBattleModels.Cells;
 using System.Numerics;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
-using SeaBattleConsole.SeaBattleModels;
+using static System.Collections.Specialized.BitVector32;
 namespace SeaBattleConsole;
 
 public class BoardBuilder
@@ -81,7 +82,7 @@ public class BoardBuilder
             var startCell = board.Cells.First(x => x.X == xRandom
             && x.Y == yRandom);
             var resultOfNavigation = CheckNavigation(board,startCell, shipType);
-            if (resultOfNavigation != 4)
+            if (resultOfNavigation != Direction.None)
             {
                 ShipToReturn = ReplaceWaterToShip(board,startCell,shipType, resultOfNavigation,whoToBuildFor);
                 return ShipToReturn;
@@ -150,17 +151,24 @@ public class BoardBuilder
         
         return board.Cells.First(x => x.X == inputX && x.Y == inputY).IsAvailable;
     }
-    private int CheckNavigation(Board board, BaseCell cellTesting, int ShipType) // Возвращаем int куда строить, 0 Вверх 1 вниз 2 влево 3 вправо 4 Никуда
+    private Direction CheckNavigation(Board board, BaseCell cellTesting, int ShipType) // Возвращаем int куда строить, 0 Вверх 1 вниз 2 влево 3 вправо 4 Никуда
     {
         var ShipToBuild = ShipType - 1;
         int startX = cellTesting.X;
         int startY = cellTesting.Y;
-        int[] inputSet = { 0,1,2,3 };
-        var randomSubset = inputSet.OrderBy(x => Random.Shared.Next());
-        foreach (int attemptNumber in randomSubset)// 0 вверх 1 вниз 2 влево 3 вправо
+        Direction[] directions =
+        {
+    Direction.Up,
+    Direction.Down,
+    Direction.Left,
+    Direction.Right
+};
+
+        var randomDirections = directions.OrderBy(_ => Random.Shared.Next());
+        foreach (Direction direction in randomDirections)// 0 вверх 1 вниз 2 влево 3 вправо
         {
             bool canBuild = true;
-            if (attemptNumber == 0) // Проверяем сверху элементы
+            if (direction == Direction.Up) // Проверяем сверху элементы
             {
                 if (startY - ShipToBuild < 0)
                 {
@@ -175,10 +183,10 @@ public class BoardBuilder
                     }                }
                 if (canBuild == true)
                 {
-                    return attemptNumber;
+                    return direction;
                 }
             }
-            if (attemptNumber == 1) // Проверяем снизу элементы
+            if (direction == Direction.Down) // Проверяем снизу элементы
             {
                 if (startY + ShipToBuild > 9) // Проверяем что места хватит
                 {
@@ -194,10 +202,10 @@ public class BoardBuilder
                 }
                 if (canBuild == true)
                 {
-                    return attemptNumber;
+                    return direction;
                 }
             }
-            if (attemptNumber == 2) // Проверяем слева элементы
+            if (direction == Direction.Left) // Проверяем слева элементы
             {
                 if (startX - ShipToBuild < 0) // Проверяем что места хватит
                 {
@@ -213,10 +221,10 @@ public class BoardBuilder
                 }
                 if (canBuild == true)
                 {
-                    return attemptNumber;
+                    return direction;
                 }
             }
-            if (attemptNumber == 3) // Проверяем справа элементы
+            if (direction == Direction.Right) // Проверяем справа элементы
             {
                 if (startX + ShipToBuild > 9) // Проверяем что места хватит
                 {
@@ -232,13 +240,13 @@ public class BoardBuilder
                 }
                 if (canBuild == true)
                 {
-                    return attemptNumber;
+                    return direction;
                 }
             }
         }
-        return NumberOfAttempts; // Если не нашли, возвращаем номер 4, значит не нашли
+        return Direction.None; // Если не нашли, возвращаем номер 4, значит не нашли
     }
-    private Ship ReplaceWaterToShip(Board board, BaseCell cellToStart, int shipType, int navigation, CellType whoToBuildFor) // Возвращаем корабль
+    private Ship ReplaceWaterToShip(Board board, BaseCell cellToStart, int shipType, Direction navigation, CellType whoToBuildFor) // Возвращаем корабль
     {
         var shipToBuild = shipType;
         var cellToIterate = cellToStart;
@@ -246,7 +254,7 @@ public class BoardBuilder
         var yStart = cellToStart.Y;
         var ShipToReturn = new Ship(shipType,whoToBuildFor);
         var shipPartList = new List<ShipCell>();  
-        if (navigation == 0) // Будем строить вверх
+        if (navigation == Direction.Up) // Будем строить вверх
         {
             for (int i = yStart; i > yStart - shipToBuild; i--)
             {
@@ -257,7 +265,7 @@ public class BoardBuilder
                  
             }
         }
-        if (navigation == 1) // Будем строить вниз
+        if (navigation == Direction.Down) // Будем строить вниз
         {
             for (int i = yStart; i < yStart + shipToBuild; i++)
             {
@@ -267,7 +275,7 @@ public class BoardBuilder
                 MakeCellsNotAvailable(board,xStart, i);
             }
         }
-        if (navigation == 2) // Будем строить влево
+        if (navigation == Direction.Left) // Будем строить влево
         {
             for (int i = xStart; i > xStart - shipToBuild; i--)
             {
@@ -277,7 +285,7 @@ public class BoardBuilder
                 MakeCellsNotAvailable(board,i, yStart);
             }
         }
-        if (navigation == 3) // Будем строить вправо
+        if (navigation == Direction.Right) // Будем строить вправо
         {
             for (int i = xStart; i < xStart + shipToBuild; i++)
             {

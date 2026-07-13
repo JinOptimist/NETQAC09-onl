@@ -13,3 +13,11 @@ public enum HitType
     Hit,
     Miss
 }
+public enum Direction
+{
+    Up,
+    Down,
+    Left,
+    Right,
+    None
+}
