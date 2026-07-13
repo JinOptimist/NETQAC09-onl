@@ -1,4 +1,6 @@
-﻿namespace MazeConsole.MazeModels.Cells.Interaces
+﻿using MazeConsole.MazeModels.Intefaces;
+
+namespace MazeConsole.MazeModels.Cells.Interaces
 {
     public interface IBaseCell
     {

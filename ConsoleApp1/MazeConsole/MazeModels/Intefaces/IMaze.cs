@@ -1,6 +1,6 @@
 ﻿using MazeConsole.MazeModels.Cells.Interaces;
 
-namespace MazeConsole.MazeModels;
+namespace MazeConsole.MazeModels.Intefaces;
 
 public interface IMaze
 {
