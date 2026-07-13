@@ -1,3 +1,5 @@
+using MazeConsole.MazeModels.Cells.Interaces;
+
 namespace MazeConsole.MazeModels.Cells;
 
 public class Snake : BaseCell
@@ -18,11 +20,12 @@ public class Snake : BaseCell
     {
         var oldNest = MazeWhereIWasCreated.Cells.First(x => x is Snake);
         MazeWhereIWasCreated.ReplaceCellToGround(oldNest);
-        List<BaseCell> newNest = new List<BaseCell>();
+        var newNest = new List<IBaseCell>();
         var randomCell = 0;
 
         
-        newNest = MazeWhereIWasCreated.Cells.Where(x => x is Ground && !(x.X == oldNest.X && x.Y == oldNest.Y)).ToList();
+        newNest = MazeWhereIWasCreated.Cells
+            .Where(x => x is Ground && !(x.X == oldNest.X && x.Y == oldNest.Y)).ToList();
         randomCell = random.Next(newNest.Count);
         
         if (newNest.Count==0)

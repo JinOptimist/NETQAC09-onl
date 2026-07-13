@@ -1,5 +1,6 @@
 ﻿using MazeConsole.MazeModels;
 using MazeConsole.MazeModels.Cells;
+using MazeConsole.MazeModels.Intefaces;
 using Moq;
 using NUnit.Framework;
 
