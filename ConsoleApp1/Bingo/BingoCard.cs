@@ -57,19 +57,25 @@ namespace Bingo
             return false;
         }
 
-        public void Print()
+        public string Render()
         {
-            Console.WriteLine(" B  I  N  G  O");
-            Console.WriteLine(new string('-', 15));
+            var sb = new System.Text.StringBuilder();
+            sb.AppendLine(" B  I  N  G  O");
+            sb.AppendLine(new string('-', 15));
             for (int r = 0; r < 5; r++)
             {
                 for (int c = 0; c < 5; c++)
                 {
-                    if (r == 2 && c == 2) Console.Write(" * ");
-                    else Console.Write($"{Numbers[r, c],2} ");
+                    if (r == 2 && c == 2)
+                        sb.Append(" * ");
+                    else if (Marked[r, c])
+                        sb.Append($"[{Numbers[r, c],2}]");
+                    else
+                        sb.Append($"{Numbers[r, c],2} ");
                 }
-                Console.WriteLine();
+                sb.AppendLine();
             }
+            return sb.ToString();
         }
     }
 }

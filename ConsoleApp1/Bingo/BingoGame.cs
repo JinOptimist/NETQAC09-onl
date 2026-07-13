@@ -11,7 +11,7 @@ namespace Bingo
 
         public void Run()
         {
-            _card.Print();
+            Redraw();
 
             while (true)
             {
@@ -24,7 +24,7 @@ namespace Bingo
 
                 _card.Mark(number.Value);
                 Console.WriteLine($"Drawn numbers: {string.Join(", ", _bag.Drawn)}");
-                _card.Print();
+                Redraw();
 
                 if (_card.CheckBingo())
                 {
@@ -40,6 +40,13 @@ namespace Bingo
                 }
             }
 
+        }
+        private void Redraw(string status = "")
+        {
+            Console.Clear();
+            Console.WriteLine(_card.Render());
+            Console.WriteLine($"Выпало: {string.Join(", ", _bag.Drawn)}");
+            if (!string.IsNullOrEmpty(status)) Console.WriteLine(status);
         }
     }
 }
