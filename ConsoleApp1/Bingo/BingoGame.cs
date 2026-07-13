@@ -37,11 +37,12 @@ namespace Bingo
                 Console.WriteLine($"Drawn numbers: {string.Join(", ", _bag.Drawn)}");
                 Redraw();
 
-                if (_card.CheckBingo())
-                {
-                    Console.WriteLine("BINGO! You're victorious!");
-                    break;
-                }
+                //Автопроверка победы, уберите комментарии если не хочется проверять BINGO вручную
+                //if (_card.CheckBingo())
+                //{
+                //    Console.WriteLine("BINGO! You're victorious!");
+                //    break;
+                //}
             }
 
         }
