@@ -67,11 +67,11 @@ namespace Bingo
                 for (int c = 0; c < 5; c++)
                 {
                     if (r == 2 && c == 2)
-                        sb.Append(" * ");
+                        sb.Append(" *  ");
                     else if (Marked[r, c])
                         sb.Append($"[{Numbers[r, c],2}]");
                     else
-                        sb.Append($"{Numbers[r, c],2} ");
+                        sb.Append($" {Numbers[r, c],2} ");
                 }
                 sb.AppendLine();
             }
