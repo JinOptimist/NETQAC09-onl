@@ -1,4 +1,5 @@
 <Solution>
+  <Project Path="BlackjackConsole/BlackjackConsole.csproj" Id="490952a4-d6bc-4848-826b-3c2179f58a71" />
   <Project Path="ClassLibrary1/ClassLibrary1.csproj" />
   <Project Path="ConsoleApp1/ConsoleApp1.csproj" />
   <Project Path="ExceptionExamples/ExceptionExamples.csproj" Id="ac629eb6-82a8-4dc6-9917-f2e6e235941e" />
