@@ -21,36 +21,38 @@ namespace MoviesCatalogueTask25Homework7
                 Console.WriteLine("7. Delete a movie");
                 Console.WriteLine("0. Exit");
 
-                if (!int.TryParse(Console.ReadLine(), out var option) || option < 0 || option > 7)
+                if (!int.TryParse(Console.ReadLine(), out var userMenuInput) || !Enum.IsDefined(typeof(MenuOption), userMenuInput))
                 {
                     Console.WriteLine("Invalid option");
                     continue;
                 }
 
+                var option = (MenuOption)userMenuInput;
+
                 switch (option)
                 {
-                    case 1:
+                    case MenuOption.AddMovie:
                         AddMovie();
                         break;
-                    case 2:
+                    case MenuOption.RateMovie:
                         RateMovie();
                         break;
-                    case 3:
+                    case MenuOption.ShowAllMovies:
                         ShowAllMovies();
                         break;
-                    case 4:
+                    case MenuOption.SearchByTitle:
                         SearchByTitle();
                         break;
-                    case 5:
+                    case MenuOption.FilterByGenre:
                         FilterByGenre();
                         break;
-                    case 6:
+                    case MenuOption.ShowTopMovies:
                         ShowTopMovies();
                         break;
-                    case 7:
+                    case MenuOption.DeleteMovie:
                         DeleteMovie();
                         break;
-                    case 0:
+                    case MenuOption.Exit:
                         Console.WriteLine("We don't have a db now, so say goodbye to your data");
                         return;
                     default:
