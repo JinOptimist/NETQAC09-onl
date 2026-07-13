@@ -1,10 +1,9 @@
-﻿using System.Numerics;
-
-namespace BlackjackConsole.Models;
+﻿namespace BlackjackConsole.Models;
 
 public class Dealer : Player
 {
-    private const int MustHitBelowScore = 17;
+    private const int MUST_HIT_BELOW_SCORE = 17;
+    // число очков, ниже которого дилер обязан брать ещё карты
 
     public Dealer() : base("Дилер", 0)
     {
@@ -17,10 +16,9 @@ public class Dealer : Player
 
         return $"[?] {string.Join(" ", openCards)}";//отопражаем карты дилера в консоль
     }
-
-    // Правило: дилер обязан брать карты, пока сумма меньше 17
-    public bool ShouldHit()
+        
+    public bool ShouldHit() //должен ли дилер сейчас взять ещё одну карту
     {
-        return Hand.GetScore() < MustHitBelowScore;
+        return Hand.GetScore() < MUST_HIT_BELOW_SCORE;
     }
 }

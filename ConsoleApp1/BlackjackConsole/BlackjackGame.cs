@@ -1,12 +1,11 @@
 ﻿using BlackjackConsole.Models;
-using System.Numerics;
 
 namespace BlackjackConsole;
 
 public class BlackjackGame
 {
-    private const int StartingBalance = 100;
-    private const int Bet = 10;
+    private const int START_BALANCE = 100; // Начальние фишки
+    private const int BET = 10; //размер ставки
 
     private Deck _deck;
     private readonly Player _player;
@@ -16,7 +15,7 @@ public class BlackjackGame
     public BlackjackGame(int? seed = null)
     {
         _random = seed.HasValue ? new Random(seed.Value) : new Random();
-        _player = new Player("Игрок", StartingBalance);
+        _player = new Player("Игрок", START_BALANCE);
         _dealer = new Dealer();
     }
 
@@ -26,24 +25,24 @@ public class BlackjackGame
         Console.WriteLine("      Добро пожаловать в Блэкджек!");
         Console.WriteLine("======================================");
 
-        AskPlayerName();
+        AskPlayerName(); // метод, спрашиваем имя игрока
 
         Console.WriteLine($"\nПривет, {_player.Name}! Стартовый баланс: {_player.Balance} фишек.");
-        Console.WriteLine($"Ставка за раунд: {Bet} фишек.");
+        Console.WriteLine($"Ставка за раунд: {BET} фишек.");
 
         var keepPlaying = true;
 
         while (keepPlaying)
         {
-            if (_player.Balance < Bet)
+            if (_player.Balance < BET) // если фишек не хватает на ставку
             {
                 Console.WriteLine("\nУ вас закончились фишки. Игра окончена.");
                 break;
             }
 
-            PlayRound();
+            PlayRound(); //запускаем метод раунд
 
-            keepPlaying = AskToContinue();
+            keepPlaying = AskToContinue(); // спрашиваем, играть ли ещё
         }
 
         Console.WriteLine($"\nСпасибо за игру, {_player.Name}! Итоговый баланс: {_player.Balance} фишек.");
@@ -56,27 +55,27 @@ public class BlackjackGame
 
         if (string.IsNullOrWhiteSpace(input) == false)
         {
-            _player.Name = input.Trim();
+            _player.Name = input.Trim(); //сохраняем имя игрока
         }
     }
 
     private void PlayRound()
     {
-        StartNewRound();
-        DealInitialCards();
+        StartNewRound();// создаем колоду и новые карты у игроков, списываем фишки
+        DealInitialCards(); //раздаем карты
 
-        ShowTable(revealDealerCard: false);
+        ShowTable(revealDealerCard: false); // показываем карты, 1 карта дилера скрыта
 
-        var playerBusted = RunPlayerTurn();
+        var playerBusted = RunPlayerTurn(); //ход игрока, узнаём был ли перебор
 
         if (playerBusted == false)
         {
-            RunDealerTurn();
+            RunDealerTurn();//если у игрока нет перебора, играет дилер
         }
 
         ShowTable(revealDealerCard: true);
 
-        FinishRound(playerBusted);
+        FinishRound(playerBusted);//итоги раунда
     }
 
     private void StartNewRound()
@@ -87,7 +86,7 @@ public class BlackjackGame
         _player.Hand = new Hand();
         _dealer.Hand = new Hand();
 
-        _player.Balance -= Bet;
+        _player.Balance -= BET;
 
         Console.WriteLine("\n--- Новый раунд ---");
     }
@@ -102,19 +101,19 @@ public class BlackjackGame
         }
     }
 
-    private bool RunPlayerTurn()
+    private bool RunPlayerTurn() //ход игрока: спрашиваем действия, пока не Stand или перебор
     {
         while (true)
         {
-            var action = AskPlayerAction();
+            var action = AskPlayerAction(); // метод взяеть еще карту или остановиться
 
             switch (action)
             {
                 case PlayerAction.Hit:
-                    _player.Hand.AddCard(_deck.Draw());
-                    ShowTable(revealDealerCard: false);
+                    _player.Hand.AddCard(_deck.Draw()); // добавляем новую карту
+                    ShowTable(revealDealerCard: false); // показываем карты, карта дилера скрыта
 
-                    if (_player.Hand.IsBust)
+                    if (_player.Hand.IsBust) // если перебор    о
                     {
                         Console.WriteLine("Перебор! Вы проиграли эту раздачу.");
                         return true;
@@ -124,25 +123,22 @@ public class BlackjackGame
 
                 case PlayerAction.Stand:
                     return false;
-
-                default:
-                    Console.WriteLine("Неизвестное действие.");
-                    continue;
+                                   
             }
         }
     }
 
-    private void RunDealerTurn()
+    private void RunDealerTurn() // ход дилера
     {
         Console.WriteLine("\nХод дилера...");
 
-        while (_dealer.ShouldHit())
+        while (_dealer.ShouldHit()) //должен ли дилер сейчас взять ещё одну карту
         {
             _dealer.Hand.AddCard(_deck.Draw());
         }
     }
 
-    private PlayerAction AskPlayerAction()
+    private PlayerAction AskPlayerAction()  // метод спрашивает у игрока Hit или Stand
     {
         while (true)
         {
@@ -161,40 +157,42 @@ public class BlackjackGame
         }
     }
 
-    private void ShowTable(bool revealDealerCard)
+    private void ShowTable(bool revealDealerCard) //метод показывает текущие карты
     {
         Console.WriteLine();
 
         var dealerLine = revealDealerCard ? _dealer.ShowHand() : _dealer.ShowHandHidden();
+        // выбираем, показать все карты дилера или скрыть первую
         Console.WriteLine($"Карты дилера: {dealerLine}");
         Console.WriteLine($"Ваши карты: {_player.ShowHand()}");
     }
 
-    private void FinishRound(bool playerBusted)
+    private void FinishRound(bool playerBusted) //// подводит итог раунда и меняет баланс игрока
     {
         var playerScore = _player.Hand.GetScore();
         var dealerScore = _dealer.Hand.GetScore();
+        //считаем очки
 
         Console.WriteLine($"\nСчёт: {_player.Name} - {playerScore}, Дилер - {dealerScore}");
 
         if (playerBusted)
         {
-            Console.WriteLine($"Вы проиграли ставку в {Bet} фишек.");
+            Console.WriteLine($"Вы проиграли ставку в {BET} фишек.");
         }
         else if (_dealer.Hand.IsBust)
         {
             Console.WriteLine("У дилера перебор! Вы выиграли раздачу!");
-            _player.Balance += Bet * 2;
+            _player.Balance += BET * 2;
         }
         else if (playerScore > dealerScore)
         {
             Console.WriteLine("Вы выиграли раздачу!");
-            _player.Balance += Bet * 2;
+            _player.Balance += BET * 2;
         }
         else if (playerScore == dealerScore)
         {
             Console.WriteLine("Ничья! Ставка возвращена.");
-            _player.Balance += Bet;
+            _player.Balance += BET;
         }
         else
         {

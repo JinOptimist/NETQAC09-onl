@@ -2,8 +2,8 @@
 
 public class Card
 {
-    public Suit Suit { get; set; }
-    public Rank Rank { get; set; }
+    public Suit Suit { get; set; } // масть
+    public Rank Rank { get; set; } //достоинство карты
 
     public Card(Suit suit, Rank rank)
     {
@@ -11,22 +11,21 @@ public class Card
         Rank = rank;
     }
 
-    // Очки карты: 2-10 по номиналу, J/Q/K = 10, Туз = 11.
-    // Если из-за туза случится перебор, Hand сам "превратит" его в 1 (см. Hand.GetScore)
+    // сколько очков стоит эта карта в игре
     public int Value
     {
         get
         {
-            switch (Rank)
+            switch (Rank) //проверяем достоинство карты
             {
                 case Rank.Jack:
                 case Rank.Queen:
                 case Rank.King:
-                    return 10;
+                    return 10; // валет, дама и король всегда стоят 10 очков
                 case Rank.Ace:
-                    return 11;
+                    return 11; // туз 11 (Hand поправит на 1, если будет перебор)
                 default:
-                    return (int)Rank;
+                    return (int)Rank; // другая карта стоит столько, сколько написано на ней
             }
         }
     }
@@ -52,9 +51,10 @@ public class Card
                 return ((int)Rank).ToString();
         }
     }
-    // переводим в стринг, берем первую букву-char опять пепеводим в стринг, делаем нижний регистр
     private string GetSuitSymbol()
     {
         return Suit.ToString()[0].ToString().ToLower();
+        // берём  первую букву названия масти ("H"),
+        // делаем её строчной ("h")
     }
 }
