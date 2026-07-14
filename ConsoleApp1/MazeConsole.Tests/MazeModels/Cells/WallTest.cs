@@ -11,8 +11,7 @@ public class WallTest
     {
         // подготовка
         var wall = new Wall();
-        var playerMock = new Mock<IPlayer>();  // moq, stub
-        playerMock.SetupAllProperties();
+        var playerMock = new Mock<IPlayer>();  
         var player = playerMock.Object;
 
         // действие
