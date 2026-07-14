@@ -2,7 +2,7 @@ namespace BykiKorovy
 {
     public class SecretNumber
     {
-        public string Generate(int? seed)
+        public string Generate(int? seed = null)
         {
             if (seed == null)
             {

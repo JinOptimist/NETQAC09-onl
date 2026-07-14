@@ -1,1 +1,4 @@
-﻿Console.WriteLine("Hello, World!");
+﻿using BykiKorovy;
+
+var game = new BullsCowsGame();
+game.Play();
