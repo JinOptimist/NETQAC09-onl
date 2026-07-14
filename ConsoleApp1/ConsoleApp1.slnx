@@ -6,4 +6,5 @@
   <Project Path="ExceptionExamples/ExceptionExamples.csproj" Id="ac629eb6-82a8-4dc6-9917-f2e6e235941e" />
   <Project Path="MazeConsole.Tests/MazeConsole.Tests.csproj" Id="0f2aa2ce-dfc6-4c85-98ec-a19c2782eae8" />
   <Project Path="MazeConsole/MazeConsole.csproj" Id="12f5ccf2-9935-44ee-9775-07931b7b69a8" />
+  <Project Path="MemoryGame/MemoryGame.csproj" />
 </Solution>
