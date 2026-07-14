@@ -53,7 +53,7 @@ public class CoinTest
 
         // Act
         // Assert
-        Assert.Throws<Exceptionnu>(() => coin.PlayerStepInMe(player),
+        Assert.Throws<Exception>(() => coin.PlayerStepInMe(player),
             "we have to down if player has negative coin");
     }
 
