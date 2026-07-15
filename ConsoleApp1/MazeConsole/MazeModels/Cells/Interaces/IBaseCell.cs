@@ -1,9 +1,12 @@
-﻿namespace MazeConsole.MazeModels.Cells.Interaces
+﻿using MazeConsole.MazeModels.Intefaces;
+
+namespace MazeConsole.MazeModels.Cells.Interaces
 {
     public interface IBaseCell
     {
         IMaze MazeWhereIWasCreated { get; set; }
         char MySymbol { get; }
+        ConsoleColor CellColor { get; }
         int X { get; set; }
         int Y { get; set; }
 

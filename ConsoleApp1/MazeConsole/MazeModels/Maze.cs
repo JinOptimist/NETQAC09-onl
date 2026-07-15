@@ -1,5 +1,6 @@
 ﻿using MazeConsole.MazeModels.Cells;
 using MazeConsole.MazeModels.Cells.Interaces;
+using MazeConsole.MazeModels.Intefaces;
 
 namespace MazeConsole.MazeModels;
 
