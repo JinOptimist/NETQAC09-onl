@@ -4,15 +4,16 @@ using MazeConsole.MazeModels.Cells;
 using MazeConsole.MazeModels.Intefaces;
 using Moq;
 using NUnit.Framework;
+using MazeConsole.MazeModels.Cells.Interaces;
 
 namespace MazeConsole.Tests.MazeModels.Cells;
 
 public class IceTest
 {
     // Хелпер: создаёт лёд с замоканным лабиринтом и списком ячеек
-    private static (Ice ice, Mock<IMaze> mazeMock, List<ICell> cells) CreateIce(int x, int y)
+    private static (Ice ice, Mock<IMaze> mazeMock, List<IBaseCell> cells) CreateIce(int x, int y)
     {
-        var cells = new List<ICell>();
+        var cells = new List<IBaseCell>();
 
         var mazeMock = new Mock<IMaze>();
         mazeMock.Setup(m => m.Cells).Returns(cells);
@@ -64,7 +65,7 @@ public class IceTest
         var player = playerMock.Object;
 
         // ячейка за льдом - наступабельная
-        var nextCellMock = new Mock<ICell>();
+        var nextCellMock = new Mock<IBaseCell>();
         nextCellMock.SetupAllProperties();
         nextCellMock.Object.X = 6;
         nextCellMock.Object.Y = 5;
@@ -89,7 +90,7 @@ public class IceTest
         var player = playerMock.Object;
 
         // ячейка за льдом существует, но НЕ наступабельная
-        var nextCellMock = new Mock<ICell>();
+        var nextCellMock = new Mock<IBaseCell>();
         nextCellMock.SetupAllProperties();
         nextCellMock.Object.X = 6;
         nextCellMock.Object.Y = 5;
