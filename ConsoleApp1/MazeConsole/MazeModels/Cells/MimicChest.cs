@@ -2,12 +2,16 @@
 
 public class MimicChest : BaseCell
 {
-    private readonly Random _random = new Random();
+    private readonly Random _random;
     private readonly FileLogger _logger = new FileLogger();
     private const int FarmingVisitsThreshold = 10;
     private const int FarmingRepeatLogInterval = 5;
     private int _visitCount;
     public override char MySymbol => 'M';
+    public MimicChest(Random randomInput)
+    {
+        _random = randomInput;
+    }
 
     public override bool PlayerStepInMe(IPlayer player)
     {
