@@ -35,7 +35,7 @@ public class PileOfSandTest
 
     [Test]
     [TestCase(0, 1)]
-    [TestCase(1, 1)]
+    [TestCase(3, 3)]
     public void PlayerStepInMe_AddSand(int sandBefore, int sandAfter)
     {
         // Preparation
