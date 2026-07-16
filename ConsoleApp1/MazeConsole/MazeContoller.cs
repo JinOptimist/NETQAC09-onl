@@ -4,31 +4,39 @@ namespace MazeConsole;
 
 public class MazeContoller
 {
-    private Maze _maze;
-    private FileLogger _logger;
+    private Maze _maze = null!;
+    private readonly FileLogger _logger;
 
     public MazeContoller()
     {
         _logger = new FileLogger();
     }
 
+    public Maze Maze => _maze;
+
+    public bool IsAlive => _maze?.Player.CurrentHealth > 0;
+
+    public void StartNewGame()
+    {
+        MazeGeneration();
+    }
+
     public void Play()
     {
         var drawer = new MazeDrawer();
-        
-        MazeGeneration();
+
+        StartNewGame();
 
         while (true)
         {
             drawer.Draw(_maze);
 
-            if (_maze.Player.CurrentHealth <= 0)
+            if (!IsAlive)
             {
                 Console.WriteLine();
                 Console.WriteLine("You died! Game over.");
                 break;
             }
-            //Если здоровье игрока закончится, то завершаем игру
 
             var userAction = GetUserAction();
 
@@ -39,7 +47,7 @@ public class MazeContoller
 
             try
             {
-                PerfomAction(userAction);
+                PerformAction(userAction);
             }
             catch (Exception ex)
             {
@@ -49,31 +57,7 @@ public class MazeContoller
         }
     }
 
-    private void MazeGeneration()
-    {
-        var builder = new MazeBuilder();
-
-        var attempt = 0;
-        while (attempt < 3) {
-            try
-            {
-                _maze = builder.BuildTestMaze();
-                // раскомментить, если нужен сид в логах
-                //_logger.AddLog($"Maze build success with seed {_maze.Seed}");
-                return;
-            }
-            catch (Exception ex)
-            {
-                _logger.AddLog(ex.Message);
-            }
-
-            attempt++;
-        }
-
-        throw new Exception($"We try build maze {attempt}. All fail. Read logs");        
-    }
-
-    private void PerfomAction(UserAction actionWhichUserTryToDo)
+    public void PerformAction(UserAction actionWhichUserTryToDo)
     {
         var destinationX = _maze.Player.X;
         var destinationY = _maze.Player.Y;
@@ -100,7 +84,6 @@ public class MazeContoller
             .Cells
             .SingleOrDefault(cell => cell.X == destinationX && cell.Y == destinationY);
 
-        //if (destinationCell != null && destinationCell.PlayerStepInMe(_maze.Player))
         if (destinationCell?.PlayerStepInMe(_maze.Player) ?? false)
         {
             _maze.Player.X = destinationX;
@@ -108,12 +91,36 @@ public class MazeContoller
         }
     }
 
+    private void MazeGeneration()
+    {
+        var builder = new MazeBuilder();
+
+        var attempt = 0;
+        const int maxAttempts = 25;
+        while (attempt < maxAttempts)
+        {
+            try
+            {
+                _maze = builder.BuildTestMaze();
+                return;
+            }
+            catch (Exception ex)
+            {
+                _logger.AddLog(ex.Message);
+            }
+
+            attempt++;
+        }
+
+        throw new Exception($"We try build maze {attempt}. All fail. Read logs");
+    }
+
     private UserAction GetUserAction()
     {
-        var key = Console.ReadKey();
-
         while (true)
         {
+            var key = Console.ReadKey(true);
+
             switch (key.Key)
             {
                 case ConsoleKey.Escape:
@@ -130,9 +137,6 @@ public class MazeContoller
                 case ConsoleKey.S:
                 case ConsoleKey.DownArrow:
                     return UserAction.StepDown;
-                default:
-                    // no exception
-                    break;
             }
         }
     }

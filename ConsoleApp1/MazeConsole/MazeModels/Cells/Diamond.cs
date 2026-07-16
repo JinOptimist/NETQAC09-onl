@@ -33,8 +33,7 @@ public class Diamond : BaseCell
                 $"своего здоровья не хватило для добычи алмаза. " +
                 $"Состояние игрока: здоровье={player.CurrentHealth}, монет={player.Coin}, зелий={player.HealthPotion}";
 
-            // выводим сообщение в консоль
-            Console.WriteLine(errorMessage);
+            MazeWhereIWasCreated.LogMessages.Add(errorMessage);
 
             // переиспользуем уже существующий MazeBuildException -
             throw new MazeBuildException(MazeWhereIWasCreated.Seed, errorMessage);

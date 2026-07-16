@@ -17,7 +17,7 @@ public class MimicChest : BaseCell
     {
         _visitCount++;
         LogFarmingIfNeeded(player);
-        Console.WriteLine("Oh look it's a chest, surely there will be a lot of treasure, right?");
+        MazeWhereIWasCreated.LogMessages.Add("Oh look it's a chest, surely there will be a lot of treasure, right?");
 
         // 0 - монетка, 1 - мимик кусает игрока
         int result = _random.Next(2);
@@ -26,13 +26,13 @@ public class MimicChest : BaseCell
         {
             case 0:
                 player.Coin++;
-                Console.WriteLine("You got a coin!");
+                MazeWhereIWasCreated.LogMessages.Add("You got a coin!");
                 break;
 
             case 1:
                 player.CurrentHealth--;
-                Console.WriteLine("Unlucky, its actually a mimic! It's dark and scary! And It bites you!");
-                Console.WriteLine($"Your health: {player.CurrentHealth}");
+                MazeWhereIWasCreated.LogMessages.Add("Unlucky, its actually a mimic! It's dark and scary! And It bites you!");
+                MazeWhereIWasCreated.LogMessages.Add($"Your health: {player.CurrentHealth}");
                 break;
         }
 

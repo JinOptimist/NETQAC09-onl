@@ -1,0 +1,64 @@
+@{
+    Layout = "_MazeLayout";
+    ViewData["Title"] = "Лабиринт";
+}
+
+<div class="dungeon">
+    <div class="dungeon__haze" aria-hidden="true"></div>
+    <div class="dungeon__embers" aria-hidden="true"></div>
+
+    <header class="dungeon__header">
+        <p class="dungeon__brand">Наш Атмосферный Лабиринт</p>
+        <h1 class="dungeon__title">Лабиринт</h1>
+        <p class="dungeon__tagline">Те же правила. Другой свет факелов.</p>
+    </header>
+
+    <div class="dungeon__stage">
+        <aside class="hud">
+            <div class="hud__panel">
+                <h2 class="hud__heading">Герой</h2>
+                <ul class="hud__stats">
+                    <li><span>Здоровье</span> <strong id="stat-health">—</strong></li>
+                    <li><span>Монеты</span> <strong id="stat-coins">—</strong></li>
+                    <li><span>Зелья</span> <strong id="stat-potions">—</strong></li>
+                    <li><span>Песок</span> <strong id="stat-sand">—</strong></li>
+                    <li><span>Цветы</span> <strong id="stat-flowers">—</strong></li>
+                </ul>
+                <p class="hud__seed">Сид: <span id="stat-seed">—</span></p>
+            </div>
+
+            <div class="hud__panel hud__panel--controls">
+                <h2 class="hud__heading">Ход</h2>
+                <div class="dpad" role="group" aria-label="Управление">
+                    <button type="button" class="dpad__btn" data-move="up" aria-label="Вверх">↑</button>
+                    <div class="dpad__row">
+                        <button type="button" class="dpad__btn" data-move="left" aria-label="Влево">←</button>
+                        <button type="button" class="dpad__btn" data-move="down" aria-label="Вниз">↓</button>
+                        <button type="button" class="dpad__btn" data-move="right" aria-label="Вправо">→</button>
+                    </div>
+                </div>
+                <p class="hud__hint">WASD или стрелки</p>
+                <button type="button" class="btn-torch" id="btn-new-game">Новый лабиринт</button>
+            </div>
+        </aside>
+
+        <section class="maze-board-wrap">
+            <div id="maze-board" class="maze-board" role="grid" aria-label="Поле лабиринта"></div>
+            <div id="maze-overlay" class="maze-overlay" hidden>
+                <p id="maze-overlay-text" class="maze-overlay__text"></p>
+                <button type="button" class="btn-torch" id="btn-overlay-restart">Войти снова</button>
+            </div>
+        </section>
+
+        <aside class="chronicle">
+            <h2 class="hud__heading">Хроника</h2>
+            <ol id="message-log" class="chronicle__list"></ol>
+        </aside>
+    </div>
+</div>
+
+<partial name="_MazeSprites" />
+
+@section Scripts {
+    <script src="~/js/maze.js" asp-append-version="true"></script>
+}

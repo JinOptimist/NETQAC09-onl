@@ -14,9 +14,8 @@ public class MazeBuilder
     {
         if (seed == null)
         {
-            seed = DateTime.Now.Millisecond;
+            seed = Random.Shared.Next();
         }
-        Console.WriteLine(seed);
         _random = new Random(seed.Value);
 
         _mazeWhichWeBuildRightNow = new Maze
@@ -108,17 +107,23 @@ public class MazeBuilder
 
     private void BuildCoin()
     {
-        var deadEnds = _mazeWhichWeBuildRightNow
+        var grounds = _mazeWhichWeBuildRightNow
             .Cells
             .Where(x => x is Ground)
+            .ToList();
+
+        var deadEnds = grounds
             .Where(x => GetNearCell<Ground>(x).Count == 1)
             .ToList();
-        var deadEnd = GetRandomFromList(deadEnds);
+
+        var place = deadEnds.Any()
+            ? GetRandomFromList(deadEnds)
+            : GetRandomFromList(grounds);
 
         var coin = new Coin
         {
-            X = deadEnd.X,
-            Y = deadEnd.Y,
+            X = place.X,
+            Y = place.Y,
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
         };
         _mazeWhichWeBuildRightNow.ReplaceToCell(coin);
@@ -333,17 +338,23 @@ public class MazeBuilder
 
     private void BuildIce()
     {
-        var crossCenters = _mazeWhichWeBuildRightNow
+        var grounds = _mazeWhichWeBuildRightNow
             .Cells
             .Where(x => x is Ground)
+            .ToList();
+
+        var crossCenters = grounds
             .Where(x => GetNearCell<Ground>(x).Count == 3)
             .ToList();
-        var crossCenter = GetRandomFromList(crossCenters);
+
+        var place = crossCenters.Any()
+            ? GetRandomFromList(crossCenters)
+            : GetRandomFromList(grounds);
 
         var ice = new Ice
         {
-            X = crossCenter.X,
-            Y = crossCenter.Y,
+            X = place.X,
+            Y = place.Y,
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
         };
         _mazeWhichWeBuildRightNow.ReplaceToCell(ice);
