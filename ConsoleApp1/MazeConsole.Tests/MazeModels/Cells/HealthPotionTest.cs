@@ -24,7 +24,7 @@ namespace MazeConsole.Tests.MazeModels.Cells
             _playerMock.SetupAllProperties();
             _player = _playerMock.Object;
 
-            // Setup Maze and Random
+            // Setup Maze и Random
             _mazeMock = new Mock<IMaze>();
             _randomMock = new Mock<Random>();
             _randomMock.Setup(r => r.Next(It.IsAny<int>())).Returns(0);
