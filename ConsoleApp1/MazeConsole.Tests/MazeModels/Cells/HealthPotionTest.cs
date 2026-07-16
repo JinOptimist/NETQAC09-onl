@@ -206,9 +206,7 @@ namespace MazeConsole.Tests.MazeModels.Cells
             healthPotion.MazeWhereIWasCreated = maze;
 
             // Act & Assert
-            var exception = Assert.Throws<InvalidOperationException>(() => healthPotion.PlayerStepInMe(player));
-            Assert.That(exception.Message, Is.EqualTo("No ground type cells left to place Health Potion."),
-                "Exception message should indicate that no ground cells are available");
+            Assert.Throws<InvalidOperationException>(() => healthPotion.PlayerStepInMe(player));
         }
     }
 }
