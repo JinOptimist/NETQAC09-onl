@@ -18,10 +18,13 @@ public class MimicTest
         var mazeMock = new Mock<IMaze>();      
         mazeMock.Setup(maze => maze.LogMessages)
             .Returns(new List<string>());
-
+        var randomMock = new Mock<Random>();
+        randomMock
+            .Setup(x => x.Next(2))
+            .Returns(1);
         var maze = mazeMock.Object;
 
-        var mimic = new MimicChest();
+        var mimic = new MimicChest(randomMock.Object);
         mimic.MazeWhereIWasCreated = maze;
 
         // Act
@@ -30,28 +33,54 @@ public class MimicTest
         // Assert
         Assert.IsTrue(result, "We expect that player can step on Mimic");
     }
-    [TestCase(3, 3)]
-    [TestCase(2, 2)]
-    public void PlayerStepInMe_HealthIsDrainingOrCoinIsIncreased(int coinBefore, int hpBefore)
+    [TestCase(3)]
+    public void PlayerStepInMe_CoinIsIncreased(int coinBefore)
     {
         // Preparation
         var playerMock = new Mock<IPlayer>();
         playerMock.SetupAllProperties();
         var player = playerMock.Object;
         player.Coin = coinBefore;
-        player.CurrentHealth = hpBefore;
         var mazeMock = new Mock<IMaze>();
         mazeMock.Setup(maze => maze.LogMessages)
             .Returns(new List<string>());
-
+        var randomMock = new Mock<Random>();
+        randomMock
+            .Setup(x => x.Next(2))
+            .Returns(0);
         var maze = mazeMock.Object;
 
-        var mimic = new MimicChest();
+        var mimic = new MimicChest(randomMock.Object);
         mimic.MazeWhereIWasCreated = maze;
 
         // Act
         var result = mimic.PlayerStepInMe(player);
         // Assert
-        Assert.IsTrue(player.Coin == coinBefore + 1 || player.CurrentHealth == hpBefore - 1, "We expect that either hp will be reduced, or coin will be increased");
+        Assert.IsTrue(player.Coin == coinBefore + 1, "We expect that coin will be increased");
+    }
+    [TestCase(3)]
+    public void PlayerStepInMe_HPIsIncreased(int hpBefore)
+    {
+        // Preparation
+        var playerMock = new Mock<IPlayer>();
+        playerMock.SetupAllProperties();
+        var player = playerMock.Object;
+        player.CurrentHealth = hpBefore;
+        var mazeMock = new Mock<IMaze>();
+        mazeMock.Setup(maze => maze.LogMessages)
+            .Returns(new List<string>());
+        var randomMock = new Mock<Random>();
+        randomMock
+            .Setup(x => x.Next(2))
+            .Returns(1);
+        var maze = mazeMock.Object;
+
+        var mimic = new MimicChest(randomMock.Object);
+        mimic.MazeWhereIWasCreated = maze;
+
+        // Act
+        var result = mimic.PlayerStepInMe(player);
+        // Assert
+        Assert.IsTrue(player.CurrentHealth == hpBefore - 1, "We expect that hp will be decreased");
     }
 }

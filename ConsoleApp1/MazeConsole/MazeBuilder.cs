@@ -470,7 +470,7 @@ public class MazeBuilder
 
         var cell = GetRandomFromList(fallbackCandidates);
 
-        var mimicChest = new MimicChest
+        var mimicChest = new MimicChest(_random)
         {
             X = cell.X,
             Y = cell.Y,
