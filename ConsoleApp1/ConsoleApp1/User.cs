@@ -82,4 +82,25 @@ public class User
         friend.Age = 50;
         return friend;
     }
+
+    public override bool Equals(object? obj)
+    {
+        if (obj is not User)
+        {
+            return false;
+        }
+        var user2 = (User)obj;
+
+        return Name == user2.Name && Age == user2.Age;
+    }
+
+    public static bool operator == (User a, User b)
+    {
+        return a.Equals(b);
+    }
+
+    public static bool operator !=(User a, User b)
+    {
+        return !a.Equals(b);
+    }
 }

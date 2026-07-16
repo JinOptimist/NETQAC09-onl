@@ -1,6 +1,6 @@
 ﻿namespace ConsoleApp1.IntefaceExample;
 
-internal class User : ICanDraMySelfInConsole
+internal class UserWithInterface : ICanDraMySelfInConsole
 {
     public int Id { get; set; }
     public string Name { get; set; }
