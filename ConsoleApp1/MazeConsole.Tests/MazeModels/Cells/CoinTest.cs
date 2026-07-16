@@ -81,7 +81,7 @@ public class CoinTest
         }
 
         // Assert
-        mazeMock.Verify(x => x.ReplaceCellToGround(coin), 
+        mazeMock.Verify(x => x.ReplaceCellToGround(coin),
             Times.Once,
             "We think that cell must be replaced");
     }
