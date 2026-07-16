@@ -32,7 +32,6 @@ public class CoinTest
         Assert.IsTrue(result, "We expect that player can step on Coin");
     }
 
-
     [Test]
     public void PlayerStepInMe_ThrowExceptionOnPoorPlayer()
     {
@@ -42,8 +41,8 @@ public class CoinTest
         playerMock.Setup(player => player.Coin)
             .Returns(-5);
         var player = playerMock.Object;
-        var mazeMock = new Mock<IMaze>();      // moq, stub
 
+        var mazeMock = new Mock<IMaze>();      // moq, stub
         mazeMock.Setup(maze => maze.LogMessages)
             .Returns(new List<string>());
 
@@ -54,7 +53,7 @@ public class CoinTest
 
         // Act
         // Assert
-        Assert.Throws<Exception>(() => coin.PlayerStepInMe(player),
+        Assert.Throws<Exceptionnu>(() => coin.PlayerStepInMe(player),
             "we have to down if player has negative coin");
     }
 
@@ -82,6 +81,34 @@ public class CoinTest
         }
 
         // Assert
-        mazeMock.Verify(x => x.ReplaceCellToGround(coin), Times.Once, "We think that cell must be replaced");
+        mazeMock.Verify(x => x.ReplaceCellToGround(coin), 
+            Times.Once,
+            "We think that cell must be replaced");
+    }
+
+    [Test]
+    [TestCase(1, 2)]
+    [TestCase(100, 101)]
+    [TestCase(157, 158)]
+    public void PlayerStepInMe_CoinForPlayerIsGrowing(int coinBefore, int cointAfter)
+    {
+        // Preparation
+        var coin = new Coin();
+
+        var playerMock = new Mock<IPlayer>();
+        playerMock.SetupProperty(x => x.Coin);
+        var player = playerMock.Object;
+        player.Coin = coinBefore;
+
+        var mazeMock = new Mock<IMaze>();
+        mazeMock.Setup(maze => maze.LogMessages)
+            .Returns(new List<string>());
+        coin.MazeWhereIWasCreated = mazeMock.Object;
+
+        // Act
+        coin.PlayerStepInMe(player);
+
+        // Assert
+        Assert.IsTrue(player.Coin == cointAfter);
     }
 }
