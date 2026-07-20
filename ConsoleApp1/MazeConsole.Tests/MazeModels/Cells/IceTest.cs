@@ -1,155 +1,129 @@
 ﻿using MazeConsole.MazeExceptions;
 using MazeConsole.MazeModels;
 using MazeConsole.MazeModels.Cells;
+using MazeConsole.MazeModels.Cells.Interaces;
 using MazeConsole.MazeModels.Intefaces;
 using Moq;
 using NUnit.Framework;
-using MazeConsole.MazeModels.Cells.Interaces;
 
 namespace MazeConsole.Tests.MazeModels.Cells;
 
 public class IceTest
 {
-    // Хелпер: создаёт лёд с замоканным лабиринтом и списком ячеек
-    private static (Ice ice, Mock<IMaze> mazeMock, List<IBaseCell> cells) CreateIce(int x, int y)
+    private List<IBaseCell> _cells;
+    private Mock<IMaze> _mazeMock;
+    private Mock<IPlayer> _playerMock;
+    private IPlayer _player;
+    private Ice _ice;
+
+    [SetUp]
+    public void SetUp()
     {
-        var cells = new List<IBaseCell>();
+        _cells = new List<IBaseCell>();
 
-        var mazeMock = new Mock<IMaze>();
-        mazeMock.Setup(m => m.Cells).Returns(cells);
-        mazeMock.Setup(m => m.LogMessages).Returns(new List<string>());
-        mazeMock.Setup(m => m.Seed).Returns(12345);
+        _mazeMock = new Mock<IMaze>();
+        _mazeMock.Setup(m => m.Cells).Returns(_cells);
+        _mazeMock.Setup(m => m.LogMessages).Returns(new List<string>());
+        _mazeMock.Setup(m => m.Seed).Returns(12345);
 
-        var ice = new Ice { X = x, Y = y };
-        ice.MazeWhereIWasCreated = mazeMock.Object;
-        cells.Add(ice);
+        _ice = new Ice { X = 5, Y = 5 };
+        _ice.MazeWhereIWasCreated = _mazeMock.Object;
+        _cells.Add(_ice);
 
-        return (ice, mazeMock, cells);
+        _playerMock = new Mock<IPlayer>();
+        _playerMock.SetupAllProperties();
+        _player = _playerMock.Object;
+        // игрок идёт слева: направление (+1,0) -> скользит на (6,5)
+        _player.X = 4;
+        _player.Y = 5;
+        _player.Sand = 0;
     }
 
-    private static Mock<IPlayer> CreatePlayer(int x, int y, int sand = 0)
+    // Добавляет ячейку за льдом на (6,5) с заданной "наступабельностью"
+    private Mock<IBaseCell> AddNextCell(bool isSteppable)
     {
-        var playerMock = new Mock<IPlayer>();
-        playerMock.SetupAllProperties();
-        var player = playerMock.Object;
-        player.X = x;
-        player.Y = y;
-        player.Sand = sand;
-        return playerMock;
+        var nextCellMock = new Mock<IBaseCell>();
+        nextCellMock.SetupAllProperties();
+        nextCellMock.Object.X = 6;
+        nextCellMock.Object.Y = 5;
+        nextCellMock.Setup(c => c.PlayerStepInMe(_player)).Returns(isSteppable);
+        _cells.Add(nextCellMock.Object);
+        return nextCellMock;
     }
 
     [Test]
-    public void PlayerStepInMe_WithSand_ReplacesIceWithDirtAndReturnsTrue()
+    [TestCase(3, 2)]
+    [TestCase(1, 0)]
+    public void PlayerStepInMe_WithSand_ReplacesIceWithDirtAndReturnsTrue(int sandBefore, int sandAfter)
     {
         // Preparation
-        var (ice, _, cells) = CreateIce(5, 5);
-        var playerMock = CreatePlayer(4, 5, sand: 3);
-        var player = playerMock.Object;
+        _player.Sand = sandBefore;
 
         // Act
-        var result = ice.PlayerStepInMe(player);
+        var result = _ice.PlayerStepInMe(_player);
 
         // Assert
         Assert.IsTrue(result, "Со песком игрок может встать на лёд (лёд превращается в грязь)");
-        Assert.AreEqual(2, player.Sand, "Количество песка должно уменьшиться на 1");
-        Assert.IsInstanceOf<Dirt>(cells[0], "Лёд должен быть заменён на Dirt");
+        Assert.AreEqual(sandAfter, _player.Sand, "Количество песка должно уменьшиться на 1");
+        Assert.IsInstanceOf<Dirt>(_cells[0], "Лёд должен быть заменён на Dirt");
     }
 
     [Test]
     public void PlayerStepInMe_SlidesToSteppableCell_ReturnsFalseAndMovesPlayer()
     {
         // Preparation
-        var (ice, _, cells) = CreateIce(5, 5);
-        // игрок идёт слева (4,5) -> направление (+1,0) -> скользит на (6,5)
-        var playerMock = CreatePlayer(4, 5);
-        var player = playerMock.Object;
-
-        // ячейка за льдом - наступабельная
-        var nextCellMock = new Mock<IBaseCell>();
-        nextCellMock.SetupAllProperties();
-        nextCellMock.Object.X = 6;
-        nextCellMock.Object.Y = 5;
-        nextCellMock.Setup(c => c.PlayerStepInMe(player)).Returns(true);
-        cells.Add(nextCellMock.Object);
+        AddNextCell(isSteppable: true);
 
         // Act
-        var result = ice.PlayerStepInMe(player);
+        var result = _ice.PlayerStepInMe(_player);
 
         // Assert
         Assert.IsFalse(result, "Ice сам двигает игрока, поэтому контроллеру возвращает false");
-        Assert.AreEqual(6, player.X, "Игрок должен проскользить на клетку за льдом");
-        Assert.AreEqual(5, player.Y);
+        Assert.AreEqual(6, _player.X, "Игрок должен проскользить на клетку за льдом");
+        Assert.AreEqual(5, _player.Y);
     }
 
     [Test]
     public void PlayerStepInMe_NextCellNotSteppable_PlayerStaysOnIce()
     {
         // Preparation
-        var (ice, _, cells) = CreateIce(5, 5);
-        var playerMock = CreatePlayer(4, 5);
-        var player = playerMock.Object;
-
-        // ячейка за льдом существует, но НЕ наступабельная
-        var nextCellMock = new Mock<IBaseCell>();
-        nextCellMock.SetupAllProperties();
-        nextCellMock.Object.X = 6;
-        nextCellMock.Object.Y = 5;
-        nextCellMock.Setup(c => c.PlayerStepInMe(player)).Returns(false);
-        cells.Add(nextCellMock.Object);
+        AddNextCell(isSteppable: false);
 
         // Act
-        var result = ice.PlayerStepInMe(player);
+        var result = _ice.PlayerStepInMe(_player);
 
         // Assert
         Assert.IsFalse(result);
-        Assert.AreEqual(5, player.X, "Игрок остаётся на клетке льда");
-        Assert.AreEqual(5, player.Y);
+        Assert.AreEqual(5, _player.X, "Игрок остаётся на клетке льда");
+        Assert.AreEqual(5, _player.Y);
     }
 
     [Test]
     public void PlayerStepInMe_NextCellNull_DoesNotThrowAndPlayerStays()
     {
         // Preparation
-        var (ice, _, _) = CreateIce(5, 5);
-        // ячейки за льдом (6,5) в списке нет -> nextCell == null
-        var playerMock = CreatePlayer(4, 5);
-        var player = playerMock.Object;
+        // ячейку за льдом не добавляем -> nextCell == null
 
         // Act
-        var result = ice.PlayerStepInMe(player);
+        var result = _ice.PlayerStepInMe(_player);
 
         // Assert
-        // корректная логика оставляет игрока на льду, исключение не бросается
         Assert.IsFalse(result);
-        Assert.AreEqual(5, player.X);
-        Assert.AreEqual(5, player.Y);
+        Assert.AreEqual(5, _player.X);
+        Assert.AreEqual(5, _player.Y);
     }
 
     [Test]
     public void PlayerStepInMe_WithSand_DoesNotSlide()
     {
         // Preparation
-        var (ice, _, _) = CreateIce(5, 5);
-        var playerMock = CreatePlayer(4, 5, sand: 1);
-        var player = playerMock.Object;
+        _player.Sand = 1;
 
         // Act
-        ice.PlayerStepInMe(player);
+        _ice.PlayerStepInMe(_player);
 
-        // Assert - игрок не скользит, координаты не меняются логикой льда
-        Assert.AreEqual(4, player.X);
-        Assert.AreEqual(5, player.Y);
-    }
-
-    [Test]
-    public void PlayerStepInMe_WithSand_WritesDirtLog_NoException()
-    {
-        // Preparation
-        var (ice, mazeMock, _) = CreateIce(5, 5);
-        var playerMock = CreatePlayer(4, 5, sand: 1);
-        var player = playerMock.Object;
-
-        // Act & Assert
-        Assert.DoesNotThrow(() => ice.PlayerStepInMe(player));
+        // Assert - игрок не скользит, координаты меняет только логика песка (не трогает X/Y)
+        Assert.AreEqual(4, _player.X);
+        Assert.AreEqual(5, _player.Y);
     }
 }
