@@ -19,6 +19,11 @@ public class MazeController : Controller
         return View();
     }
 
+    public IActionResult CoinInfo()
+    {
+        return View();
+    }
+
     [HttpGet]
     public IActionResult State()
     {
