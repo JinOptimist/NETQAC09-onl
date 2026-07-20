@@ -18,6 +18,10 @@ public class MazeController : Controller
     {
         return View(CellCodex.All);
     }
+    public IActionResult Flower()
+{
+    return View();
+}
 
     public IActionResult CoinInfo()
     {
