@@ -26,8 +26,12 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Maze" asp-action="Index">Лабиринт</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" id="mazeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Лабиринт</a>
+                            <ul class="dropdown-menu" aria-labelledby="mazeDropdown">
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Maze" asp-action="Index">Лабиринт</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Maze" asp-action="Ice">Ice</a></li>
+                            </ul>
                         </li>
                     </ul>
                 </div>
@@ -48,6 +52,21 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        // Open Maze dropdown on hover for desktop users
+        $(function(){
+            $('.nav-item.dropdown').hover(
+                function(){
+                    $(this).addClass('show');
+                    $(this).find('.dropdown-menu').addClass('show');
+                },
+                function(){
+                    $(this).removeClass('show');
+                    $(this).find('.dropdown-menu').removeClass('show');
+                }
+            );
+        });
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

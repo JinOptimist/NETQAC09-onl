@@ -19,6 +19,12 @@ public class MazeController : Controller
         return View();
     }
 
+    public IActionResult Ice()
+    {
+        ViewData["Title"] = "Ячейка Ice";
+        return View();
+    }
+
     [HttpGet]
     public IActionResult State()
     {
