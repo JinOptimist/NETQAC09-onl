@@ -11,9 +11,6 @@ namespace WebAppSmile.Controllers
             var jokedTask = GetDataFromApiAsync<JokeDto>("https://official-joke-api.appspot.com/jokes/random");
             var restauranTask = GetDataFromApiAsync<List<RestauranDto>>("https://fakerestaurantapi.runasp.net/api/Restaurant");
 
-            jokedTask.Start();
-            restauranTask.Start();
-
             await Task.WhenAll(jokedTask, restauranTask);
 
             var viewModel = new HomeViewModel

@@ -16,12 +16,24 @@ public class MazeController : Controller
 
     public IActionResult Index()
     {
-        return View();
+        return View(CellCodex.All);
     }
 
     public IActionResult CoinInfo()
     {
-        return View();
+        return RedirectToAction(nameof(CellInfo), new { type = "Coin" });
+    }
+
+    [HttpGet]
+    public IActionResult CellInfo(string type)
+    {
+        var info = CellCodex.Find(type);
+        if (info is null)
+        {
+            return NotFound();
+        }
+
+        return View(info);
     }
 
     [HttpGet]

@@ -1,0 +1,43 @@
+@model WebAppSmile.Models.CellTypeInfo
+@{
+    Layout = "_MazeLayout";
+    ViewData["Title"] = Model.TitleRu;
+}
+
+<div class="dungeon dungeon--codex">
+    <div class="dungeon__haze" aria-hidden="true"></div>
+    <div class="dungeon__embers" aria-hidden="true"></div>
+
+    <header class="dungeon__header">
+        <p class="dungeon__brand">Кодекс ячеек</p>
+        <h1 class="dungeon__title">@Model.TitleRu</h1>
+        <p class="dungeon__tagline">@Model.Category</p>
+    </header>
+
+    <article class="cell-dossier">
+        <div class="cell-dossier__seal">
+            <svg class="cell-dossier__icon" viewBox="0 0 32 32" aria-hidden="true">
+                <use href="#icon-@Model.TypeKey"></use>
+            </svg>
+        </div>
+
+        <div class="cell-dossier__body">
+            <p class="cell-dossier__badge">Placeholder</p>
+            <h2 class="cell-dossier__heading">@Model.TitleRu</h2>
+            <p class="cell-dossier__teaser">@Model.Teaser</p>
+
+            <div class="cell-dossier__placeholder" role="status">
+                <span class="cell-dossier__ornament" aria-hidden="true">✧</span>
+                <p>
+                    Здесь появится подробное описание механики ячейки
+                    <strong>@Model.TypeKey</strong>: правила шага, эффекты и подсказки для героя.
+                </p>
+                <p class="cell-dossier__soon">Страница в подготовке — загляните позже.</p>
+            </div>
+
+            <a class="btn-torch cell-dossier__back" asp-controller="Maze" asp-action="Index">← К лабиринту</a>
+        </div>
+    </article>
+</div>
+
+<partial name="_MazeSprites" />
