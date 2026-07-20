@@ -1,0 +1,62 @@
+﻿@{
+    ViewData["Title"] = "Amongus";
+}
+
+<partial name="~/Views/Maze/_MazeSprites.cshtml" />
+<style>
+    html, body {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #0f172a, #1e293b) !important;
+    }
+
+    .amongus-container {
+        max-width: 900px;
+        margin: 50px auto;
+        padding: 40px;
+        background: rgba(0, 0, 0, 0.7);
+        border-radius: 20px;
+        box-shadow: 0 0 30px rgba(255, 0, 0, 0.4);
+        color: white;
+        text-align: center;
+    }
+
+    .amongus-sprite {
+        width: 250px;
+        transition: transform 0.3s;
+    }
+
+    .amongus-sprite:hover {
+        transform: scale(1.1) rotate(5deg);
+    }
+
+    .enemy-title {
+        color: #ff4d4d;
+        font-size: 3rem;
+        margin-bottom: 20px;
+        text-shadow: 0 0 10px red;
+    }
+
+    .enemy-description {
+        font-size: 1.4rem;
+        margin-top: 20px;
+        line-height: 1.8;
+    }
+
+    .damage {
+        color: #ff6b6b;
+        font-weight: bold;
+    }
+</style>
+
+<div class="amongus-container">
+    <h1 class="enemy-title">AMONGUS</h1>
+
+    <svg class="amongus-sprite" viewBox="0 0 32 32">
+        <use href="#icon-Amongus"></use>
+    </svg>
+
+    <p class="enemy-description">
+        Амонгус является врагом, и при переходе на него игрок теряет
+        <span class="damage">1d4 ХП</span>.
+    </p>
+</div>

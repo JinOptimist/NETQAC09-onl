@@ -10,7 +10,10 @@ namespace WebAppSmile.Controllers
         {
             return View();
         }
-
+        public IActionResult AmongUs()
+        {
+            return View();
+        }
         public IActionResult Privacy()
         {
             var mySecond = DateTime.Now.Second;
