@@ -40,11 +40,29 @@ public class MazeController : Controller
         return View(info);
     }
 
-    public IActionResult Ice()
+    public async Task<IActionResult> Ice() // асинхронный метод, который будет вызываться при переходе на страницу Ice
     {
-        return View();
+        // запускаем оба запроса
+        var affirmationTask = GetDataFromApiAsync<AffirmationDto>("https://www.affirmations.dev/");
+        var dogImageTask = GetDataFromApiAsync<DogImageDto>("https://dog.ceo/api/breeds/image/random");
+        //ждем, когда получим все ответы
+        await Task.WhenAll(affirmationTask, dogImageTask);
+        //складываем результаты в модель, которая будет передана на страницу
+        var viewIceModel = new IceModel
+        {
+            AffirmationDto = affirmationTask.Result,
+            DogImageDto = dogImageTask.Result,
+        };
+        //возвращаем на страницу модель, которая содержит данные с обоих API
+        return View(viewIceModel);
     }
-
+    public async Task<T> GetDataFromApiAsync<T>(string url) // универсальный метод для получения данных с API
+    {
+        var http = new HttpClient();
+        var response = await http.GetAsync(url);
+        var dto = await response.Content.ReadFromJsonAsync<T>();
+        return dto;
+    }
     public IActionResult Dirt()
     {
         return View();
