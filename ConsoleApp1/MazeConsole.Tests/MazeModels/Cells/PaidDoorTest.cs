@@ -33,7 +33,7 @@ public class PaidDoorTest
         // Assert
         Assert.IsTrue(result, "Player with enough coins should be able to open the door");
     }
-        
+
     // Проверяем, что при нехватке монет в лог добавляется предупреждение для игрока
     [Test]
     public void PlayerStepInMe_AddsWarningLog_WhenPlayerDoesNotHaveEnoughCoins()
@@ -49,8 +49,6 @@ public class PaidDoorTest
         var mazeMock = new Mock<IMaze>();
         mazeMock.Setup(maze => maze.LogMessages)
             .Returns(logMessages);
-        mazeMock.Setup(maze => maze.Seed)
-            .Returns(1);
 
         var maze = mazeMock.Object;
 
@@ -58,22 +56,14 @@ public class PaidDoorTest
         paidDoor.MazeWhereIWasCreated = maze;
 
         // Act
-        try
-        {
-            paidDoor.PlayerStepInMe(player);
-        }
-        catch (Exception)
-        {
-            // тут будет исключение, но в этом тесте нас интересует только лог,
-            // поэтому просто гасим ошибку и идём проверять лог дальше
-        }
+        Assert.Throws<Exception>(() => paidDoor.PlayerStepInMe(player));
 
         // Assert
         Assert.IsTrue(logMessages.Contains("You need 2 coins to open this door"),
             "We expect a warning message to be logged when player can't afford the door");
     }
 
-    
+
     // Проверяем, что при успешном открытии дверь заменяется на землю
     [Test]
     public void PlayerStepInMe_ReplaceCellToGround_WhenDoorIsOpened()
