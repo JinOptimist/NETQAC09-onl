@@ -42,7 +42,6 @@ public class MazeController : Controller
 
     public IActionResult Ice()
     {
-        ViewData["Title"] = "Ячейка Ice";
         return View();
     }
 
