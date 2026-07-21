@@ -46,6 +46,16 @@ public class MazeController : Controller
         return View();
     }
 
+    public IActionResult Dirt()
+    {
+        return View();
+    }
+
+    public IActionResult PileOfSand()
+    {
+        return View();
+    }
+
     [HttpGet]
     public IActionResult State()
     {

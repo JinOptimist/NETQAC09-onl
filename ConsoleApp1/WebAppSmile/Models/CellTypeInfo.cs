@@ -6,4 +6,5 @@ public class CellTypeInfo
     public required string TitleRu { get; init; }
     public required string Teaser { get; init; }
     public required string Category { get; init; }
+    public string? DetailAction { get; init; }
 }
