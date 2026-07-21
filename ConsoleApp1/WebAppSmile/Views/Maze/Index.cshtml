@@ -1,3 +1,4 @@
+@model IReadOnlyList<WebAppSmile.Models.CellTypeInfo>
 @{
     Layout = "_MazeLayout";
     ViewData["Title"] = "Лабиринт";
@@ -19,7 +20,12 @@
                 <h2 class="hud__heading">Герой</h2>
                 <ul class="hud__stats">
                     <li><span>Здоровье</span> <strong id="stat-health">—</strong></li>
-                    <li><span>Монеты</span> <strong id="stat-coins">—</strong></li>
+                    <li>
+                        <span>
+                            <a asp-controller="Maze" asp-action="CellInfo" asp-route-type="Coin">Монеты</a>
+                        </span>
+                        <strong id="stat-coins">—</strong>
+                    </li>
                     <li><span>Зелья</span> <strong id="stat-potions">—</strong></li>
                     <li><span>Песок</span> <strong id="stat-sand">—</strong></li>
                     <li><span>Цветы</span> <strong id="stat-flowers">—</strong></li>
@@ -55,6 +61,41 @@
             <ol id="message-log" class="chronicle__list"></ol>
         </aside>
     </div>
+
+    <section class="cell-codex" aria-labelledby="codex-heading">
+        <div class="cell-codex__intro">
+            <p class="cell-codex__eyebrow">Свиток подземелья</p>
+            <h2 id="codex-heading" class="cell-codex__title">Кодекс ячеек</h2>
+            <p class="cell-codex__lead">
+                Выберите тип клетки — откроется страница с подробным описанием.
+                Пока это placeholder: механика появится позже.
+            </p>
+        </div>
+
+        <ul class="cell-codex__grid">
+            @foreach (var cell in Model)
+            {
+                <li>
+                    <a class="cell-codex__card"
+                       asp-controller="Maze"
+                       asp-action="CellInfo"
+                       asp-route-type="@cell.TypeKey">
+                        <span class="cell-codex__glyph" aria-hidden="true">
+                            <svg viewBox="0 0 32 32">
+                                <use href="#icon-@cell.TypeKey"></use>
+                            </svg>
+                        </span>
+                        <span class="cell-codex__meta">
+                            <span class="cell-codex__category">@cell.Category</span>
+                            <span class="cell-codex__name">@cell.TitleRu</span>
+                            <span class="cell-codex__teaser">@cell.Teaser</span>
+                        </span>
+                        <span class="cell-codex__cta">Подробнее →</span>
+                    </a>
+                </li>
+            }
+        </ul>
+    </section>
 </div>
 
 <partial name="_MazeSprites" />

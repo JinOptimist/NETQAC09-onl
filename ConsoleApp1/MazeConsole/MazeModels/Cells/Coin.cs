@@ -6,6 +6,22 @@ public class Coin : BaseCell
 
     private int _coinCount = COINT_COUNT_INITIAL;
 
+    public Coin()
+    {
+        var task = new Task(CoinGrow);
+        task.Start();
+    }
+
+    private void CoinGrow()
+    {
+        for (int i = 0; i < 100; i++)
+        {
+            _coinCount++;
+            Thread.Sleep(1000);
+            // Console.WriteLine($"New coin cost is: {_coinCount}");
+        }
+    }
+
     public override char MySymbol => 'c';
 
     public override bool PlayerStepInMe(IPlayer player)

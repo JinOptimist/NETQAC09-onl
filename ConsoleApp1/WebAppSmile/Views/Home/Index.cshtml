@@ -1,8 +1,25 @@
-﻿@{
+﻿@model HomeViewModel
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <div>Here is a JOKE (@Model.JokeDto.Id)</div>
+    <div>@Model.JokeDto.Setup</div>
+    <div>@Model.JokeDto.Punchline</div>
+</div>
+
+<div class="text-center">
+    <div>Here are Restaurants </div>
+
+    @foreach (var restauranDto in Model.RestauransDto)
+    {
+        <div class="restauran">
+            <div>(@restauranDto.RestaurantID)</div>
+            <div>@restauranDto.RestaurantName</div>
+            <div>@restauranDto.Address</div>
+        </div>
+    }
+
 </div>
