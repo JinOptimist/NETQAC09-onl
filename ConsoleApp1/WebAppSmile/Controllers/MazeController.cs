@@ -8,6 +8,7 @@ namespace WebAppSmile.Controllers;
 public class MazeController : Controller
 {
     private readonly MazeGameSessionStore _store;
+    private readonly IceApiDataService _iceApiDataService = new();
 
     public MazeController(MazeGameSessionStore store)
     {
@@ -43,8 +44,8 @@ public class MazeController : Controller
     public async Task<IActionResult> Ice() // асинхронный метод, который будет вызываться при переходе на страницу Ice
     {
         // запускаем оба запроса
-        var affirmationTask = GetDataFromApiAsync<AffirmationDto>("https://www.affirmations.dev/");
-        var dogImageTask = GetDataFromApiAsync<DogImageDto>("https://dog.ceo/api/breeds/image/random");
+        var affirmationTask = _iceApiDataService.GetDataFromApiAsync<AffirmationDto>("https://www.affirmations.dev/");
+        var dogImageTask = _iceApiDataService.GetDataFromApiAsync<DogImageDto>("https://dog.ceo/api/breeds/image/random");
         //ждем, когда получим все ответы
         await Task.WhenAll(affirmationTask, dogImageTask);
         //складываем результаты в модель, которая будет передана на страницу
@@ -55,13 +56,6 @@ public class MazeController : Controller
         };
         //возвращаем на страницу модель, которая содержит данные с обоих API
         return View(viewIceModel);
-    }
-    public async Task<T> GetDataFromApiAsync<T>(string url) // универсальный метод для получения данных с API
-    {
-        var http = new HttpClient();
-        var response = await http.GetAsync(url);
-        var dto = await response.Content.ReadFromJsonAsync<T>();
-        return dto;
     }
     public IActionResult Dirt()
     {
