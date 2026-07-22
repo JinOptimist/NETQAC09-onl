@@ -1,0 +1,31 @@
+@model MazeViewModel
+@{
+    Layout = "_MazeLayout";
+    ViewData["Title"] = "Ячейка Tree";
+}
+
+<section class="doc">
+    <header>
+        <h1>Ячейка Tree</h1>
+        <p class="lead">Дерево</p>
+    </header>
+
+    <article>
+        <h2>Общее</h2>
+        <p>Ячейка типа <strong>Tree</strong> — Живое дерево</p>
+
+        <h2>Откуда берётся</h2>
+        <p>Шагните - и окажитесь в другом месте.</p>
+    </article>
+        
+
+    <div class="text-center">
+        <div>Забавный факт о котах</div>
+        <div>@Model.TreeDto.Fact</div>
+    </div>
+
+
+    <footer>
+        <a class="btn-torch" href="@Url.Action("Index", "Maze")">Вернуться к лабиринту</a>
+    </footer>
+</section>
