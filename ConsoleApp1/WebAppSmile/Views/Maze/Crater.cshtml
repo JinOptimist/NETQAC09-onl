@@ -1,0 +1,71 @@
+﻿@model WebAppSmile.Models.CraterApiDto
+
+@{
+    Layout = "_MazeLayout";
+    ViewData["Title"] = "Crater Cell";
+}
+
+<div class="dungeon">
+    <div class="dungeon__haze"></div>
+    <div class="dungeon__embers"></div>
+
+    <header class="dungeon__header">
+        <p class="dungeon__brand">Хроники лабиринта</p>
+
+        <h1 class="dungeon__title">
+            🕳️ Crater Cell
+        </h1>
+
+        <p class="dungeon__tagline">
+            Опасная ячейка, которая забирает одну монету, если она есть,
+            и перемещает игрока на одну клетку вниз.
+        </p>
+    </header>
+
+    <section class="hud__panel">
+        <div class="crater-symbol">
+            🕳️
+        </div>
+
+        <h2 class="hud__heading">
+            Кратер
+        </h2>
+
+        <p>
+            В лабиринте встречаются клетки Crater.
+            Если игрок провалится в Crater, он может потерять одну монету.
+        </p>
+
+        <h2 class="hud__heading">
+            Business rules
+        </h2>
+
+        <ul class="crater-rules">
+            <li>
+                Crater перемещает игрока на одну дополнительную клетку вниз.
+            </li>
+
+            <li>
+                Если у игрока есть монеты, Crater забирает одну монету.
+            </li>
+
+            <li>
+                Если перейти на клетку снизу невозможно, игрок остаётся на Crater.
+            </li>
+        </ul>
+
+        <h2 class="hud__heading">
+            Данные Diglett из API
+        </h2>
+
+        <ul>
+            <li>Имя: <strong>@Model.Name</strong></li>
+            <li>Рост: <strong>@Model.Height</strong></li>
+            <li>Вес: <strong>@Model.Weight</strong></li>
+        </ul>
+
+        <a href="/Maze" class="btn-torch">
+            ← Вернуться в лабиринт
+        </a>
+    </section>
+</div>

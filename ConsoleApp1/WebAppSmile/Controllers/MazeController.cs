@@ -19,9 +19,23 @@ public class MazeController : Controller
         return View(CellCodex.All);
     }
     public IActionResult Flower()
-{
-    return View();
-}
+    {
+        return View();
+    }
+    private async Task<CraterApiDto> GetDataFromApi(string url) //асинхронно через task получает данные из API и возвращает их как объект
+    {
+        var http = new HttpClient();
+        var craterTask = http.GetAsync(url);
+        var result = await craterTask;
+        var craterDto = await result.Content.ReadFromJsonAsync<CraterApiDto>();
+        return craterDto; // объект с данными Diglett (подземный покемон) в action Crater
+    }
+    public async Task<IActionResult> Crater()
+    {
+        var diglettDto = await GetDataFromApi("https://pokeapi.co/api/v2/pokemon/diglett"); // получвем данные о Diglett(=подземный покемон) и сохраняем объект
+        return View(diglettDto);
+    }
+
 
     public IActionResult CoinInfo()
     {
