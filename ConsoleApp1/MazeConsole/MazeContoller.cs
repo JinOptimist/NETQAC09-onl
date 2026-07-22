@@ -89,6 +89,11 @@ public class MazeContoller
             _maze.Player.X = destinationX;
             _maze.Player.Y = destinationY;
         }
+        else
+        {
+            _logger.AddLog("can't move here");
+            throw new Exception($"Can't move to {destinationY} {destinationX}");
+        }
     }
 
     private void MazeGeneration()
@@ -138,6 +143,8 @@ public class MazeContoller
                 case ConsoleKey.DownArrow:
                     return UserAction.StepDown;
             }
+           
         }
+        
     }
 }

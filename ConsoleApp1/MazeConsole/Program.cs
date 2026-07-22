@@ -18,5 +18,5 @@ catch (IceCellExceptions ex) //можно протестировать на publ
 
 catch (Exception ex)
 {
-    Console.WriteLine("Sorry. We are fail");
+    Console.WriteLine(ex.Message);
 }
