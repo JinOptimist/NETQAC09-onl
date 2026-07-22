@@ -3,6 +3,7 @@ using WebAppSmile.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpClient<FlowerApiService>();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {

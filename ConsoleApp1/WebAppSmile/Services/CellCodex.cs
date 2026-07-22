@@ -12,7 +12,7 @@ public static class CellCodex
         new() { TypeKey = "Ice", TitleRu = "Лёд", Category = "Местность", Teaser = "Скользкая плита: шаг может унести вас дальше." },
         new() { TypeKey = "Coin", TitleRu = "Монета", Category = "Добыча", Teaser = "Золото подземелья. Подберите — и счётчик монет вырастет." },
         new() { TypeKey = "Diamond", TitleRu = "Алмаз", Category = "Добыча", Teaser = "Редкий камень. При удаче принесёт солидный куш." },
-        new() { TypeKey = "Flower", TitleRu = "Цветок", Category = "Добыча", Teaser = "Хрупкий бутон. Собирайте — пригодится в инвентаре." },
+        new() { TypeKey = "Flower", TitleRu = "Цветок", Category = "Добыча", Teaser = "🌺 Магический цветок лабиринта. Собирайте — пригодится в инвентаре." },
         new() { TypeKey = "PileOfSand", TitleRu = "Куча песка", Category = "Добыча", Teaser = "Горсть песка. Можно унести с собой." },
         new() { TypeKey = "HealthPotion", TitleRu = "Зелье здоровья", Category = "Добыча", Teaser = "Флакон с красной жидкостью — запас для трудного часа." },
         new() { TypeKey = "Tree", TitleRu = "Дерево", Category = "Опасность", Teaser = "Живое древо: шагните — и окажетесь в другом месте." },

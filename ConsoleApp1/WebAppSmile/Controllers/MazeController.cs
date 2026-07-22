@@ -8,10 +8,12 @@ namespace WebAppSmile.Controllers;
 public class MazeController : Controller
 {
     private readonly MazeGameSessionStore _store;
+    private readonly FlowerApiService _flowerApi;
 
-    public MazeController(MazeGameSessionStore store)
+    public MazeController(MazeGameSessionStore store, FlowerApiService flowerApi)
     {
         _store = store;
+        _flowerApi = flowerApi;
     }
 
     public IActionResult Index()
@@ -29,12 +31,17 @@ public class MazeController : Controller
     }
 
     [HttpGet]
-    public IActionResult CellInfo(string type)
+    public async Task<IActionResult> CellInfo(string type)
     {
         var info = CellCodex.Find(type);
         if (info is null)
         {
             return NotFound();
+        }
+
+    if(type == "Flower")
+        {
+            ViewBag.Flower = await _flowerApi.GetFlower();
         }
 
         return View(info);
