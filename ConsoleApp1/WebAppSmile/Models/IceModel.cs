@@ -1,6 +1,6 @@
 ﻿namespace WebAppSmile.Models
 {
-    public class IceModel
+    public class IceViewModel
     {
         public AffirmationDto AffirmationDto { get; set; }
         public DogImageDto DogImageDto { get; set; }

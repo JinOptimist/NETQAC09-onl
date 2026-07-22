@@ -49,7 +49,7 @@ public class MazeController : Controller
         //ждем, когда получим все ответы
         await Task.WhenAll(affirmationTask, dogImageTask);
         //складываем результаты в модель, которая будет передана на страницу
-        var viewIceModel = new IceModel
+        var viewIceModel = new IceViewModel
         {
             AffirmationDto = affirmationTask.Result,
             DogImageDto = dogImageTask.Result,
