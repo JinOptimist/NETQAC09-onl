@@ -27,6 +27,10 @@ public class MazeController : Controller
     {
         return RedirectToAction(nameof(CellInfo), new { type = "Coin" });
     }
+    public IActionResult Thief()
+    {
+        return View();
+    }
 
     [HttpGet]
     public IActionResult CellInfo(string type)
