@@ -18,6 +18,7 @@ namespace WebAppSmile.Controllers
         public async Task<IActionResult> Index()
         {
             var jokedTask = _apiHelper.GetDataFromApiAsync<JokeDto>("https://official-joke-api.appspot.com/jokes/random");
+            var pathToImage = await _apiHelper.SaveImageAndGetLinkToIt("https://cataas.com/cat");
             var restauranTask = _apiHelper.GetDataFromApiAsync<List<RestauranDto>>("https://fakerestaurantapi.runasp.net/api/Restaurant");
 
             await Task.WhenAll(jokedTask, restauranTask);
@@ -25,7 +26,8 @@ namespace WebAppSmile.Controllers
             var viewModel = new HomeViewModel
             {
                 RestauransDto = restauranTask.Result,
-                JokeDto = jokedTask.Result
+                JokeDto = jokedTask.Result,
+                PathToImage = pathToImage
             };
 
             return View(viewModel);

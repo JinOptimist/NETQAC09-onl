@@ -17,6 +17,10 @@ builder.Services.AddSingleton<MazeGameSessionStore>();
 builder.Services.AddScoped<IApiHelper, ApiHelper>();
 builder.Services.AddScoped<IMyJsonSerializer, MyJsonSerializer>();
 
+// builder.Services.AddTransient<IApiHelper, ApiHelper>(); // new each time
+// builder.Services.AddScoped<IApiHelper, ApiHelper>(); // one per http request
+// builder.Services.AddSingleton<IApiHelper, ApiHelper>(); // only one time
+
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
