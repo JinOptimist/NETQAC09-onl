@@ -11,6 +11,8 @@ public class MazeController : Controller
     private readonly MazeGameSessionStore _store;
     private readonly IceApiDataService _iceApiDataService = new();
 
+    private readonly HttpClient _http = new();
+
     public MazeController(MazeGameSessionStore store)
     {
         _store = store;
@@ -117,7 +119,22 @@ public async Task<IActionResult> VodkaBarInfo()
         }
         
  
+
+        if (info.TypeKey == "HealthPotion")
+        {
+            var fox = await GetDataFromApiAsync<FoxDto>("https://randomfox.ca/floof/");
+            ViewData["FoxImage"] = fox?.Image;
+        }
+
         return View(info);
+    }
+
+
+    private async Task<T> GetDataFromApiAsync<T>(string url)
+    {
+        var response = await _http.GetAsync(url);
+        response.EnsureSuccessStatusCode();
+        return await response.Content.ReadFromJsonAsync<T>();
     }
 
     public async Task<IActionResult> Ice() // асинхронный метод, который будет вызываться при переходе на страницу Ice
