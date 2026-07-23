@@ -2,6 +2,9 @@
 @{
     Layout = "_MazeLayout";
     ViewData["Title"] = Model.TitleRu;
+
+    var currencyRate = ViewBag.CurrencyRate as CurrencyRateDto;
+    var doorPrice = MazeConsole.MazeModels.Cells.PaidDoor.DOOR_PRICE;
 }
 
 <div class="dungeon dungeon--codex">
@@ -22,10 +25,29 @@
         </div>
 
         <div class="cell-dossier__body">
-            <p class="cell-dossier__badge">Placeholder</p>
+            <p class="cell-dossier__badge">Gold rate</p>
             <h2 class="cell-dossier__heading">@Model.TitleRu</h2>
             <p class="cell-dossier__teaser">@Model.Teaser</p>
 
+@if (currencyRate is not null)
+{
+    var totalPrice = doorPrice * currencyRate.Rate;
+
+    <div class="cell-dossier__placeholder">
+        <p>
+            Дверь закрыта. Стоимость прохода: <strong>@doorPrice монеты</strong>
+        </p>
+        <p>
+            В этой лавке монеты считаются золотыми
+        </p>
+        <p>
+            Текущий курс: <strong>1 золотая монета = @currencyRate.Rate @currencyRate.Quote</strong>
+        </p>
+        <p>
+            Итого за проход: <strong>@totalPrice @currencyRate.Quote</strong>
+        </p>
+    </div>
+}
             <div class="cell-dossier__placeholder" role="status">
                 <span class="cell-dossier__ornament" aria-hidden="true">✧</span>
                 <p>
