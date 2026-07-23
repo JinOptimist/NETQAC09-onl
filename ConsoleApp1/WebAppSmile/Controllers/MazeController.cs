@@ -50,13 +50,23 @@ public class MazeController : Controller
     }
 
     [HttpGet]
-    public IActionResult CellInfo(string type)
+    public async Task<IActionResult> CellInfo(string type)
     {
         var info = CellCodex.Find(type);
         if (info is null)
         {
             return NotFound();
         }
+ 
+
+        if (info.TypeKey == "PaidDoor")
+        {
+            var http = new HttpClient();
+            var response = await http.GetAsync("https://api.frankfurter.dev/v2/rate/XAU/USD");
+            ViewBag.CurrencyRate = await response.Content.ReadFromJsonAsync<CurrencyRateDto>();
+        }
+
+
         
         // иначе все время кидает на заглушку
         if (type == "VodkaBar")
@@ -64,6 +74,7 @@ public class MazeController : Controller
             return RedirectToAction("VodkaBarInfo");
         }
         
+ 
         return View(info);
     }
 
