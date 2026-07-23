@@ -1,4 +1,5 @@
 using MazeConsole;
+using MazeConsole.MazeModels.Cells;
 using Microsoft.AspNetCore.Mvc;
 using WebAppSmile.Models;
 using WebAppSmile.Services;
@@ -20,24 +21,103 @@ public class MazeController : Controller
         return View(CellCodex.All);
     }
     public IActionResult Flower()
-{
-    return View();
-}
+    {
+        return View();
+    }
+    private async Task<CraterApiDto> GetDataFromApi(string url) //асинхронно через task получает данные из API и возвращает их как объект
+    {
+        var http = new HttpClient();
+        var craterTask = http.GetAsync(url);
+        var result = await craterTask;
+        var craterDto = await result.Content.ReadFromJsonAsync<CraterApiDto>();
+        return craterDto; // объект с данными Diglett (подземный покемон) в action Crater
+    }
+    public async Task<IActionResult> Crater()
+    {
+        var diglettDto = await GetDataFromApi("https://pokeapi.co/api/v2/pokemon/diglett"); // получвем данные о Diglett(=подземный покемон) и сохраняем объект
+        return View(diglettDto);
+    }
+
 
     public IActionResult CoinInfo()
     {
         return RedirectToAction(nameof(CellInfo), new { type = "Coin" });
     }
+    private async Task GetApiDndClassAndDamageType(AmongusViewModel amongus)
+    {
+        var damageTypeTask = GetDataFromApiDndAsync<DamageTypeInfo>("https://www.dnd5eapi.co/api/2014/damage-types/acid");
+        var dndClassTask = GetDataFromApiDndAsync<ClassDnDInfo>("https://www.dnd5eapi.co/api/2014/classes/barbarian");
 
+        await Task.WhenAll(dndClassTask,damageTypeTask);
+        var damageType = await damageTypeTask;
+        var dndClass = await dndClassTask;
+        amongus.Class = dndClass;
+        amongus.DamageType = damageType;
+    
     [HttpGet]
-    public IActionResult CellInfo(string type)
+    public async Task<IActionResult> VodkaBarInfo()
+    {
+        using var client = new HttpClient();
+
+        // два асинхронных запроса на апишки для Водка бара
+        var cocktailTask = client.GetFromJsonAsync<CocktailApiResponse>("https://www.thecocktaildb.com/api/json/v1/1/random.php");
+        var chuckTask = client.GetFromJsonAsync<ChuckJokeApiResponse>("https://api.chucknorris.io/jokes/random");
+
+        // ждем выполнения обоих тасок
+        await Task.WhenAll(cocktailTask, chuckTask);
+
+        var viewModel = new VodkaBarViewModel
+        {
+            CurrentDrink = cocktailTask.Result?.Drinks?.FirstOrDefault(),
+            ChuckTost = chuckTask.Result?.Value
+        };
+
+        return View("VodkaBarInfo", viewModel);
+    }
+
+    }
+
+    private async Task<T> GetDataFromApiDndAsync<T>(string url)
+    {
+        var http = new HttpClient();
+        var task = http.GetAsync(url);
+        var result = await task;
+        var taskDto = await result.Content.ReadFromJsonAsync<T>();
+        return taskDto;
+    }
+    [HttpGet]
+    public async Task<IActionResult> CellInfo(string type)
     {
         var info = CellCodex.Find(type);
         if (info is null)
         {
             return NotFound();
         }
+        if (info.TypeKey == "Amongus")
+        {
+            var amongus = new AmongusViewModel();
+            amongus.CellInfo = info;
+            await GetApiDndClassAndDamageType(amongus);
+            return View("AmongUsCellInfo", amongus);
+        }
+ 
 
+        if (info.TypeKey == "PaidDoor")
+        {
+            var http = new HttpClient();
+            var response = await http.GetAsync("https://api.frankfurter.dev/v2/rate/XAU/USD");
+            ViewBag.CurrencyRate = await response.Content.ReadFromJsonAsync<CurrencyRateDto>();
+        }
+
+
+        
+        // иначе все время кидает на заглушку
+        if (type == "VodkaBar")
+        {
+            return RedirectToAction("VodkaBarInfo");
+        }
+        
+ 
         return View(info);
     }
 

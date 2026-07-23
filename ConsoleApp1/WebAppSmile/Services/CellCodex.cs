@@ -20,7 +20,7 @@ public static class CellCodex
         new() { TypeKey = "Thief", TitleRu = "Вор", Category = "Опасность", Teaser = "Тень в капюшоне. Любит чужие монеты." },
         new() { TypeKey = "Amongus", TitleRu = "Among Us", Category = "Опасность", Teaser = "Подозрительный гость. Лучше держаться настороже." },
         new() { TypeKey = "MimicChest", TitleRu = "Сундук-мимик", Category = "Опасность", Teaser = "Сундук… или нет? Удача решит, сокровище это или укус." },
-        new() { TypeKey = "Crater", TitleRu = "Яма", Category = "Опасность", Teaser = "Провал в полу. Падение больно бьёт по здоровью." },
+        new() { TypeKey = "Crater", TitleRu = "Яма", Category = "Опасность", Teaser = "Провал в земле. Падение больно бьёт по кошельку." },
         new() { TypeKey = "Portal", TitleRu = "Портал", Category = "Особое", Teaser = "Фиолетовый разлом — телепорт в другую точку лабиринта." },
         new() { TypeKey = "Rainbow", TitleRu = "Радуга", Category = "Особое", Teaser = "Разноцветная арка с неожиданным эффектом." },
         new() { TypeKey = "PaidDoor", TitleRu = "Платная дверь", Category = "Особое", Teaser = "Дверь за монеты. Без платы не откроется." },
