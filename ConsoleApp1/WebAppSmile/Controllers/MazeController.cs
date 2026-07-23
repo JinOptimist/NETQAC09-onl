@@ -38,6 +38,27 @@ public class MazeController : Controller
         var dndClass = await dndClassTask;
         amongus.Class = dndClass;
         amongus.DamageType = damageType;
+    
+    [HttpGet]
+    public async Task<IActionResult> VodkaBarInfo()
+    {
+        using var client = new HttpClient();
+
+        // два асинхронных запроса на апишки для Водка бара
+        var cocktailTask = client.GetFromJsonAsync<CocktailApiResponse>("https://www.thecocktaildb.com/api/json/v1/1/random.php");
+        var chuckTask = client.GetFromJsonAsync<ChuckJokeApiResponse>("https://api.chucknorris.io/jokes/random");
+
+        // ждем выполнения обоих тасок
+        await Task.WhenAll(cocktailTask, chuckTask);
+
+        var viewModel = new VodkaBarViewModel
+        {
+            CurrentDrink = cocktailTask.Result?.Drinks?.FirstOrDefault(),
+            ChuckTost = chuckTask.Result?.Value
+        };
+
+        return View("VodkaBarInfo", viewModel);
+    }
 
     }
 
@@ -64,6 +85,24 @@ public class MazeController : Controller
             await GetApiDndClassAndDamageType(amongus);
             return View("AmongUsCellInfo", amongus);
         }
+ 
+
+        if (info.TypeKey == "PaidDoor")
+        {
+            var http = new HttpClient();
+            var response = await http.GetAsync("https://api.frankfurter.dev/v2/rate/XAU/USD");
+            ViewBag.CurrencyRate = await response.Content.ReadFromJsonAsync<CurrencyRateDto>();
+        }
+
+
+        
+        // иначе все время кидает на заглушку
+        if (type == "VodkaBar")
+        {
+            return RedirectToAction("VodkaBarInfo");
+        }
+        
+ 
         return View(info);
     }
 
