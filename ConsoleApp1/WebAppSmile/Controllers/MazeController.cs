@@ -22,7 +22,32 @@ public class MazeController : Controller
 {
     return View();
 }
+  
+    public async Task<IActionResult> Portal()
+    {
+        string apiData = "Данные API недоступны";
 
+        try
+        {
+          
+            using var client = new HttpClient();
+
+            var response = await client.GetStringAsync("https://api.adviceslip.com/advice");
+
+            if (!string.IsNullOrEmpty(response))
+            {
+                apiData = response;
+            }
+        }
+        catch
+        {
+            apiData = "Портал временно временно не может связаться с внешним сервером.";
+        }
+
+        ViewData["ApiInfo"] = apiData;
+
+        return View();
+    }
     public IActionResult CoinInfo()
     {
         return RedirectToAction(nameof(CellInfo), new { type = "Coin" });
