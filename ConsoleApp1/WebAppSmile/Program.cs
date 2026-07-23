@@ -1,4 +1,5 @@
 using WebAppSmile.Services;
+using WebAppSmile.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,10 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 builder.Services.AddSingleton<MazeGameSessionStore>();
+
+// Registered type IApiHelper
+builder.Services.AddScoped<IApiHelper, ApiHelper>();
+builder.Services.AddScoped<IMyJsonSerializer, MyJsonSerializer>();
 
 var app = builder.Build();
 

@@ -4,7 +4,7 @@ public class Starbucks : BaseCell
 {
     public override char MySymbol => 'O';
 
-    public override bool PlayerStepInMe(Player player)
+    public override bool PlayerStepInMe(IPlayer player)
     {
         int price = 5;  // цена кофе
 

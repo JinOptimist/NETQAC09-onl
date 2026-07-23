@@ -3,18 +3,22 @@ using MazeConsole.MazeModels.Cells;
 using Microsoft.AspNetCore.Mvc;
 using WebAppSmile.Models;
 using WebAppSmile.Services;
+using WebAppSmile.Services.Interfaces;
 
 namespace WebAppSmile.Controllers;
 
 public class MazeController : Controller
 {
+    private readonly IApiHelper _apiHelper;
+
     private readonly MazeGameSessionStore _store;
 
     private readonly HttpClient _http = new();
 
-    public MazeController(MazeGameSessionStore store)
+    public MazeController(MazeGameSessionStore store, IApiHelper apiHelper)
     {
         _store = store;
+        _apiHelper = apiHelper;
     }
 
     public IActionResult Index()
@@ -25,20 +29,12 @@ public class MazeController : Controller
     {
         return View();
     }
-    private async Task<CraterApiDto> GetDataFromApi(string url) //асинхронно через task получает данные из API и возвращает их как объект
-    {
-        var http = new HttpClient();
-        var craterTask = http.GetAsync(url);
-        var result = await craterTask;
-        var craterDto = await result.Content.ReadFromJsonAsync<CraterApiDto>();
-        return craterDto; // объект с данными Diglett (подземный покемон) в action Crater
-    }
+
     public async Task<IActionResult> Crater()
     {
-        var diglettDto = await GetDataFromApi("https://pokeapi.co/api/v2/pokemon/diglett"); // получвем данные о Diglett(=подземный покемон) и сохраняем объект
+        var diglettDto = await _apiHelper.GetDataFromApiAsync<CraterApiDto>("https://pokeapi.co/api/v2/pokemon/diglett"); // получвем данные о Diglett(=подземный покемон) и сохраняем объект
         return View(diglettDto);
     }
-
 
     public IActionResult CoinInfo()
     {
@@ -49,12 +45,13 @@ public class MazeController : Controller
         var damageTypeTask = GetDataFromApiDndAsync<DamageTypeInfo>("https://www.dnd5eapi.co/api/2014/damage-types/acid");
         var dndClassTask = GetDataFromApiDndAsync<ClassDnDInfo>("https://www.dnd5eapi.co/api/2014/classes/barbarian");
 
-        await Task.WhenAll(dndClassTask,damageTypeTask);
+        await Task.WhenAll(dndClassTask, damageTypeTask);
         var damageType = await damageTypeTask;
         var dndClass = await dndClassTask;
         amongus.Class = dndClass;
         amongus.DamageType = damageType;
-    
+    }
+
     [HttpGet]
     public async Task<IActionResult> VodkaBarInfo()
     {
@@ -74,8 +71,6 @@ public class MazeController : Controller
         };
 
         return View("VodkaBarInfo", viewModel);
-    }
-
     }
 
     private async Task<T> GetDataFromApiDndAsync<T>(string url)
