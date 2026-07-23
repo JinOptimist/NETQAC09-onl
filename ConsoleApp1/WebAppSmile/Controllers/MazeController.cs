@@ -15,11 +15,13 @@ public class MazeController : Controller
     private readonly IceApiDataService _iceApiDataService = new();
 
     private readonly HttpClient _http = new();
+    private readonly FlowerApiService _flowerApi;
 
-    public MazeController(MazeGameSessionStore store, IApiHelper apiHelper)
+    public MazeController(MazeGameSessionStore store, IApiHelper apiHelper, FlowerApiService flowerApi)
     {
         _store = store;
         _apiHelper = apiHelper;
+        _flowerApi = flowerApi;
     }
 
     public IActionResult Index()
@@ -122,6 +124,10 @@ public class MazeController : Controller
             ViewData["FoxImage"] = fox?.Image;
         }
 
+        if(type == "Flower")
+        {
+            ViewBag.Flower = await _flowerApi.GetFlower();
+        }
         return View(info);
     }
 

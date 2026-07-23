@@ -48,6 +48,97 @@
         </p>
     </div>
 }
+            @if (Model.TypeKey == "Flower")
+            {
+                <div class="cell-dossier__placeholder">
+
+                    <h3> 🌸  Правила находки :</h3>
+
+                    <ul class="flower-rules">
+                        <li>
+                            Максимальный запас:
+                            <strong>3 магических цветка</strong>.
+                        </li>
+
+                        <li>
+                            ✨ Если у героя меньше <strong>3</strong> цветов,
+                            при наступании на клетку количество магических цветов
+                            увеличится на <strong>1</strong>.
+                        </li>
+
+                        <li>
+                            🍃 После сбора магического цветка 
+                            клетка превращается в обычную землю.
+                        </li>
+
+                        <li>
+                            🔒 Если у героя уже <strong>3</strong> цветка,
+                            новый цветок остается на карте.
+                        </li>
+                    </ul>
+
+                    @if (ViewBag.Flower != null)
+                    {
+                        <div class="api-block">
+
+                            <h3>
+                                🌸 Твой магический цветок :
+                            </h3>
+
+                            <p>
+                                <strong>Название:</strong>
+                                @ViewBag.Flower.canonicalName
+                            </p>
+
+                            <p>
+                                <strong>Род:</strong>
+                                @ViewBag.Flower.genus
+                            </p>
+
+                        </div>
+                    }
+
+
+                    <h3> 🌸 Результаты игры:</h3>
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Старт</th>
+                                <th>Финиш</th>
+                                <th>Игрок</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td>0</td>
+                                <td>1</td>
+                                <td>Ваня</td>
+                            </tr>
+
+                            <tr>
+                                <td>1</td>
+                                <td>2</td>
+                                <td>Рома</td>
+                            </tr>
+
+                            <tr>
+                                <td>2</td>
+                                <td>3</td>
+                                <td>Лилия</td>
+                            </tr>
+
+                            <tr>
+                                <td>3</td>
+                                <td>3</td>
+                                <td>Света</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            }
             <div class="cell-dossier__placeholder" role="status">
                 <span class="cell-dossier__ornament" aria-hidden="true">✧</span>
                 <p>
@@ -61,7 +152,11 @@
                 <p class="cell-dossier__soon">Страница в подготовке — загляните позже.</p>
             </div>
 
-            <a class="btn-torch cell-dossier__back" asp-controller="Maze" asp-action="Index">← К лабиринту</a>
+            <a class="btn-torch cell-dossier__back"
+               asp-controller="Maze"
+               asp-action="Index">
+                ← К лабиринту
+            </a>
         </div>
     </article>
 </div>
