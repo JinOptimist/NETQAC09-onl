@@ -12,6 +12,7 @@ public class MazeController : Controller
     private readonly IApiHelper _apiHelper;
 
     private readonly MazeGameSessionStore _store;
+    private readonly IceApiDataService _iceApiDataService = new();
 
     private readonly HttpClient _http = new();
 
@@ -57,21 +58,21 @@ public class MazeController : Controller
     {
         using var client = new HttpClient();
 
-        // два асинхронных запроса на апишки для Водка бара
-        var cocktailTask = client.GetFromJsonAsync<CocktailApiResponse>("https://www.thecocktaildb.com/api/json/v1/1/random.php");
-        var chuckTask = client.GetFromJsonAsync<ChuckJokeApiResponse>("https://api.chucknorris.io/jokes/random");
+    // два асинхронных запрос на апишки для Водка бара
+    var cocktailTask = client.GetFromJsonAsync<CocktailApiResponse>("https://www.thecocktaildb.com/api/json/v1/1/random.php");
+    var chuckTask = client.GetFromJsonAsync<ChuckJokeApiResponse>("https://api.chucknorris.io/jokes/random");
 
-        // ждем выполнения обоих тасок
-        await Task.WhenAll(cocktailTask, chuckTask);
+    // ждем выполнения обоих тасок
+    await Task.WhenAll(cocktailTask, chuckTask);
 
-        var viewModel = new VodkaBarViewModel
-        {
-            CurrentDrink = cocktailTask.Result?.Drinks?.FirstOrDefault(),
-            ChuckTost = chuckTask.Result?.Value
-        };
+    var viewModel = new VodkaBarViewModel
+    {
+        CurrentDrink = cocktailTask.Result?.Drinks?.FirstOrDefault(),
+        ChuckTost = chuckTask.Result?.Value
+    };
 
-        return View("VodkaBarInfo", viewModel);
-    }
+    return View("VodkaBarInfo", viewModel);
+}
 
     private async Task<T> GetDataFromApiDndAsync<T>(string url)
     {
@@ -130,6 +131,32 @@ public class MazeController : Controller
         var response = await _http.GetAsync(url);
         response.EnsureSuccessStatusCode();
         return await response.Content.ReadFromJsonAsync<T>();
+    }
+
+    public async Task<IActionResult> Ice() // асинхронный метод, который будет вызываться при переходе на страницу Ice
+    {
+        // запускаем оба запроса
+        var affirmationTask = _iceApiDataService.GetDataFromApiAsync<AffirmationDto>("https://www.affirmations.dev/");
+        var dogImageTask = _iceApiDataService.GetDataFromApiAsync<DogImageDto>("https://dog.ceo/api/breeds/image/random");
+        //ждем, когда получим все ответы
+        await Task.WhenAll(affirmationTask, dogImageTask);
+        //складываем результаты в модель, которая будет передана на страницу
+        var viewIceModel = new IceViewModel
+        {
+            AffirmationDto = affirmationTask.Result,
+            DogImageDto = dogImageTask.Result,
+        };
+        //возвращаем на страницу модель, которая содержит данные с обоих API
+        return View(viewIceModel);
+    }
+    public IActionResult Dirt()
+    {
+        return View();
+    }
+
+    public IActionResult PileOfSand()
+    {
+        return View();
     }
 
     [HttpGet]
