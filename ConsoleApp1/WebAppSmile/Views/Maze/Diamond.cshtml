@@ -1,0 +1,113 @@
+﻿@model WebAppSmile.Models.GoldPriceDto
+@{
+    Layout = "_MazeLayout";
+    ViewData["Title"] = "Diamond Cell";
+}
+
+<div class="dungeon">
+
+    <div class="dungeon__haze"></div>
+    <div class="dungeon__embers"></div>
+
+    <header class="dungeon__header">
+        <p class="dungeon__brand">Хроники лабиринта</p>
+
+        <h1 class="dungeon__title">
+            💎 Diamond Cell
+        </h1>
+
+        <p class="dungeon__tagline">
+            Редкий камень подземелья — но добыть его не так просто.
+        </p>
+    </header>
+
+    @* Блок 1: просто текст с правилами игры для клетки Diamond *@
+    <section class="hud__panel flower-card">
+
+        <div class="flower-symbol">
+            💎
+        </div>
+
+        <h2 class="hud__heading">
+            Драгоценный камень лабиринта
+        </h2>
+
+        <p>
+            В лабиринте встречаются клетки Diamond.
+            Они позволяют герою обменять камень на монеты — но добыча требует подготовки.
+        </p>
+
+        <h2 class="hud__heading">
+            Правила добычи
+        </h2>
+
+        <ul class="flower-rules">
+
+            <li>
+                ❤️ Чтобы поднять алмаз, у героя должно быть
+                <strong>хотя бы 1 зелье здоровья</strong>.
+            </li>
+
+            <li>
+                ⚠️ Если зелий нет — попытка добыть алмаз обрывает
+                приключение критической ошибкой: своего здоровья не хватит.
+            </li>
+
+            <li>
+                🪙 Награда монетами зависит от текущего запаса героя:
+                <br />— 0 монет → бонус <strong>5–10 монет</strong>
+                <br />— 1–2 монеты → бонус <strong>3–5 монет</strong>
+                <br />— 3 и больше монет → бонус всего <strong>1 монета</strong>
+            </li>
+
+            <li>
+                🍃 После сбора алмаза клетка превращается в обычную землю.
+            </li>
+
+        </ul>
+
+    </section>
+
+    @* Блок 2: курс золота, который контроллер получил из Api *@
+    <section class="market-panel">
+        <h2 class="market-panel__heading">💎 Курс драгоценностей прямо сейчас</h2>
+
+        @* Если данные пришли — показываем цифры, если нет (Model == null) — сообщение об ошибке ниже *@
+        @if (Model != null)
+        {
+            <div class="market-panel__grid">
+                <div class="market-panel__row">
+                    <span class="market-panel__label">Цена золота за унцию</span>
+                    <span class="market-panel__value market-panel__value--accent">
+                        @Model.CurrencySymbol@Model.Price.ToString("N2") (@Model.Currency)
+                    </span>
+                </div>
+                <div class="market-panel__row">
+                    <span class="market-panel__label">Обновлено</span>
+                    <span class="market-panel__value">@Model.UpdatedAtReadable</span>
+                </div>
+                <div class="market-panel__row">
+                    <span class="market-panel__label">Курс обмена (ExchangeRate)</span>
+                    <span class="market-panel__value">@Model.ExchangeRate.ToString("N4")</span>
+                </div>
+                <div class="market-panel__row">
+                    <span class="market-panel__label">Точное время обновления (UTC)</span>
+                    <span class="market-panel__value">@Model.UpdatedAt.ToString("dd.MM.yyyy HH:mm:ss")</span>
+                </div>
+            </div>
+        }
+        else
+        {
+            @* Такое бывает, если внешний сайт с курсом золота не ответил *@
+            <p class="market-panel__unavailable">
+                Не удалось получить данные с биржи. Попробуйте обновить страницу позже.
+            </p>
+        }
+    </section>
+
+    @* Кнопка возврата в лабиринт, общая для обоих блоков выше *@
+    <a href="/Maze" class="btn-torch dungeon__back-link">
+        ← Вернуться в лабиринт
+    </a>
+
+</div>
