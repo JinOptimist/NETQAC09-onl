@@ -17,7 +17,7 @@ public class MazeController : Controller
     private readonly HttpClient _http = new();
     private readonly FlowerApiService _flowerApi;
 
-    public MazeController(MazeGameSessionStore store)
+    public MazeController(MazeGameSessionStore store, IApiHelper apiHelper, FlowerApiService flowerApi)
     {
         _store = store;
         _apiHelper = apiHelper;
