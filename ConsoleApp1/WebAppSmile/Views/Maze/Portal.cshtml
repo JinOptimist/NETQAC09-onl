@@ -1,0 +1,28 @@
+﻿@{
+    Layout = "_MazeLayout";
+    ViewData["Title"] = "Portal Cell";
+}
+
+<div class="container mt-4" style="max-width: 700px;">
+
+    <h1>Portal Cell (Символ: P)</h1>
+    <hr />
+
+    <h3>Информация из API (async/await)</h3>
+    <div style="background: rgba(255,255,255,0.05); padding: 10px; border-left: 3px solid #6f42c1; margin-bottom: 20px;">
+        <code>@ViewData["ApiInfo"]</code>
+    </div>
+
+    <h3>Бизнес-правила</h3>
+    <ul>
+        <li>Стоимость прохода: <strong>1 монета</strong>.</li>
+        <li>При балансе <strong>&gt; 0 монет</strong>: списывается 1 монета, телепорт срабатывает.</li>
+        <li>При балансе <strong>0 монет</strong>: проход блокируется, вызывается <code>MazeBuildException</code>.</li>
+    </ul>
+
+    <br />
+    <a href="/Maze" style="padding: 8px 15px; border: 1px solid #ccc; border-radius: 4px; text-decoration: none;">
+        ← Назад в лабиринт
+    </a>
+
+</div>
