@@ -1,0 +1,23 @@
+@{
+    Layout = "_MazeLayout";
+    ViewData["Title"] = "Ячейка Dirt";
+}
+
+<section class="doc">
+    <header>
+        <h1>Ячейка Dirt</h1>
+        <p class="lead">Wiki — грязь</p>
+    </header>
+
+    <article>
+        <h2>Общее</h2>
+        <p>Ячейка типа <strong>Dirt</strong> — это трясина под ногами. По ней можно свободно ходить: она не скользкая и не наносит урона.</p>
+
+        <h2>Откуда берётся</h2>
+        <p>Чаще всего <strong>Dirt</strong> появляется на месте <a asp-controller="Maze" asp-action="Ice">льда</a>, если герой наступил на него с <a asp-controller="Maze" asp-action="PileOfSand">песком</a> в инвентаре. После этого лед превращается в грязь, и скольжение больше не мешает пройти дальше.</p>
+    </article>
+
+    <footer>
+        <a class="btn-torch" href="@Url.Action("Index", "Maze")">Вернуться к лабиринту</a>
+    </footer>
+</section>
