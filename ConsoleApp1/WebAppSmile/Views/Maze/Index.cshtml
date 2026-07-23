@@ -85,8 +85,8 @@
                 <li>
                     <a class="cell-codex__card"
                        asp-controller="Maze"
-                       asp-action="@actionName"
-                          asp-route-type="@(cell.TypeKey == "Crater" ? null : cell.TypeKey)">
+                       asp-action="@(cell.Link ?? "CellInfo")"
+                       asp-route-type="@(cell.Link is null ? cell.TypeKey : null)">
                         <span class="cell-codex__glyph" aria-hidden="true">
                             <svg viewBox="0 0 32 32">
                                 <use href="#icon-@cell.TypeKey"></use>
