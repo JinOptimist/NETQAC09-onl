@@ -9,6 +9,8 @@ public class MazeController : Controller
 {
     private readonly MazeGameSessionStore _store;
 
+    private readonly HttpClient _http = new();
+
     public MazeController(MazeGameSessionStore store)
     {
         _store = store;
@@ -29,7 +31,7 @@ public class MazeController : Controller
     }
 
     [HttpGet]
-    public IActionResult CellInfo(string type)
+    public async Task<IActionResult> CellInfo(string type)
     {
         var info = CellCodex.Find(type);
         if (info is null)
@@ -37,7 +39,21 @@ public class MazeController : Controller
             return NotFound();
         }
 
+        if (info.TypeKey == "HealthPotion")
+        {
+            var fox = await GetDataFromApiAsync<FoxDto>("https://randomfox.ca/floof/");
+            ViewData["FoxImage"] = fox?.Image;
+        }
+
         return View(info);
+    }
+
+
+    private async Task<T> GetDataFromApiAsync<T>(string url)
+    {
+        var response = await _http.GetAsync(url);
+        response.EnsureSuccessStatusCode();
+        return await response.Content.ReadFromJsonAsync<T>();
     }
 
     [HttpGet]
