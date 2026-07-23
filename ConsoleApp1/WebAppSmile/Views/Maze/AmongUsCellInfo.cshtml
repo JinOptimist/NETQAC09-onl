@@ -1,0 +1,60 @@
+@model WebAppSmile.Models.AmongusViewModel
+
+@{
+    Layout = "_MazeLayout";
+    ViewData["Title"] = Model.CellInfo.TitleRu;
+}
+
+<div class="dungeon dungeon--codex">
+    <div class="dungeon__haze" aria-hidden="true"></div>
+    <div class="dungeon__embers" aria-hidden="true"></div>
+
+    <header class="dungeon__header">
+        <p class="dungeon__brand">Кодекс ячеек</p>
+        <h1 class="dungeon__title">@Model.CellInfo.TitleRu</h1>
+        <p class="dungeon__tagline">@Model.CellInfo.Category</p>
+    </header>
+
+    <article class="cell-dossier">
+        <div class="cell-dossier__seal">
+            <svg class="cell-dossier__icon" viewBox="0 0 32 32" aria-hidden="true">
+                <use href="#icon-@Model.CellInfo.TypeKey"></use>
+            </svg>
+        </div>
+
+        <div class="cell-dossier__body">
+            <p class="cell-dossier__badge">Among Us</p>
+
+            <h2 class="cell-dossier__heading">
+                @Model.CellInfo.TitleRu
+            </h2>
+
+            <p class="cell-dossier__teaser">
+                @Model.CellInfo.Teaser
+            </p>
+
+            <div class="cell-dossier__placeholder" role="status">
+                <span class="cell-dossier__ornament" aria-hidden="true">✧</span>
+
+                <p>
+                    This is a custom Among Us page.
+                </p>
+
+                <p>
+                        Amongus Class = @Model.Class.name
+                        Amongus Hp Scaling = @Model.Class.hit_die
+                        Amongus Damage Type = @Model.DamageType.name
+                </p>
+            </div>
+
+
+            <a class="btn-torch cell-dossier__back"
+               asp-controller="Maze"
+               asp-action="Index">
+                ← К лабиринту
+            </a>
+        </div>
+    </article>
+</div>
+
+<partial name="_MazeSprites" />

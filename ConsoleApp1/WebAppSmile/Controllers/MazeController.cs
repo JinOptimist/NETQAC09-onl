@@ -1,4 +1,5 @@
 using MazeConsole;
+using MazeConsole.MazeModels.Cells;
 using Microsoft.AspNetCore.Mvc;
 using WebAppSmile.Models;
 using WebAppSmile.Services;
@@ -27,16 +28,42 @@ public class MazeController : Controller
     {
         return RedirectToAction(nameof(CellInfo), new { type = "Coin" });
     }
+    private async Task GetApiDndClassAndDamageType(AmongusViewModel amongus)
+    {
+        var damageTypeTask = GetDataFromApiDndAsync<DamageTypeInfo>("https://www.dnd5eapi.co/api/2014/damage-types/acid");
+        var dndClassTask = GetDataFromApiDndAsync<ClassDnDInfo>("https://www.dnd5eapi.co/api/2014/classes/barbarian");
 
+        await Task.WhenAll(dndClassTask,damageTypeTask);
+        var damageType = await damageTypeTask;
+        var dndClass = await dndClassTask;
+        amongus.Class = dndClass;
+        amongus.DamageType = damageType;
+
+    }
+
+    private async Task<T> GetDataFromApiDndAsync<T>(string url)
+    {
+        var http = new HttpClient();
+        var task = http.GetAsync(url);
+        var result = await task;
+        var taskDto = await result.Content.ReadFromJsonAsync<T>();
+        return taskDto;
+    }
     [HttpGet]
-    public IActionResult CellInfo(string type)
+    public async Task<IActionResult> CellInfo(string type)
     {
         var info = CellCodex.Find(type);
         if (info is null)
         {
             return NotFound();
         }
-
+        if (info.TypeKey == "Amongus")
+        {
+            var amongus = new AmongusViewModel();
+            amongus.CellInfo = info;
+            await GetApiDndClassAndDamageType(amongus);
+            return View("AmongUsCellInfo", amongus);
+        }
         return View(info);
     }
 
