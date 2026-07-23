@@ -48,34 +48,33 @@ public class MazeController : Controller
         var damageTypeTask = GetDataFromApiDndAsync<DamageTypeInfo>("https://www.dnd5eapi.co/api/2014/damage-types/acid");
         var dndClassTask = GetDataFromApiDndAsync<ClassDnDInfo>("https://www.dnd5eapi.co/api/2014/classes/barbarian");
 
-        await Task.WhenAll(dndClassTask,damageTypeTask);
+        await Task.WhenAll(dndClassTask, damageTypeTask);
         var damageType = await damageTypeTask;
         var dndClass = await dndClassTask;
         amongus.Class = dndClass;
         amongus.DamageType = damageType;
-    
-    [HttpGet]
-    public async Task<IActionResult> VodkaBarInfo()
+    }
+
+[HttpGet]
+public async Task<IActionResult> VodkaBarInfo()
+{
+    using var client = new HttpClient();
+
+    // два асинхронных запрос на апишки для Водка бара
+    var cocktailTask = client.GetFromJsonAsync<CocktailApiResponse>("https://www.thecocktaildb.com/api/json/v1/1/random.php");
+    var chuckTask = client.GetFromJsonAsync<ChuckJokeApiResponse>("https://api.chucknorris.io/jokes/random");
+
+    // ждем выполнения обоих тасок
+    await Task.WhenAll(cocktailTask, chuckTask);
+
+    var viewModel = new VodkaBarViewModel
     {
-        using var client = new HttpClient();
+        CurrentDrink = cocktailTask.Result?.Drinks?.FirstOrDefault(),
+        ChuckTost = chuckTask.Result?.Value
+    };
 
-        // два асинхронных запроса на апишки для Водка бара
-        var cocktailTask = client.GetFromJsonAsync<CocktailApiResponse>("https://www.thecocktaildb.com/api/json/v1/1/random.php");
-        var chuckTask = client.GetFromJsonAsync<ChuckJokeApiResponse>("https://api.chucknorris.io/jokes/random");
-
-        // ждем выполнения обоих тасок
-        await Task.WhenAll(cocktailTask, chuckTask);
-
-        var viewModel = new VodkaBarViewModel
-        {
-            CurrentDrink = cocktailTask.Result?.Drinks?.FirstOrDefault(),
-            ChuckTost = chuckTask.Result?.Value
-        };
-
-        return View("VodkaBarInfo", viewModel);
-    }
-
-    }
+    return View("VodkaBarInfo", viewModel);
+}
 
     private async Task<T> GetDataFromApiDndAsync<T>(string url)
     {
