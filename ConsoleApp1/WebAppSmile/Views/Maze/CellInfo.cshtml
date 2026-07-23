@@ -30,6 +30,10 @@
                 <span class="cell-dossier__ornament" aria-hidden="true">✧</span>
                 <p>
                     Здесь появится подробное описание механики ячейки
+                    @if (ViewData["FoxImage"] is string foxUrl)
+                        {
+                            <img src="@foxUrl" alt="Random fox" style="max-width:300px" />
+                        }
                     <strong>@Model.TypeKey</strong>: правила шага, эффекты и подсказки для героя.
                 </p>
                 <p class="cell-dossier__soon">Страница в подготовке — загляните позже.</p>
