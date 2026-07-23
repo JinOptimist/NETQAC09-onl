@@ -1,0 +1,39 @@
+@model WebAppSmile.Models.VodkaBarViewModel
+
+@{
+    Layout = "_MazeLayout";
+}
+
+<script src="~/js/vodkabar.js" asp-append-version="true"></script>
+<link rel="stylesheet" href="~/css/vodkabar.css" asp-append-version="true" />
+
+<div class="vodka-bar-container">
+    
+    <header class="bar-header">
+        <h1 class="torches-header">Сектор 0: «Водка Бар»</h1>
+        <p class="bar-subtitle">«@Model?.ChuckTost»</p>
+    </header>
+
+    <!-- Баннер для динамических фраз -->
+    <div id="bar-status-banner" class="bar-status-banner hidden">
+        <span class="status-icon">🌀</span>
+        <span class="status-text"></span>
+    </div>
+
+    <!-- Главная карточка -->
+    <div class="bar-card cocktail-card">
+        <h3 class="cocktail-title">@Model?.CurrentDrink?.StrDrink</h3>
+        
+        <div class="image-wrapper">
+            @if (!string.IsNullOrEmpty(Model?.CurrentDrink?.StrDrinkThumb))
+            {
+                <img src="@Model.CurrentDrink.StrDrinkThumb" alt="Cocktail" />
+            }
+        </div>
+        
+        <a href="@Url.Action("VodkaBarInfo", "Maze")" class="bar-btn">
+            Замешать другой напиток
+        </a>
+    </div>
+
+</div>
