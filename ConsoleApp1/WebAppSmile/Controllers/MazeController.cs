@@ -22,7 +22,13 @@ public class MazeController : Controller
 {
     return View();
 }
-
+    // создаем новую страницу для Diamond
+    public async Task<IActionResult> Diamond()
+    {
+        // по API получаем курс золота
+        var goldPrice = await GetDataFromApiAsync<GoldPriceDto>("https://api.gold-api.com/price/XAU");
+        return View(goldPrice); // goldPrice может быть null, если API недоступно — вид это обработает
+    }
     public IActionResult CoinInfo()
     {
         return RedirectToAction(nameof(CellInfo), new { type = "Coin" });
@@ -115,6 +121,27 @@ public class MazeController : Controller
                 return true;
             default:
                 return false;
+        }
+    }
+    // метод ходит за API и превращает ответ в нужный объект.
+       private async Task<T> GetDataFromApiAsync<T>(string url)
+    {
+        try
+        {
+            var http = new HttpClient();
+            var response = await http.GetAsync(url);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return default; // сайт ответил с ошибкой — просто ничего не возвращаем
+            }
+
+            return await response.Content.ReadFromJsonAsync<T>();
+        }
+        catch
+        {
+            // если сайт недоступен не роняем страницу
+            return default;
         }
     }
 }

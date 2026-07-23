@@ -76,22 +76,45 @@
             @foreach (var cell in Model)
             {
                 <li>
-                    <a class="cell-codex__card"
-                       asp-controller="Maze"
-                       asp-action="CellInfo"
-                       asp-route-type="@cell.TypeKey">
-                        <span class="cell-codex__glyph" aria-hidden="true">
-                            <svg viewBox="0 0 32 32">
-                                <use href="#icon-@cell.TypeKey"></use>
-                            </svg>
-                        </span>
-                        <span class="cell-codex__meta">
-                            <span class="cell-codex__category">@cell.Category</span>
-                            <span class="cell-codex__name">@cell.TitleRu</span>
-                            <span class="cell-codex__teaser">@cell.Teaser</span>
-                        </span>
-                        <span class="cell-codex__cta">Подробнее →</span>
-                    </a>
+                    @* у клетки Diamond своя отдельная страница*@
+                    @if (cell.TypeKey == "Diamond")
+                    {
+                        @* Это клетка Diamond — ссылка ведёт на страницу /Maze/Diamond *@
+                        <a class="cell-codex__card"
+                           asp-controller="Maze"
+                           asp-action="Diamond">
+                            <span class="cell-codex__glyph" aria-hidden="true">
+                                <svg viewBox="0 0 32 32">
+                                    <use href="#icon-@cell.TypeKey"></use>
+                                </svg>
+                            </span>
+                            <span class="cell-codex__meta">
+                                <span class="cell-codex__category">@cell.Category</span>
+                                <span class="cell-codex__name">@cell.TitleRu</span>
+                                <span class="cell-codex__teaser">@cell.Teaser</span>
+                            </span>
+                            <span class="cell-codex__cta">Подробнее →</span>
+                        </a>
+                    }
+                    else
+                    {
+                         <a class="cell-codex__card"
+                           asp-controller="Maze"
+                           asp-action="CellInfo"
+                           asp-route-type="@cell.TypeKey">
+                            <span class="cell-codex__glyph" aria-hidden="true">
+                                <svg viewBox="0 0 32 32">
+                                    <use href="#icon-@cell.TypeKey"></use>
+                                </svg>
+                            </span>
+                            <span class="cell-codex__meta">
+                                <span class="cell-codex__category">@cell.Category</span>
+                                <span class="cell-codex__name">@cell.TitleRu</span>
+                                <span class="cell-codex__teaser">@cell.Teaser</span>
+                            </span>
+                            <span class="cell-codex__cta">Подробнее →</span>
+                        </a>
+                    }
                 </li>
             }
         </ul>
