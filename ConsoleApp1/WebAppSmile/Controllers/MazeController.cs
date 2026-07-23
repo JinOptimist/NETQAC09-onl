@@ -77,6 +77,10 @@ public class MazeController : Controller
  
         return View(info);
     }
+    public IActionResult Tree()
+    {
+        return View();
+    }
 
     [HttpGet]
     public IActionResult State()
