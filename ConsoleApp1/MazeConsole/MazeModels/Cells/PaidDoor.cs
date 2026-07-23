@@ -2,7 +2,7 @@ namespace MazeConsole.MazeModels.Cells;
 
 public class PaidDoor : BaseCell
 {
-    private const int DOOR_PRICE = 2;
+    public const int DOOR_PRICE = 2;
 
     public override char MySymbol => 'D';
 
