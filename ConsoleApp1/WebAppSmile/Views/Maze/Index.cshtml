@@ -81,11 +81,12 @@
         <ul class="cell-codex__grid">
             @foreach (var cell in Model)
             {
+                var actionName = cell.TypeKey == "Crater" ? "Crater" : "CellInfo";
                 <li>
                     <a class="cell-codex__card"
                        asp-controller="Maze"
-                       asp-action="CellInfo"
-                       asp-route-type="@cell.TypeKey">
+                       asp-action="@actionName"
+                          asp-route-type="@(cell.TypeKey == "Crater" ? null : cell.TypeKey)">
                         <span class="cell-codex__glyph" aria-hidden="true">
                             <svg viewBox="0 0 32 32">
                                 <use href="#icon-@cell.TypeKey"></use>

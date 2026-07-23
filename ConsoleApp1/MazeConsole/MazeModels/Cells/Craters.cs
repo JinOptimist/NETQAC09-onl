@@ -7,9 +7,29 @@
 
         public override bool PlayerStepInMe(IPlayer player)
         {
-            player.Y++;
-            player.Coin--;
-            return true;
+            if (player.Coin > 0)
+            {
+                player.Coin--;
+            }
+
+            var moveX = X; // по X не меняем позицию игрока
+            var moveY = Y + 1; // опускаем на ячейку вниз -> логика ямы
+
+            var nextCell = MazeWhereIWasCreated.Cells
+                .FirstOrDefault(cell => cell.X == moveX && cell.Y == moveY);
+
+            if (nextCell != null && nextCell.PlayerStepInMe(player)) // проверка, что можем передвигать игрока из ямы
+            {
+                player.X = moveX;
+                player.Y = moveY;
+            }
+            else
+            {
+                player.X = X;
+                player.Y = Y;
+            }
+
+            return false;
         }
     }
 }
