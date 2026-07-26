@@ -33,6 +33,17 @@ public class MazeController : Controller
         return View();
     }
 
+    public async Task<IActionResult> Snake()
+    {
+        var snakeDto = await GetDataFromApiAsync<SnakeDto>("https://uselessfacts.jsph.pl/api/v2/facts/random?language=en");
+        var model = new SnakeViewModel
+        {
+            SnakeDto = snakeDto ?? new SnakeDto { Text = "Информация о змее временно недоступна." }
+        };
+
+        return View(model);
+    }
+
     public async Task<IActionResult> Crater()
     {
         var diglettDto = await _apiHelper.GetDataFromApiAsync<CraterApiDto>("https://pokeapi.co/api/v2/pokemon/diglett"); // получвем данные о Diglett(=подземный покемон) и сохраняем объект
@@ -60,21 +71,21 @@ public class MazeController : Controller
     {
         using var client = new HttpClient();
 
-    // два асинхронных запрос на апишки для Водка бара
-    var cocktailTask = client.GetFromJsonAsync<CocktailApiResponse>("https://www.thecocktaildb.com/api/json/v1/1/random.php");
-    var chuckTask = client.GetFromJsonAsync<ChuckJokeApiResponse>("https://api.chucknorris.io/jokes/random");
+        // два асинхронных запрос на апишки для Водка бара
+        var cocktailTask = client.GetFromJsonAsync<CocktailApiResponse>("https://www.thecocktaildb.com/api/json/v1/1/random.php");
+        var chuckTask = client.GetFromJsonAsync<ChuckJokeApiResponse>("https://api.chucknorris.io/jokes/random");
 
-    // ждем выполнения обоих тасок
-    await Task.WhenAll(cocktailTask, chuckTask);
+        // ждем выполнения обоих тасок
+        await Task.WhenAll(cocktailTask, chuckTask);
 
-    var viewModel = new VodkaBarViewModel
-    {
-        CurrentDrink = cocktailTask.Result?.Drinks?.FirstOrDefault(),
-        ChuckTost = chuckTask.Result?.Value
-    };
+        var viewModel = new VodkaBarViewModel
+        {
+            CurrentDrink = cocktailTask.Result?.Drinks?.FirstOrDefault(),
+            ChuckTost = chuckTask.Result?.Value
+        };
 
-    return View("VodkaBarInfo", viewModel);
-}
+        return View("VodkaBarInfo", viewModel);
+    }
 
     private async Task<T> GetDataFromApiDndAsync<T>(string url)
     {
@@ -99,7 +110,7 @@ public class MazeController : Controller
             await GetApiDndClassAndDamageType(amongus);
             return View("AmongUsCellInfo", amongus);
         }
- 
+
 
         if (info.TypeKey == "PaidDoor")
         {
@@ -108,15 +119,11 @@ public class MazeController : Controller
             ViewBag.CurrencyRate = await response.Content.ReadFromJsonAsync<CurrencyRateDto>();
         }
 
-
-        
         // иначе все время кидает на заглушку
         if (type == "VodkaBar")
         {
             return RedirectToAction("VodkaBarInfo");
         }
-        
- 
 
         if (info.TypeKey == "HealthPotion")
         {
@@ -124,9 +131,14 @@ public class MazeController : Controller
             ViewData["FoxImage"] = fox?.Image;
         }
 
-        if(type == "Flower")
+        if (type == "Flower")
         {
             ViewBag.Flower = await _flowerApi.GetFlower();
+        }
+
+        if (type == "Snake")
+        {
+            ViewBag.Snake = await GetDataFromApiAsync<SnakeDto>("https://uselessfacts.jsph.pl/api/v2/facts/random?language=en");
         }
         return View(info);
     }

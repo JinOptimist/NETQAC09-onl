@@ -1,0 +1,77 @@
+@model WebAppSmile.Models.SnakeViewModel
+
+@{
+    Layout = "_MazeLayout";
+    ViewData["Title"] = "Snake Cell";
+}
+
+<div class="dungeon">
+
+    <div class="dungeon__haze"></div>
+    <div class="dungeon__embers"></div>
+
+
+    <header class="dungeon__header">
+        <p class="dungeon__brand">Хроники лабиринта</p>
+
+        <h1 class="dungeon__title">
+            Snake Cell
+        </h1>
+
+        <p class="dungeon__tagline">
+            Коварная, но любящая спокойствие и уединение змея.
+        </p>
+    </header>
+
+
+    <section class="hud__panel snake-card">
+
+        <div class="snake-symbol">
+            🐍
+        </div>
+
+
+        <h2 class="hud__heading">
+            Змея лабиринта
+        </h2>
+
+
+        <p>
+            В лабиринте встречаются клетки Snake.
+            Если наступить на них, можно потревожить змею.
+        </p>
+
+
+        <h2 class="hud__heading">
+            Правила находки
+        </h2>
+
+
+        <ul class="snake-rules">
+
+            <li>
+                Если наступить на 🐍, то змея испугается и сбежит в другую свободную ячейку.
+            </li>
+
+
+            <li>
+                Если потревожить змею 3 раза, она будет разочарована повышением криминогенной обстановки лабиринта и
+                навсегда покинет его.
+            </li>
+
+        </ul>
+
+        <div class="text-center">
+        <div>Ну, чтобы ты не переживал из-за змеи, я расскажу о чём стоит переживать:</div>
+        <div>@(Model?.SnakeDto?.Text)</div>
+    </div>
+
+
+
+        <a href="/Maze" class="btn-torch">
+            ← Вернуться в лабиринт
+        </a>
+
+    </section>
+
+</div>l>
