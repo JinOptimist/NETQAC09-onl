@@ -7,7 +7,7 @@ public class MazeContoller
 {
     private Maze _maze = null!;
     private readonly FileLogger _logger;
-    // Пишет/читает единственный сейв в save/savegame.json.
+
     private readonly GameSaveService _saveService;
 
     public MazeContoller()
@@ -51,7 +51,7 @@ public class MazeContoller
 
             try
             {
-                // SaveGame/Load — не ходы: не идём в PerformAction (там только перемещение).
+                // SaveGame/LoadGame — не ходы по карте, поэтому не вызываем PerformAction
                 if (userAction == UserAction.Save)
                 {
                     SaveGame();
@@ -108,24 +108,23 @@ public class MazeContoller
         }
     }
 
-    /// <summary>F5: сохранить текущую игру в единственный слот.</summary>
+    // сохранить игру
     public void SaveGame()
     {
         _saveService.SaveGame(_maze);
-        // Сообщение увидит игрок на следующем кадре отрисовки.
         _maze.LogMessages.Add("Game saved.");
     }
 
-    /// <summary>F8: загрузить сейв; если файла нет — только сообщение, игра продолжается.</summary>
+    // загрузить игру
     public void LoadGame()
     {
-        if (!_saveService.TryLoadSaveFile(out var loadedMaze))
+        if (!_saveService.isSaveFileExists())
         {
-            _maze.LogMessages.Add("No save file found.");
+            _maze.LogMessages.Add("SaveGame file not found");
             return;
         }
 
-        _maze = loadedMaze;
+        _maze = _saveService.LoadGame();
         _maze.LogMessages.Add("Game loaded.");
     }
 
@@ -163,9 +162,9 @@ public class MazeContoller
             {
                 case ConsoleKey.Escape:
                     return UserAction.Exit;
-                case ConsoleKey.F5:
+                case ConsoleKey.F5: // сохранить
                     return UserAction.Save;
-                case ConsoleKey.F8:
+                case ConsoleKey.F8: // загрузить
                     return UserAction.Load;
                 case ConsoleKey.D:
                 case ConsoleKey.RightArrow:

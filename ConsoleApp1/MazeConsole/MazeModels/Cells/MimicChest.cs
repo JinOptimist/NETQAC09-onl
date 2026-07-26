@@ -7,10 +7,8 @@ public class MimicChest : BaseCell
     private const int FarmingVisitsThreshold = 10;
     private const int FarmingRepeatLogInterval = 5;
 
-    /// <summary>
-    /// Число заходов игрока в этот сундук (анти-фарм).
-    /// Публичное свойство нужно для сохранения/загрузки состояния в JSON-сейв.
-    /// </summary>
+    // Сколько раз игрок заходил в этот сундук (для анти-фарма).
+    // Публичное — чтобы сохранить/восстановить значение в JSON-сейве.
     public int VisitCount { get; set; }
     public override char MySymbol => 'M';
     public MimicChest(Random randomInput)

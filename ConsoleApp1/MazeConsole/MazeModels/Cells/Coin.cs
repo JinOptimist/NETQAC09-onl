@@ -4,10 +4,8 @@ public class Coin : BaseCell
 {
     public const int COINT_COUNT_INITIAL = 3;
 
-    /// <summary>
-    /// Сколько монет ещё можно подобрать с этой клетки.
-    /// Публичное свойство нужно для сохранения/загрузки состояния в JSON-сейв.
-    /// </summary>
+    // Сколько монет ещё можно взять с этой клетки.
+    // Публичное — чтобы сохранить/восстановить значение в JSON-сейве.
     public int CoinCount { get; set; } = COINT_COUNT_INITIAL;
 
     public Coin()

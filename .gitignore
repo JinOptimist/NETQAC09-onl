@@ -430,5 +430,5 @@ FodyWeavers.xsd
 
 **/wwwroot/images/*.*
 
-# Сейвы MazeConsole (папка save/ и savegame.json создаются в рантайме)
+# Папка с сейвом MazeConsole (создаётся при F5, в git не коммитим)
 **/MazeConsole/save/
