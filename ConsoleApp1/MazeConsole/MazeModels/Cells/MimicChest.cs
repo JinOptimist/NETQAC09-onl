@@ -6,7 +6,12 @@ public class MimicChest : BaseCell
     private readonly FileLogger _logger = new FileLogger();
     private const int FarmingVisitsThreshold = 10;
     private const int FarmingRepeatLogInterval = 5;
-    private int _visitCount;
+
+    /// <summary>
+    /// Число заходов игрока в этот сундук (анти-фарм).
+    /// Публичное свойство нужно для сохранения/загрузки состояния в JSON-сейв.
+    /// </summary>
+    public int VisitCount { get; set; }
     public override char MySymbol => 'M';
     public MimicChest(Random randomInput)
     {
@@ -15,7 +20,7 @@ public class MimicChest : BaseCell
 
     public override bool PlayerStepInMe(IPlayer player)
     {
-        _visitCount++;
+        VisitCount++;
         LogFarmingIfNeeded(player);
         MazeWhereIWasCreated.LogMessages.Add("Oh look it's a chest, surely there will be a lot of treasure, right?");
 
@@ -43,12 +48,12 @@ public class MimicChest : BaseCell
     //HW6  Логируем подозрение на "фарм" сундука: если игрок посетил именно эту клетку
     private void LogFarmingIfNeeded(IPlayer player)
     {
-        if (_visitCount < FarmingVisitsThreshold)
+        if (VisitCount < FarmingVisitsThreshold)
         {
             return;
         }
 
-        var visitsOverThreshold = _visitCount - FarmingVisitsThreshold;
+        var visitsOverThreshold = VisitCount - FarmingVisitsThreshold;
         var isFirstWarning = visitsOverThreshold == 0;
         var isRepeatInterval = visitsOverThreshold % FarmingRepeatLogInterval == 0;
 
@@ -61,7 +66,7 @@ public class MimicChest : BaseCell
         {
             "MimicChest farming suspected",
             $"Chest position: {GetMyPosition()}",
-            $"Total visits this game: {_visitCount}"
+            $"Total visits this game: {VisitCount}"
         });
     }
     }

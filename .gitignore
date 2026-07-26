@@ -429,3 +429,6 @@ FodyWeavers.xsd
 *.msp
 
 **/wwwroot/images/*.*
+
+# Сейвы MazeConsole (папка save/ и savegame.json создаются в рантайме)
+**/MazeConsole/save/
