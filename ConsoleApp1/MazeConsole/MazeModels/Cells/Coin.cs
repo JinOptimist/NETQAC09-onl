@@ -4,8 +4,7 @@ public class Coin : BaseCell
 {
     public const int COINT_COUNT_INITIAL = 3;
 
-    // Сколько монет ещё можно взять с этой клетки.
-    // Публичное — чтобы сохранить/восстановить значение в JSON-сейве.
+    // Сколько монет в ячейке — чтобы сохранить/загрузить в сейве
     public int CoinCount { get; set; } = COINT_COUNT_INITIAL;
 
     public Coin()
