@@ -432,3 +432,4 @@ FodyWeavers.xsd
 
 # Папка с сейвом MazeConsole (создаётся при F5, в git не коммитим)
 **/MazeConsole/save/
+/ConsoleApp1/MazeConsole/Save/savegame.json
