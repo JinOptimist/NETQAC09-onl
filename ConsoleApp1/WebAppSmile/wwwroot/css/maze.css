@@ -669,3 +669,11 @@
         width: 100%;
     }
 }
+/* Выравнивание содержимого страницы "Цветок" */
+.flower-rules,
+.api-block,
+.cell-dossier__placeholder h3,
+.cell-dossier__placeholder p,
+.cell-dossier__placeholder table {
+    text-align: left;
+}

@@ -1,8 +1,10 @@
 using WebAppSmile.Services;
+using WebAppSmile.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpClient<FlowerApiService>();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
@@ -11,6 +13,14 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 builder.Services.AddSingleton<MazeGameSessionStore>();
+
+// Registered type IApiHelper
+builder.Services.AddScoped<IApiHelper, ApiHelper>();
+builder.Services.AddScoped<IMyJsonSerializer, MyJsonSerializer>();
+
+// builder.Services.AddTransient<IApiHelper, ApiHelper>(); // new each time
+// builder.Services.AddScoped<IApiHelper, ApiHelper>(); // one per http request
+// builder.Services.AddSingleton<IApiHelper, ApiHelper>(); // only one time
 
 var app = builder.Build();
 

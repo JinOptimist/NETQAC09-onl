@@ -1,34 +1,36 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using WebAppSmile.Models;
+using WebAppSmile.Services;
+using WebAppSmile.Services.Interfaces;
 
 namespace WebAppSmile.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IApiHelper _apiHelper;
+
+        public HomeController(IApiHelper apiHelper)
+        {
+            _apiHelper = apiHelper;
+        }
+
         public async Task<IActionResult> Index()
         {
-            var jokedTask = GetDataFromApiAsync<JokeDto>("https://official-joke-api.appspot.com/jokes/random");
-            var restauranTask = GetDataFromApiAsync<List<RestauranDto>>("https://fakerestaurantapi.runasp.net/api/Restaurant");
+            var jokedTask = _apiHelper.GetDataFromApiAsync<JokeDto>("https://official-joke-api.appspot.com/jokes/random");
+            var pathToImage = await _apiHelper.SaveImageAndGetLinkToIt("https://cataas.com/cat");
+            var restauranTask = _apiHelper.GetDataFromApiAsync<List<RestauranDto>>("https://fakerestaurantapi.runasp.net/api/Restaurant");
 
             await Task.WhenAll(jokedTask, restauranTask);
 
             var viewModel = new HomeViewModel
             {
                 RestauransDto = restauranTask.Result,
-                JokeDto = jokedTask.Result
+                JokeDto = jokedTask.Result,
+                PathToImage = pathToImage
             };
 
             return View(viewModel);
-        }
-
-        private async Task<T> GetDataFromApiAsync<T>(string url)
-        {
-            var http = new HttpClient();
-            var jokeTask = http.GetAsync(url);
-            var result = await jokeTask;
-            var jokedDto = await result.Content.ReadFromJsonAsync<T>();
-            return jokedDto;
         }
 
         public IActionResult Privacy()
