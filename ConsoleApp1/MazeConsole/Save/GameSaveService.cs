@@ -40,7 +40,6 @@ public class GameSaveService
     // сохранение
     public void SaveGame(IMaze maze)
     {
-        Directory.CreateDirectory(_saveDirectory); // создать  папку savefile для хранения сейва, если ещё нет
         var dto = _mapper.ToDto(maze); // лабиринт >>> дто
         File.WriteAllText(_saveFilePath, JsonSerializer.Serialize(dto)); // дто >>> JSON
     }
