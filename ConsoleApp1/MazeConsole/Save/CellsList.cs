@@ -30,7 +30,7 @@ public class CellsList
             nameof(Portal) => new Portal(),
             nameof(Rainbow) => new Rainbow(),
             nameof(Starbucks) => new Starbucks(),
-            _ => new Ground()
+            _ => new Ground() // чтобы не упало, если будет неизвестная ячейка
         };
 
         cell.X = dto.X;
