@@ -293,10 +293,15 @@ public class MazeBuilder
 
     private void BuildPortal()
     {
+    
+        var grounds = _mazeWhichWeBuildRightNow.Cells.Where(x => x is Ground).ToList();
+
+        var randomGround = GetRandomFromList(grounds);
+
         var portal = new Portal
         {
-            X = 3,
-            Y = 4,
+            X = randomGround.X,
+            Y = randomGround.Y,
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
         };
 
