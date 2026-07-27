@@ -43,10 +43,6 @@ public class MazeController : Controller
     {
         return RedirectToAction(nameof(CellInfo), new { type = "Coin" });
     }
-    public IActionResult Thief()
-    {
-        return View();
-    }
     private async Task GetApiDndClassAndDamageType(AmongusViewModel amongus)
     {
         var damageTypeTask = GetDataFromApiDndAsync<DamageTypeInfo>("https://www.dnd5eapi.co/api/2014/damage-types/acid");
