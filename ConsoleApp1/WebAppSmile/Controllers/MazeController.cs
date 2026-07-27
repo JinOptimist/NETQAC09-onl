@@ -222,7 +222,8 @@ public class MazeController : Controller
         }
         catch (Exception ex)
         {
-            return Json(MazeStateMapper.ToDto(game, isFailed: true, errorMessage: $"Не удалось сохранить лабиринт: {ex.Message}"));
+            game.Maze.LogMessages.Add($"Не удалось сохранить лабиринт: {ex.Message}");
+            return Json(MazeStateMapper.ToDto(game));
         }
     }
 
@@ -239,13 +240,15 @@ public class MazeController : Controller
         catch (Exception ex)
         {
             var current = _store.GetOrCreate(sessionId);
-            return Json(MazeStateMapper.ToDto(current, isFailed: true, errorMessage: $"Не удалось загрузить лабиринт: {ex.Message}"));
+            current.Maze.LogMessages.Add($"Не удалось загрузить лабиринт: {ex.Message}");
+            return Json(MazeStateMapper.ToDto(current));
         }
 
         if (loadedGame is null)
         {
             var current = _store.GetOrCreate(sessionId);
-            return Json(MazeStateMapper.ToDto(current, isFailed: true, errorMessage: "Нет сохранённого лабиринта."));
+            current.Maze.LogMessages.Add("Нет сохранённого лабиринта.");
+            return Json(MazeStateMapper.ToDto(current));
         }
 
         _store.Set(sessionId, loadedGame);
