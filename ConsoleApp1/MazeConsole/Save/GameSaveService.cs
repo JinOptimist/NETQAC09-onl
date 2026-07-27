@@ -41,8 +41,8 @@ public class GameSaveService
     public void SaveGame(IMaze maze)
     {
         Directory.CreateDirectory(_saveDirectory); // создать  папку savefile для хранения сейва, если ещё нет
-        var dto = _mapper.ToDto(maze); // лабиринт >>> снапшот
-        File.WriteAllText(_saveFilePath, JsonSerializer.Serialize(dto)); // снапшот >>> JSON
+        var dto = _mapper.ToDto(maze); // лабиринт >>> дто
+        File.WriteAllText(_saveFilePath, JsonSerializer.Serialize(dto)); // дто >>> JSON
     }
 
     public bool isSaveFileExists() => File.Exists(_saveFilePath);
@@ -51,7 +51,7 @@ public class GameSaveService
     public Maze LoadGame()
     {
         var json = File.ReadAllText(_saveFilePath);
-        var dto = JsonSerializer.Deserialize<GameSaveDto>(json)!; // JSON >>> снапшот
-        return _mapper.FromDto(dto); // снапшот >>> лабиринт
+        var dto = JsonSerializer.Deserialize<GameSaveDto>(json)!; // JSON >>> дто
+        return _mapper.FromDto(dto); // дто >>> лабиринт
     }
 }

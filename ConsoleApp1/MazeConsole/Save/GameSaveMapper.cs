@@ -5,8 +5,7 @@ using MazeConsole.MazeModels.Intefaces;
 
 namespace MazeConsole.Save;
 
-// Переводит живой лабиринт в снимок (DTO) и обратно.
-// С файлами не работает — только данные.
+// Переводит живой лабиринт в снапшот и обратно.
 public class GameSaveMapper
 {
     private readonly CellsList _cellFactory = new();
@@ -37,7 +36,7 @@ public class GameSaveMapper
         };
     }
 
-    // Снимок -> новый лабиринт с клетками и игроком
+    // дто >>> новый лабиринт с клетками и игроком
     public Maze FromDto(GameSaveDto dto)
     {
         var maze = new Maze
@@ -68,7 +67,7 @@ public class GameSaveMapper
         return maze;
     }
 
-    // Одна клетка -> DTO (+ доп. состояние, если оно есть)
+    // Одна клетка >>> дто (+ доп. состояние, если оно есть)
     private static CellSaveDto ToCellDto(IBaseCell cell)
     {
         var dto = new CellSaveDto
