@@ -16,12 +16,14 @@ public class MazeController : Controller
 
     private readonly HttpClient _http = new();
     private readonly FlowerApiService _flowerApi;
+    private readonly IMazeSaveService _saveService;
 
-    public MazeController(MazeGameSessionStore store, IApiHelper apiHelper, FlowerApiService flowerApi)
+    public MazeController(MazeGameSessionStore store, IApiHelper apiHelper, FlowerApiService flowerApi, IMazeSaveService saveService)
     {
         _store = store;
         _apiHelper = apiHelper;
         _flowerApi = flowerApi;
+        _saveService = saveService;
     }
 
     public IActionResult Index()
@@ -204,6 +206,51 @@ public class MazeController : Controller
         {
             return Json(MazeStateMapper.ToDto(game, isFailed: true, errorMessage: ex.Message));
         }
+    }
+
+    [HttpPost]
+    public IActionResult SaveGame()
+    {
+        var sessionId = GetSessionId();
+        var game = _store.GetOrCreate(sessionId);
+
+        try
+        {
+            _saveService.Save(game, sessionId);
+            game.Maze.LogMessages.Add("Лабиринт сохранён.");
+            return Json(MazeStateMapper.ToDto(game));
+        }
+        catch (Exception ex)
+        {
+            return Json(MazeStateMapper.ToDto(game, isFailed: true, errorMessage: $"Не удалось сохранить лабиринт: {ex.Message}"));
+        }
+    }
+
+    [HttpPost]
+    public IActionResult LoadGame()
+    {
+        var sessionId = GetSessionId();
+
+        MazeContoller? loadedGame;
+        try
+        {
+            loadedGame = _saveService.Load(sessionId);
+        }
+        catch (Exception ex)
+        {
+            var current = _store.GetOrCreate(sessionId);
+            return Json(MazeStateMapper.ToDto(current, isFailed: true, errorMessage: $"Не удалось загрузить лабиринт: {ex.Message}"));
+        }
+
+        if (loadedGame is null)
+        {
+            var current = _store.GetOrCreate(sessionId);
+            return Json(MazeStateMapper.ToDto(current, isFailed: true, errorMessage: "Нет сохранённого лабиринта."));
+        }
+
+        _store.Set(sessionId, loadedGame);
+        loadedGame.Maze.LogMessages.Add("Лабиринт загружен.");
+        return Json(MazeStateMapper.ToDto(loadedGame));
     }
 
     private string GetSessionId()

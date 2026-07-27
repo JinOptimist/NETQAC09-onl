@@ -24,4 +24,10 @@ public class MazeGameSessionStore
         _games[sessionId] = controller;
         return controller;
     }
+
+    public MazeContoller Set(string sessionId, MazeContoller controller)
+    {
+        _games[sessionId] = controller;
+        return controller;
+    }
 }

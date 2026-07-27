@@ -21,6 +21,11 @@ public class MazeContoller
         MazeGeneration();
     }
 
+    public void LoadMaze(Maze maze)
+    {
+        _maze = maze;
+    }
+
     public void Play()
     {
         var drawer = new MazeDrawer();

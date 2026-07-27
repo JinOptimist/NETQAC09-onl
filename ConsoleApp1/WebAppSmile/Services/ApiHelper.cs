@@ -41,6 +41,7 @@ namespace WebAppSmile.Services
             var fileName = $"{guid}.jpg";
 
             var path = Path.Combine(pathToWwwRoot, imageFolderPath, fileName);
+            Directory.CreateDirectory(Path.GetDirectoryName(path)!);
             using var fileStream = new FileStream(path, FileMode.CreateNew);
             streamFromClient.CopyTo(fileStream);
 

@@ -124,6 +124,30 @@
         }
     }
 
+    async function saveGame() {
+        if (busy) return;
+        busy = true;
+        try {
+            const state = await api("/Maze/SaveGame", { method: "POST" });
+            render(state);
+        } finally {
+            busy = false;
+        }
+    }
+
+    async function loadGame() {
+        if (busy) return;
+        busy = true;
+        try {
+            const state = await api("/Maze/LoadGame", { method: "POST" });
+            knownMessageCount = 0;
+            messageLog.replaceChildren();
+            render(state);
+        } finally {
+            busy = false;
+        }
+    }
+
     async function move(action) {
         if (busy) return;
         busy = true;
@@ -144,6 +168,8 @@
 
     document.getElementById("btn-new-game").addEventListener("click", newGame);
     document.getElementById("btn-overlay-restart").addEventListener("click", newGame);
+    document.getElementById("btn-save-game").addEventListener("click", saveGame);
+    document.getElementById("btn-load-game").addEventListener("click", loadGame);
 
     document.addEventListener("keydown", (e) => {
         if (e.target && ["INPUT", "TEXTAREA"].includes(e.target.tagName)) return;
