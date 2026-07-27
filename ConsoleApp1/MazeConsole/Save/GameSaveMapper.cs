@@ -9,7 +9,7 @@ namespace MazeConsole.Save;
 // С файлами не работает — только данные.
 public class GameSaveMapper
 {
-    private readonly CellRestoreFactory _cellFactory = new();
+    private readonly CellsList _cellFactory = new();
 
     // Лабиринт -> снимок для JSON
     public GameSaveDto ToDto(IMaze maze)

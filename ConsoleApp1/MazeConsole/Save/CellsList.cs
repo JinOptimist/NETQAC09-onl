@@ -4,12 +4,10 @@ using MazeConsole.MazeModels.Intefaces;
 
 namespace MazeConsole.Save;
 
-// По строке Type из сейва создаёт нужную клетку и восстанавливает её состояние
-public class CellRestoreFactory
+public class CellsList
 {
     public IBaseCell Create(CellSaveDto dto, IMaze maze)
     {
-        // Type должен совпадать с именем класса при сохранении (GetType().Name)
         IBaseCell cell = dto.Type switch
         {
             nameof(Wall) => new Wall { Durability = dto.Durability ?? 4 },
@@ -22,7 +20,6 @@ public class CellRestoreFactory
             nameof(Flower) => new Flower(),
             nameof(PaidDoor) => new PaidDoor(),
             nameof(MimicChest) => new MimicChest(maze.Random) { VisitCount = dto.VisitCount ?? 0 },
-            // Клетки с Random берут генератор загруженного лабиринта
             nameof(Diamond) => new Diamond(maze.Random),
             nameof(HealthPotion) => new HealthPotion(),
             nameof(Amongus) => new Amongus(maze.Random),
@@ -33,7 +30,6 @@ public class CellRestoreFactory
             nameof(Portal) => new Portal(),
             nameof(Rainbow) => new Rainbow(),
             nameof(Starbucks) => new Starbucks(),
-            // Неизвестный тип — просто земля (без падения игры)
             _ => new Ground()
         };
 

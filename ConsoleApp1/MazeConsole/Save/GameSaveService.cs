@@ -34,7 +34,7 @@ public class GameSaveService
             directory = directory.Parent;
         }
 
-        return null!;
+        return null;
     }
 
     // сохранение

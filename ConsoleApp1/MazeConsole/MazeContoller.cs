@@ -51,7 +51,6 @@ public class MazeContoller
 
             try
             {
-                // SaveGame/LoadGame — не ходы по карте, поэтому не вызываем PerformAction
                 if (userAction == UserAction.Save)
                 {
                     SaveGame();
@@ -120,7 +119,7 @@ public class MazeContoller
     {
         if (!_saveService.isSaveFileExists())
         {
-            _maze.LogMessages.Add("SaveGame file not found");
+            _maze.LogMessages.Add("Save file not found");
             return;
         }
 
@@ -162,9 +161,9 @@ public class MazeContoller
             {
                 case ConsoleKey.Escape:
                     return UserAction.Exit;
-                case ConsoleKey.F5: // сохранить
+                case ConsoleKey.F5:
                     return UserAction.Save;
-                case ConsoleKey.F8: // загрузить
+                case ConsoleKey.F8:
                     return UserAction.Load;
                 case ConsoleKey.D:
                 case ConsoleKey.RightArrow:

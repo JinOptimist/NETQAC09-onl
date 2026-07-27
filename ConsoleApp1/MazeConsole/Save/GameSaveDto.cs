@@ -1,12 +1,11 @@
 namespace MazeConsole.Save;
 
-// Снимок игры — то, что пишется в JSON.
-// Сами классы Maze/Cell в файл не сериализуем (циклы ссылок, абстракции).
+// Снапшот игры
 public class GameSaveDto
 {
     public MazeSaveDto Maze { get; set; } = new();
     public PlayerSaveDto Player { get; set; } = new();
-    public List<CellSaveDto> Cells { get; set; } = new(); // все клетки карты
+    public List<CellSaveDto> Cells { get; set; } = new(); // все клетки лабиринта
 }
 
 // Размер лабиринта и seed (по seed при загрузке создаём новый Random)
@@ -31,8 +30,6 @@ public class PlayerSaveDto
 }
 
 // Одна клетка в сейве.
-// Type — имя класса ("Coin", "Wall"...), по нему при загрузке создаём нужный тип.
-// CoinCount / VisitCount / Durability — доп. состояние; для обычных клеток могут быть null.
 public class CellSaveDto
 {
     public string Type { get; set; } = string.Empty;
