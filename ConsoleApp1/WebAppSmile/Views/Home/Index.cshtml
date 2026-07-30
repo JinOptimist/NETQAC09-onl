@@ -1,0 +1,28 @@
+﻿@model HomeViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <div>Here is a JOKE (@Model.JokeDto.Id)</div>
+    <div>@Model.JokeDto.Setup</div>
+    <div>@Model.JokeDto.Punchline</div>
+</div>
+<div>
+    <img src="@Model.PathToImage" />
+</div>
+
+<div class="text-center">
+    <div>Here are Restaurants </div>
+
+    @foreach (var restauranDto in Model.RestauransDto)
+    {
+        <div class="restauran">
+            <div>(@restauranDto.RestaurantID)</div>
+            <div>@restauranDto.RestaurantName</div>
+            <div>@restauranDto.Address</div>
+        </div>
+    }
+
+</div>

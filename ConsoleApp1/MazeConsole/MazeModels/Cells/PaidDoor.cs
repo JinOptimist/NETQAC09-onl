@@ -2,11 +2,11 @@ namespace MazeConsole.MazeModels.Cells;
 
 public class PaidDoor : BaseCell
 {
-    private const int DOOR_PRICE = 2;
+    public const int DOOR_PRICE = 2;
 
     public override char MySymbol => 'D';
 
-    public override bool PlayerStepInMe(Player player)
+    public override bool PlayerStepInMe(IPlayer player)
     {
 
         if (player.Coin < DOOR_PRICE)

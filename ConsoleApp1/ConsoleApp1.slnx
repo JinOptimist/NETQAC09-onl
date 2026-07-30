@@ -1,6 +1,17 @@
 <Solution>
+  <Project Path="../WheelOfFortune/WheelOfFortune.csproj">
+    <Build Solution="Debug|*" Project="false" />
+  </Project>
+  <Project Path="BullAndCow/BullAndCow.csproj" Id="5cb33257-f972-4dd3-b6d4-96cb9041cf20">
+    <Build Solution="Debug|*" Project="false" />
+  </Project>
   <Project Path="ClassLibrary1/ClassLibrary1.csproj" />
   <Project Path="ConsoleApp1/ConsoleApp1.csproj" />
   <Project Path="ExceptionExamples/ExceptionExamples.csproj" Id="ac629eb6-82a8-4dc6-9917-f2e6e235941e" />
+  <Project Path="MazeConsole.Tests/MazeConsole.Tests.csproj" Id="0f2aa2ce-dfc6-4c85-98ec-a19c2782eae8" />
   <Project Path="MazeConsole/MazeConsole.csproj" Id="12f5ccf2-9935-44ee-9775-07931b7b69a8" />
+  <Project Path="MoviesCatalogueTask25Homework7/MoviesCatalogueTask25Homework7.csproj" Id="3cdebfd7-4b51-46b2-a1c6-ac17bd40efa1" />
+  <Project Path="BlackjackConsole/BlackjackConsole.csproj" Id="490952a4-d6bc-4848-826b-3c2179f58a71" />
+  <Project Path="MultyThread/MultyThread.csproj" Id="69336aa8-0b93-4a6a-af36-882950eeda4b" />
+  <Project Path="WebAppSmile/WebAppSmile.csproj" Id="0af0688b-aac3-4008-9f69-8f2839a2af75" />
 </Solution>

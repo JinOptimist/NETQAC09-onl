@@ -23,7 +23,7 @@ public class Diamond : BaseCell
 
     public override char MySymbol => 'd';
 
-    public override bool PlayerStepInMe(Player player)
+    public override bool PlayerStepInMe(IPlayer player)
     {
         if (player.HealthPotion < MinimalHealthPotionToHandleDiamond)
         {
@@ -33,8 +33,7 @@ public class Diamond : BaseCell
                 $"своего здоровья не хватило для добычи алмаза. " +
                 $"Состояние игрока: здоровье={player.CurrentHealth}, монет={player.Coin}, зелий={player.HealthPotion}";
 
-            // выводим сообщение в консоль
-            Console.WriteLine(errorMessage);
+            MazeWhereIWasCreated.LogMessages.Add(errorMessage);
 
             // переиспользуем уже существующий MazeBuildException -
             throw new MazeBuildException(MazeWhereIWasCreated.Seed, errorMessage);

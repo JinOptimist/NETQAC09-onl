@@ -7,24 +7,22 @@ public class VodkaBar : BaseCell
 {
     public override char MySymbol => '⚗'; // иконка на карте
 
-    public override bool PlayerStepInMe(Player player)
+    public override bool PlayerStepInMe(IPlayer player)
     {
-        Console.WriteLine("Игрок в баре 🍻🍻🍻"); //логируем
-        Thread.Sleep(5000);
+        MazeWhereIWasCreated.LogMessages.Add("Игрок в баре 🍻🍻🍻");
         player.Coin = 0;
 
         var grounds = MazeWhereIWasCreated.Cells.OfType<Ground>().ToList();
-    
+
         if (grounds.Any())
         {
             var randomGround = grounds[new Random().Next(grounds.Count)];
-        
+
             player.X = randomGround.X;
             player.Y = randomGround.Y;
         }
-        
-        Console.WriteLine("Упс... Вы пропили весь кэш и очнулись утром непонятно где...");
-        Thread.Sleep(3000);
-        return false; 
+
+        MazeWhereIWasCreated.LogMessages.Add("Упс... Вы пропили весь кэш и очнулись утром непонятно где...");
+        return false;
     }
 }

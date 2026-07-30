@@ -5,7 +5,7 @@ public class HealthPotion : BaseCell
 
     public override char MySymbol => '!';
 
-    public override bool PlayerStepInMe(Player player)
+    public override bool PlayerStepInMe(IPlayer player)
     {
         if (player.HealthPotion >= 1)
         {

@@ -1,6 +1,7 @@
 ﻿using MazeConsole.MazeExceptions;
 using MazeConsole.MazeModels;
 using MazeConsole.MazeModels.Cells;
+using MazeConsole.MazeModels.Cells.Interaces;
 
 namespace MazeConsole;
 
@@ -13,9 +14,8 @@ public class MazeBuilder
     {
         if (seed == null)
         {
-            seed = DateTime.Now.Millisecond;
+            seed = Random.Shared.Next();
         }
-        Console.WriteLine(seed);
         _random = new Random(seed.Value);
 
         _mazeWhichWeBuildRightNow = new Maze
@@ -102,42 +102,50 @@ public class MazeBuilder
     
     private void BuildFlower()
     {
-        for (int y = 0; y < _mazeWhichWeBuildRightNow.Height; y++)
+        var maxFlowers = Flower.MAX_FLOWERS + 1; 
+
+        var gounds = _mazeWhichWeBuildRightNow
+               .Cells
+               .Where(x => x is Ground)
+               .ToList();
+
+        IBaseCell ground;
+
+        for (int i = 0; i < maxFlowers; i++)
         {
-            for (int x = 0; x < _mazeWhichWeBuildRightNow.Width; x++)
+            ground = GetRandomFromList(gounds);
+            var flower = new Flower
             {
-                var cell = _mazeWhichWeBuildRightNow.Cells.First(c => c.X == x && c.Y == y);
-                if (cell is not Wall)
-                {
-                    continue;
-                }
+                X = ground.X,
+                Y = ground.Y,
+                MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
+            };
 
-                var flower = new Flower
-                {
-                    X = x,
-                    Y = y,
-                    MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
-                };
-                _mazeWhichWeBuildRightNow.ReplaceToCell(flower);
+            _mazeWhichWeBuildRightNow.ReplaceToCell(flower);
 
-                return;
-            }
+            gounds.Remove(ground);
         }
     }
 
     private void BuildCoin()
     {
-        var deadEnds = _mazeWhichWeBuildRightNow
+        var grounds = _mazeWhichWeBuildRightNow
             .Cells
             .Where(x => x is Ground)
+            .ToList();
+
+        var deadEnds = grounds
             .Where(x => GetNearCell<Ground>(x).Count == 1)
             .ToList();
-        var deadEnd = GetRandomFromList(deadEnds);
+
+        var place = deadEnds.Any()
+            ? GetRandomFromList(deadEnds)
+            : GetRandomFromList(grounds);
 
         var coin = new Coin
         {
-            X = deadEnd.X,
-            Y = deadEnd.Y,
+            X = place.X,
+            Y = place.Y,
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
         };
         _mazeWhichWeBuildRightNow.ReplaceToCell(coin);
@@ -149,7 +157,7 @@ public class MazeBuilder
         var cells = _mazeWhichWeBuildRightNow.Cells;
 
         var miner = GetRandomFromList(cells);
-        var wallWhichWeCanBreak = new List<BaseCell>();
+        var wallWhichWeCanBreak = new List<IBaseCell>();
 
         while (true)
         {
@@ -182,8 +190,8 @@ public class MazeBuilder
     /// </summary>
     /// <param name="miner">Current cell</param>
     /// <returns></returns>
-    private List<BaseCell> GetNearCell<CellType>(BaseCell miner)
-        where CellType : BaseCell // Get only child of BaseCell
+    private List<IBaseCell> GetNearCell<CellType>(IBaseCell miner)
+        where CellType : IBaseCell // Get only child of BaseCell
     {
         var nearCell = _mazeWhichWeBuildRightNow
             .Cells
@@ -248,7 +256,7 @@ public class MazeBuilder
             .Where(x => x is Ground)
             .ToList();
         var thiefPosition = GetRandomFromList(thiefPossiblePositions);
-        
+
         var thief = new Thief
         {
             X = thiefPosition.X,
@@ -265,7 +273,7 @@ public class MazeBuilder
              .Where(x => x is Ground)
              .ToList();
         var randomGround = GetRandomFromList(randomGrounds);
-        
+
         var healthPotion = new HealthPotion
         {
             X = randomGround.X,
@@ -352,17 +360,23 @@ public class MazeBuilder
 
     private void BuildIce()
     {
-        var crossCenters = _mazeWhichWeBuildRightNow
+        var grounds = _mazeWhichWeBuildRightNow
             .Cells
             .Where(x => x is Ground)
+            .ToList();
+
+        var crossCenters = grounds
             .Where(x => GetNearCell<Ground>(x).Count == 3)
             .ToList();
-        var crossCenter = GetRandomFromList(crossCenters);
+
+        var place = crossCenters.Any()
+            ? GetRandomFromList(crossCenters)
+            : GetRandomFromList(grounds);
 
         var ice = new Ice
         {
-            X = crossCenter.X,
-            Y = crossCenter.Y,
+            X = place.X,
+            Y = place.Y,
             MazeWhereIWasCreated = _mazeWhichWeBuildRightNow
         };
         _mazeWhichWeBuildRightNow.ReplaceToCell(ice);
@@ -408,7 +422,7 @@ public class MazeBuilder
         };
         _mazeWhichWeBuildRightNow.ReplaceToCell(diamond);
     }
-    
+
     private void BuildVodkaBar()
     {
         // не создаем абы где, берем любую землю, чтобы не затереть другие элементы
@@ -454,7 +468,7 @@ public class MazeBuilder
         var maze = _mazeWhichWeBuildRightNow;
 
         // Клетка считается "периметром", если она находится в крайней строке или крайнем столбце лабиринта (X == 0, X == Width-1, Y == 0, Y == Height-1).
-        bool IsPerimeter(BaseCell cell) =>
+        bool IsPerimeter(IBaseCell cell) =>
             cell.X == 0 || cell.X == maze.Width - 1
             || cell.Y == 0 || cell.Y == maze.Height - 1;
 
@@ -489,7 +503,7 @@ public class MazeBuilder
 
         var cell = GetRandomFromList(fallbackCandidates);
 
-        var mimicChest = new MimicChest
+        var mimicChest = new MimicChest(_random)
         {
             X = cell.X,
             Y = cell.Y,
