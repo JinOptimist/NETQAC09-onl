@@ -16,7 +16,8 @@ public class Player : BaseCell, IPlayer
     public override char MySymbol => '@';
     public int Flowers { get; set; } = 0;
 
-    public override bool PlayerStepInMe(IPlayer player)
+
+    public override bool PlayerStepInMe(Player player)
     {
         throw new NotImplementedException();
     }
