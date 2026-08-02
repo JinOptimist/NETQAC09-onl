@@ -16,7 +16,7 @@ public static class CellCodex
         new() { TypeKey = "PileOfSand", TitleRu = "Куча песка", Category = "Добыча", Teaser = "Горсть песка. Можно унести с собой.", Link = "PileOfSand" },
         new() { TypeKey = "HealthPotion", TitleRu = "Зелье здоровья", Category = "Добыча", Teaser = "Флакон с красной жидкостью — запас для трудного часа." },
         new() { TypeKey = "Tree", TitleRu = "Дерево", Category = "Опасность", Teaser = "Живое древо: шагните — и окажетесь в другом месте." },
-        new() { TypeKey = "Snake", TitleRu = "Змея", Category = "Опасность", Teaser = "Ползучий гость. Жалит и ползёт дальше по коридорам." },
+        new() { TypeKey = "Snake", TitleRu = "Змея", Category = "Опасность", Teaser = "Ползучий гость. Жалит и ползёт дальше по коридорам.", Link = "Snake" },
         new() { TypeKey = "Thief", TitleRu = "Вор", Category = "Опасность", Teaser = "Тень в капюшоне. Любит чужие монеты." },
         new() { TypeKey = "Amongus", TitleRu = "Among Us", Category = "Опасность", Teaser = "Подозрительный гость. Лучше держаться настороже." },
         new() { TypeKey = "MimicChest", TitleRu = "Сундук-мимик", Category = "Опасность", Teaser = "Сундук… или нет? Удача решит, сокровище это или укус." },
