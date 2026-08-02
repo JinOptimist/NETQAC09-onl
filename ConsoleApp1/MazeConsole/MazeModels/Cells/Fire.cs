@@ -8,7 +8,7 @@ namespace MazeConsole.MazeModels.Cells;
 public class Fire : BaseCell
 {   private const int DAMAGE = 5;
     public override char MySymbol => 'F';
-    public override bool PlayerStepInMe(Player player)
+    public override bool PlayerStepInMe(IPlayer player)
     {
         var healthBeforeFire = player.CurrentHealth;
 
