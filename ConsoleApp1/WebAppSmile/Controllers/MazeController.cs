@@ -40,6 +40,19 @@ public class MazeController : Controller
         return View(diglettDto);
     }
 
+    private async Task<ThiefApiDto> GetThiefDataFromPokeApiAsync(string url)
+    {
+        var http = new HttpClient();
+        var response = await http.GetAsync(url);
+        var meowthDto = await response.Content.ReadFromJsonAsync<ThiefApiDto>();
+        return meowthDto!;
+    }
+
+    public async Task<IActionResult> Thief()
+    {
+        var meowthDto = await GetThiefDataFromPokeApiAsync("https://pokeapi.co/api/v2/pokemon/meowth");
+        return View(meowthDto);
+    }
 
     public IActionResult CoinInfo()
     {
