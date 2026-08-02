@@ -1,6 +1,8 @@
+@model WebAppSmile.Models.ThiefApiDto
 @{
     Layout = "_MazeLayout";
     ViewData["Title"] = "Thief Cell";
+    var spriteUrl = Model.Sprites?.FrontDefault;
 }
 
 <div class="dungeon">
@@ -49,6 +51,22 @@
                 бьёт только по кошельку.
             </li>
         </ul>
+
+        <h2 class="hud__heading">Досье из PokéAPI</h2>
+        <p>
+            У вора лабиринта есть «кузен» в мире Pokémon — Meowth, покемон, одержимый монетами.
+        </p>
+        <ul class="thief-rules">
+            <li>Имя: <strong>@Model.Name</strong></li>
+            <li>Рост: <strong>@Model.Height</strong> (единицы API)</li>
+            <li>Вес: <strong>@Model.Weight</strong> (единицы API)</li>
+        </ul>
+        @if (!string.IsNullOrEmpty(spriteUrl))
+        {
+            <p>
+                <img src="@spriteUrl" alt="Спрайт @Model.Name" style="max-width: 160px; image-rendering: pixelated;" />
+            </p>
+        }
 
         <a asp-controller="Maze" asp-action="Index" class="btn-torch cell-dossier__back">
             ← Вернуться в лабиринт

@@ -54,9 +54,18 @@ public class MazeController : Controller
     {
         return RedirectToAction(nameof(CellInfo), new { type = "Coin" });
     }
-    public IActionResult Thief()
+    private async Task<ThiefApiDto> GetThiefDataFromPokeApiAsync(string url)
     {
-        return View();
+        var http = new HttpClient();
+        var response = await http.GetAsync(url);
+        var meowthDto = await response.Content.ReadFromJsonAsync<ThiefApiDto>();
+        return meowthDto!;
+    }
+
+    public async Task<IActionResult> Thief()
+    {
+        var meowthDto = await GetThiefDataFromPokeApiAsync("https://pokeapi.co/api/v2/pokemon/meowth");
+        return View(meowthDto);
     }
     private async Task GetApiDndClassAndDamageType(AmongusViewModel amongus)
     {
