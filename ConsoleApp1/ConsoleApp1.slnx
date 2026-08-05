@@ -1,7 +1,18 @@
 <Solution>
+  <Project Path="../MiniAutomationToolkit.App/MiniAutomationToolkit2.App.csproj" Id="de6359eb-f61e-4233-8c82-e2f6dafdbff2" />
+  <Project Path="../MiniAutomationToolkit.Core/MiniAutomationToolkit.Core.csproj" Id="9b35c946-7e91-421e-a218-870238bcd892" />
+  <Project Path="../MiniAutomationToolkit10.App/MiniAutomationToolkit10.App.csproj" Id="16ac0d5f-692a-4398-85c1-47d06de7cdea" />
+  <Project Path="../MiniAutomationToolkit11.App/MiniAutomationToolkit11.App.csproj" Id="49a3733d-f276-44cf-a43d-b7f590ff095d" />
+  <Project Path="../MiniAutomationToolkit2/MiniAutomationToolkit3.App.csproj" Id="19babde5-84d6-4b77-9341-60fff8ee619b" />
+  <Project Path="../MiniAutomationToolkit3.App/MiniAutomationToolkit4.App.csproj" Id="a8e492fa-afe1-43cb-8a7f-489ee175b7b2" />
+  <Project Path="../MiniAutomationToolkit4.App/MiniAutomationToolkit5.App.csproj" Id="f9d56a6f-473c-4aae-bdf6-5e8347bdeb49" />
+  <Project Path="../MiniAutomationToolkit5.App/MiniAutomationToolkit6.App.csproj" Id="52e7b6ca-e67f-4761-bfb9-d32e428f9261" />
+  <Project Path="../MiniAutomationToolkit6.App/MiniAutomationToolkit7.App.csproj" Id="c25b171e-d1dd-422b-9539-cccb027a2873" />
+  <Project Path="../MiniAutomationToolkit7.App/MiniAutomationToolkit8.App.csproj" Id="d7485393-e6dc-4c55-8b56-d9047f88ec84" />
   <Project Path="../WheelOfFortune/WheelOfFortune.csproj">
     <Build Solution="Debug|*" Project="false" />
   </Project>
+  <Project Path="BlackjackConsole/BlackjackConsole.csproj" Id="490952a4-d6bc-4848-826b-3c2179f58a71" />
   <Project Path="BullAndCow/BullAndCow.csproj" Id="5cb33257-f972-4dd3-b6d4-96cb9041cf20">
     <Build Solution="Debug|*" Project="false" />
   </Project>
@@ -10,8 +21,8 @@
   <Project Path="ExceptionExamples/ExceptionExamples.csproj" Id="ac629eb6-82a8-4dc6-9917-f2e6e235941e" />
   <Project Path="MazeConsole.Tests/MazeConsole.Tests.csproj" Id="0f2aa2ce-dfc6-4c85-98ec-a19c2782eae8" />
   <Project Path="MazeConsole/MazeConsole.csproj" Id="12f5ccf2-9935-44ee-9775-07931b7b69a8" />
+  <Project Path="MiniAutomationToolkit8.App/MiniAutomationToolkit9.App.csproj" Id="4e51a8d2-d0ba-4da6-a0b9-cb9bf546532a" />
   <Project Path="MoviesCatalogueTask25Homework7/MoviesCatalogueTask25Homework7.csproj" Id="3cdebfd7-4b51-46b2-a1c6-ac17bd40efa1" />
-  <Project Path="BlackjackConsole/BlackjackConsole.csproj" Id="490952a4-d6bc-4848-826b-3c2179f58a71" />
   <Project Path="MultyThread/MultyThread.csproj" Id="69336aa8-0b93-4a6a-af36-882950eeda4b" />
   <Project Path="WebAppSmile/WebAppSmile.csproj" Id="0af0688b-aac3-4008-9f69-8f2839a2af75" />
 </Solution>

@@ -1,0 +1,8 @@
+﻿# Основные параметры запуска
+baseUrl=https://demo.example.com
+timeout=30
+headless=true
+retryCount=3
+
+# Пример пустой строки ниже
+
