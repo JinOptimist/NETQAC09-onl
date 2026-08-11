@@ -1,3 +1,4 @@
+using System.Reflection;
 using WebAppSmile.Models;
 
 namespace WebAppSmile.Services;
@@ -25,6 +26,7 @@ public static class CellCodex
         new() { TypeKey = "Rainbow", TitleRu = "Радуга", Category = "Особое", Teaser = "Разноцветная арка с неожиданным эффектом." },
         new() { TypeKey = "PaidDoor", TitleRu = "Платная дверь", Category = "Особое", Teaser = "Дверь за монеты. Без платы не откроется." },
         new() { TypeKey = "VodkaBar", TitleRu = "Водочный бар", Category = "Особое", Teaser = "Стойка с напитком. После визита мир слегка плывёт." },
+        new() { TypeKey = "Starbucks", TitleRu = "Starbucks", Category = "Особое", Teaser = "Кофейня подземелья. Caramel Macchiato придаёт сил — но за монеты." },
     ];
 
     public static IReadOnlyList<CellTypeInfo> All => Entries;

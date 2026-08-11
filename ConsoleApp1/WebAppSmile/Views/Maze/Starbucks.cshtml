@@ -1,0 +1,63 @@
+@model WebAppSmile.Models.CoffeeDto
+@{
+    Layout = "_MazeLayout";
+    ViewData["Title"] = "Starbucks Cell";
+}
+<div class="dungeon">
+    <div class="dungeon__haze"></div>
+    <div class="dungeon__embers"></div>
+    <header class="dungeon__header">
+        <p class="dungeon__brand">Хроники лабиринта</p>
+        <h1 class="dungeon__title">☕ Starbucks Cell</h1>
+        <p class="dungeon__tagline">
+            Кофейня в подземелье — Caramel Macchiato придаёт сил, но за монеты.
+        </p>
+    </header>
+    <section class="hud__panel thief-card">
+        <h2 class="hud__heading">Кофейня лабиринта</h2>
+        <p>
+            В лабиринте встречается клетка Starbucks (символ <strong>O</strong>).
+            Это бонусная клетка: герой может купить кофе и получить заряд бодрости.
+        </p>
+        <h2 class="hud__heading">Правила встречи</h2>
+        <ul class="thief-rules">
+            <li>
+                ☕ Если у героя достаточно монет —
+                он покупает Caramel Macchiato за <strong>5</strong> монет.
+            </li>
+            <li>
+                💪 После покупки герой получает заряд сил,
+                а монеты списываются с кошелька.
+            </li>
+            <li>
+                ⚠️ Если монет недостаточно —
+                возникает ошибка: покупка невозможна.
+            </li>
+            <li>
+                🎯 Категория: <strong>Бонус</strong> — награждает игрока,
+                но требует ресурсов.
+            </li>
+        </ul>
+
+        <h2 class="hud__heading">Напиток дня (из Coffee API)</h2>
+        <p>ыыыыы
+            Сегодня бариста подземелья предлагает: <strong>@Model.Title</strong>
+        </p>
+        <p>@Model.Description</p>
+
+        @if (Model.Ingredients != null && Model.Ingredients.Any())
+        {
+            <ul class="thief-rules">
+                @foreach (var ingredient in Model.Ingredients)
+                {
+                    <li>@ingredient</li>
+                }
+            </ul>
+        }
+
+        @if (!string.IsNullOrEmpty(Model.Image))
+        {
+            <p>
+                <img src="@Model.Image" alt="@Model.Title" style="max-width: 300px; border-radius: 12px;" />
+            </p>
+        }   

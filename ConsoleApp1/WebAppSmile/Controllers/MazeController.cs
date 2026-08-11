@@ -38,6 +38,24 @@ public class MazeController : Controller
         var diglettDto = await GetDataFromApi("https://pokeapi.co/api/v2/pokemon/diglett"); // получвем данные о Diglett(=подземный покемон) и сохраняем объект
         return View(diglettDto);
     }
+    private async Task<List<CoffeeDto>> GetCoffeeDataFromApiAsync(string url)
+{
+    var http = new HttpClient();
+    var response = await http.GetAsync(url);
+    var coffeeList = await response.Content.ReadFromJsonAsync<List<CoffeeDto>>();
+    return coffeeList!;
+}
+
+public async Task<IActionResult> Starbucks()
+{
+    var coffeeList = await GetCoffeeDataFromApiAsync("https://api.sampleapis.com/coffee/hot");
+
+    // берём случайный напиток из списка
+    var random = new Random();
+    var drink = coffeeList[random.Next(coffeeList.Count)];
+
+    return View(drink);
+}
 
 
     public IActionResult CoinInfo()
@@ -54,6 +72,7 @@ public class MazeController : Controller
         var dndClass = await dndClassTask;
         amongus.Class = dndClass;
         amongus.DamageType = damageType;
+        }
     
     [HttpGet]
     public async Task<IActionResult> VodkaBarInfo()
@@ -76,7 +95,6 @@ public class MazeController : Controller
         return View("VodkaBarInfo", viewModel);
     }
 
-    }
 
     private async Task<T> GetDataFromApiDndAsync<T>(string url)
     {
