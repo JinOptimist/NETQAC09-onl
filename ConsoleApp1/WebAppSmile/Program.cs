@@ -17,6 +17,7 @@ builder.Services.AddSingleton<MazeGameSessionStore>();
 // Registered type IApiHelper
 builder.Services.AddScoped<IApiHelper, ApiHelper>();
 builder.Services.AddScoped<IMyJsonSerializer, MyJsonSerializer>();
+builder.Services.AddScoped<IMazeSaveService, MazeSaveService>();
 
 // builder.Services.AddTransient<IApiHelper, ApiHelper>(); // new each time
 // builder.Services.AddScoped<IApiHelper, ApiHelper>(); // one per http request

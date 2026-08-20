@@ -429,3 +429,4 @@ FodyWeavers.xsd
 *.msp
 
 **/wwwroot/images/*.*
+**/App_Data/saves/*.json
