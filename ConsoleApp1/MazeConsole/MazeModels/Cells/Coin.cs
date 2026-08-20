@@ -4,7 +4,8 @@ public class Coin : BaseCell
 {
     public const int COINT_COUNT_INITIAL = 3;
 
-    private int _coinCount = COINT_COUNT_INITIAL;
+    // Сколько монет в ячейке — чтобы сохранить/загрузить в сейве
+    public int CoinCount { get; set; } = COINT_COUNT_INITIAL;
 
     public Coin()
     {
@@ -16,9 +17,9 @@ public class Coin : BaseCell
     {
         for (int i = 0; i < 100; i++)
         {
-            _coinCount++;
+            CoinCount++;
             Thread.Sleep(1000);
-            // Console.WriteLine($"New coin cost is: {_coinCount}");
+            // Console.WriteLine($"New coin cost is: {CoinCount}");
         }
     }
 
@@ -33,9 +34,9 @@ public class Coin : BaseCell
 
         player.Coin++;
 
-        _coinCount--;
+        CoinCount--;
 
-        if (_coinCount == 0)
+        if (CoinCount == 0)
         {
             MazeWhereIWasCreated.ReplaceCellToGround(this);
         }

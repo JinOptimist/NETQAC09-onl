@@ -1,4 +1,5 @@
 ﻿using MazeConsole.MazeModels;
+using MazeConsole.Save;
 
 namespace MazeConsole;
 
@@ -7,9 +8,12 @@ public class MazeContoller
     private Maze _maze = null!;
     private readonly FileLogger _logger;
 
+    private readonly GameSaveService _saveService;
+
     public MazeContoller()
     {
         _logger = new FileLogger();
+        _saveService = new GameSaveService();
     }
 
     public Maze Maze => _maze;
@@ -47,6 +51,18 @@ public class MazeContoller
 
             try
             {
+                if (userAction == UserAction.Save)
+                {
+                    SaveGame();
+                    continue;
+                }
+
+                if (userAction == UserAction.Load)
+                {
+                    LoadGame();
+                    continue;
+                }
+
                 PerformAction(userAction);
             }
             catch (Exception ex)
@@ -91,6 +107,26 @@ public class MazeContoller
         }
     }
 
+    // сохранить игру
+    public void SaveGame()
+    {
+        _saveService.SaveGame(_maze);
+        _maze.LogMessages.Add("Game saved.");
+    }
+
+    // загрузить игру
+    public void LoadGame()
+    {
+        if (!_saveService.isSaveFileExists())
+        {
+            _maze.LogMessages.Add("Save file not found");
+            return;
+        }
+
+        _maze = _saveService.LoadGame();
+        _maze.LogMessages.Add("Game loaded.");
+    }
+
     private void MazeGeneration()
     {
         var builder = new MazeBuilder();
@@ -125,6 +161,10 @@ public class MazeContoller
             {
                 case ConsoleKey.Escape:
                     return UserAction.Exit;
+                case ConsoleKey.F5:
+                    return UserAction.Save;
+                case ConsoleKey.F8:
+                    return UserAction.Load;
                 case ConsoleKey.D:
                 case ConsoleKey.RightArrow:
                     return UserAction.StepRight;

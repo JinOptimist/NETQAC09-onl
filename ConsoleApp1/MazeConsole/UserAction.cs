@@ -7,4 +7,6 @@ public enum UserAction
     StepRight = 3,
     StepLeft = 4,
     Exit = 5,
+    Save = 6, // F5 - сохранить игру
+    Load = 7, // F8 — загрузить игру
 }

@@ -429,3 +429,6 @@ FodyWeavers.xsd
 *.msp
 
 **/wwwroot/images/*.*
+
+# JSON-сейвы MazeConsole
+**/save/savefile/
